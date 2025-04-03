@@ -1,0 +1,68 @@
+@using System.Security.Claims
+@model IEnumerable<TabloX.Models.Product>
+
+@{
+    ViewData["Title"] = "Eserler";
+}
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Eserler</h1>
+        @if (User.IsInRole("Artist"))
+        {
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Yeni Eser Ekle
+            </a>
+        }
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.Title" style="height: 250px; object-fit: cover;">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text text-muted">@item.Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> İncele
+                                </a>
+                                @if (User.Identity?.IsAuthenticated == true)
+                                {
+                                    <a href="#" class="btn btn-sm btn-outline-success">
+                                        <i class="bi bi-cart-plus"></i> Sepete Ekle
+                                    </a>
+                                }
+                                @if (User.IsInRole("Artist") && item.ArtistId == User.FindFirst(ClaimTypes.NameIdentifier)?.Value)
+                                {
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">
+                                        <i class="bi bi-pencil"></i> Düzenle
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i> Sil
+                                    </a>
+                                }
+                            </div>
+                            <small class="text-muted">@item.Price.ToString("C2")</small>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">
+                            <i class="bi bi-person"></i> @(item.Artist?.FullName ?? "Bilinmiyor")
+                        </small>
+                        <br />
+                        <small class="text-muted">
+                            <i class="bi bi-tag"></i> @(item.Category?.Name ?? "Belirtilmemiş")
+                        </small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div> 

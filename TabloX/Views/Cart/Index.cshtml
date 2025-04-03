@@ -1,0 +1,73 @@
+@model TabloX.Models.Cart
+
+@{
+    ViewData["Title"] = "Sepetim";
+}
+
+<div class="container mt-4">
+    <h2>Sepetim</h2>
+
+    @if (!Model.Items.Any())
+    {
+        <div class="alert alert-info">
+            Sepetiniz boş.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ürün</th>
+                        <th>Fiyat</th>
+                        <th>Adet</th>
+                        <th>Toplam</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>@(item.Product?.Title ?? "Ürün bulunamadı")</td>
+                            <td>₺@(item.Product?.Price.ToString() ?? "0.00")</td>
+                            <td>
+                                <form asp-action="UpdateQuantity" method="post" class="d-inline">
+                                    <input type="hidden" name="cartItemId" value="@item.Id" />
+                                    <div class="input-group" style="width: 150px;">
+                                        <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control" />
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-outline-secondary">
+                                                <i class="fas fa-sync-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>₺@((item.Product?.Price * item.Quantity).ToString())</td>
+                            <td>
+                                <form asp-action="RemoveFromCart" method="post" class="d-inline">
+                                    <input type="hidden" name="cartItemId" value="@item.Id" />
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right"><strong>Toplam:</strong></td>
+                        <td colspan="2">₺@Model.Items.Sum(i => i.Product?.Price * i.Quantity).ToString()</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="text-right mt-3">
+            <a asp-controller="Order" asp-action="Checkout" class="btn btn-primary">Siparişi Tamamla</a>
+        </div>
+    }
+</div> 

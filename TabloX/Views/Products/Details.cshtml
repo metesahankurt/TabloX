@@ -1,0 +1,33 @@
+@model TabloX.Models.Product
+
+@{
+    ViewData["Title"] = "Ürün Detayı";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Model?.ImageUrl" alt="@Model?.Title" class="img-fluid rounded" />
+        </div>
+        <div class="col-md-6">
+            <h2>@Model?.Title</h2>
+            <p class="text-muted">Sanatçı: @Model?.Artist?.UserName</p>
+            <p>@Model?.Description</p>
+            <h3 class="text-primary">@Model?.Price.ToString("C")</h3>
+
+            <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                <input type="hidden" name="productId" value="@Model?.Id" />
+                <div class="form-group mb-3">
+                    <label for="quantity">Adet:</label>
+                    <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1" style="width: 100px;" />
+                </div>
+                <button type="submit" class="btn btn-primary">Sepete Ekle</button>
+            </form>
+
+            <div class="mt-4">
+                <h4>Kategori</h4>
+                <p>@Model?.Category?.Name</p>
+            </div>
+        </div>
+    </div>
+</div> 

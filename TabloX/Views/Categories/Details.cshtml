@@ -1,0 +1,46 @@
+@model TabloX.Models.Category
+
+@{
+    ViewData["Title"] = "Kategori Detayları";
+}
+
+<div class="container mt-4">
+    <h2>@Model.Name</h2>
+    <p class="lead">@Model.Description</p>
+
+    <div class="row mt-4">
+        @foreach (var product in Model.Products ?? Enumerable.Empty<Product>())
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                    {
+                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Title">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Title</h5>
+                        <p class="card-text">@product.Description</p>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                Sanatçı: @(product.Artist?.FullName ?? "Bilinmiyor")
+                            </small>
+                        </p>
+                        <p class="card-text">
+                            <strong>Fiyat: @product.Price.ToString("C")</strong>
+                        </p>
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">Detaylar</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-secondary">Listeye Dön</a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Düzenle</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Sil</a>
+        }
+    </div>
+</div> 

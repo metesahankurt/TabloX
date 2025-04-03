@@ -1,0 +1,55 @@
+@model IEnumerable<TabloX.Models.ArtistProfile>
+
+@{
+    ViewData["Title"] = "Sanatçılar";
+}
+
+<div class="container my-5">
+    <h1 class="mb-4">Sanatçılar</h1>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var artist in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@artist.User?.FirstName @artist.User?.LastName</h5>
+                        <p class="card-text text-muted">@artist.Bio</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="btn-group">
+                                <a asp-action="Details" asp-route-id="@artist.UserId" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> Profili Görüntüle
+                                </a>
+                            </div>
+                            <small class="text-muted">
+                                <i class="bi bi-grid"></i> @(artist.Products?.Count ?? 0) eser
+                            </small>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-around">
+                            @if (!string.IsNullOrEmpty(artist.Website))
+                            {
+                                <a href="@artist.Website" target="_blank" class="text-muted">
+                                    <i class="bi bi-globe"></i>
+                                </a>
+                            }
+                            @if (!string.IsNullOrEmpty(artist.Instagram))
+                            {
+                                <a href="https://instagram.com/@artist.Instagram" target="_blank" class="text-muted">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                            }
+                            @if (!string.IsNullOrEmpty(artist.Facebook))
+                            {
+                                <a href="https://facebook.com/@artist.Facebook" target="_blank" class="text-muted">
+                                    <i class="bi bi-facebook"></i>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div> 
