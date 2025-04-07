@@ -1,0 +1,274 @@
+@model TabloX.Models.Product
+
+@{
+    ViewData["Title"] = Model?.Title;
+}
+
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Ana Sayfa</a></li>
+            <li class="breadcrumb-item"><a href="/Products">Eserler</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model?.Title</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="position-relative">
+                <img src="@Model?.ImageUrl" alt="@Model?.Title" class="img-fluid rounded shadow-lg" style="width: 100%; object-fit: cover;" />
+                <div class="position-absolute bottom-0 end-0 p-3">
+                    <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#imageModal">
+                        <i class="bi bi-zoom-in"></i> Büyüt
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="sticky-top" style="top: 2rem;">
+                <h1 class="display-4 mb-3">@Model?.Title</h1>
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge bg-primary me-2">@Model?.Category?.Name</span>
+                    <span class="text-muted">Eser ID: @Model?.Id</span>
+                </div>
+                <h2 class="h1 text-primary mb-4">@Model?.Price.ToString("C")</h2>
+                <div class="card mb-4 border-0 bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Eser Hakkında</h5>
+                        <p class="card-text lead">@Model?.Description</p>
+                    </div>
+                </div>
+
+                <form asp-controller="Cart" asp-action="AddToCart" method="post" class="mb-4">
+                <input type="hidden" name="productId" value="@Model?.Id" />
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="quantity">Adet</label>
+                        <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1" max="10" />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-cart-plus"></i> Sepete Ekle
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="artworkTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
+                        Teknik Detaylar
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="context-tab" data-bs-toggle="tab" data-bs-target="#context" type="button" role="tab">
+                        Sanatsal Bağlam
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="care-tab" data-bs-toggle="tab" data-bs-target="#care" type="button" role="tab">
+                        Bakım ve Koruma
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content p-4 border border-top-0 rounded-bottom" id="artworkTabContent">
+                <div class="tab-pane fade show active" id="details" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Teknik Özellikler</h4>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th class="w-25">Boyut:</th>
+                                    <td>100 x 80 cm</td>
+                                </tr>
+                                <tr>
+                                    <th>Malzeme:</th>
+                                    <td>Tuval üzerine yağlı boya</td>
+                                </tr>
+                                <tr>
+                                    <th>Tarih:</th>
+                                    <td>1874</td>
+                                </tr>
+                                <tr>
+                                    <th>Durum:</th>
+                                    <td>Mükemmel</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Sertifikasyon</h4>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle-fill text-success"></i> Orijinallik sertifikası</li>
+                                <li><i class="bi bi-check-circle-fill text-success"></i> Değerleme raporu</li>
+                                <li><i class="bi bi-check-circle-fill text-success"></i> Konservasyon geçmişi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="context" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4>Sanatsal Dönem ve Etki</h4>
+                            <p class="lead">@GetArtworkContext(Model?.Id)</p>
+                            <h5 class="mt-4">Sanatçı Hakkında</h5>
+                            <p>@GetArtistInfo(Model?.Id)</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title">Önemli Noktalar</h5>
+                                    <ul class="list-unstyled">
+                                        @foreach (var point in GetKeyPoints(Model?.Id))
+                                        {
+                                            <li class="mb-2"><i class="bi bi-star-fill text-warning"></i> @point</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="care" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Bakım Talimatları</h4>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="bi bi-thermometer-half"></i>
+                                    <strong>Sıcaklık Kontrolü:</strong> 18-24°C arasında tutun
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="bi bi-moisture"></i>
+                                    <strong>Nem Kontrolü:</strong> %45-55 bağıl nem
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="bi bi-brightness-high"></i>
+                                    <strong>Işık Kontrolü:</strong> Direkt güneş ışığından koruyun
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="bi bi-brush"></i>
+                                    <strong>Temizlik:</strong> Sadece uzman konservatörler tarafından
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Sergileme Önerileri</h4>
+                            <div class="alert alert-info">
+                                <p><i class="bi bi-info-circle"></i> Bu eser için önerilen sergileme koşulları:</p>
+                                <ul>
+                                    <li>İç mekan duvar yüzeyi</li>
+                                    <li>Dolaylı aydınlatma</li>
+                                    <li>Neme karşı korumalı alan</li>
+                                    <li>Güvenlik sistemli ortam</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Büyük Görsel Modalı -->
+<div class="modal fade" id="imageModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <img src="@Model?.ImageUrl" alt="@Model?.Title" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</div> 
+
+@section Scripts {
+    <script>
+        // Zoom efekti için
+        document.addEventListener('DOMContentLoaded', function() {
+            const image = document.querySelector('.artwork-image');
+            if (image) {
+                image.addEventListener('mousemove', function(e) {
+                    const x = e.clientX - e.target.offsetLeft;
+                    const y = e.clientY - e.target.offsetTop;
+                    
+                    e.target.style.transformOrigin = `${x}px ${y}px`;
+                    e.target.style.transform = 'scale(2)';
+                });
+                
+                image.addEventListener('mouseleave', function(e) {
+                    e.target.style.transform = 'scale(1)';
+                });
+            }
+        });
+    </script>
+}
+
+@functions {
+    private string GetArtworkContext(int? id)
+    {
+        switch (id)
+        {
+            case 1: // Wheat Field with Cypresses
+                return "Van Gogh'un en üretken döneminde, Saint-Rémy-de-Provence'daki akıl hastanesinde kaldığı sürede tamamladığı bu eser, sanatçının doğaya olan derin bağlılığını yansıtır. Gökyüzündeki bulutların ve buğday tarlasının dalgalı yapısı, sanatçının karakteristik fırça darbeleriyle hayat bulmuştur.";
+            case 2: // Irises
+                return "Van Gogh'un Saint-Rémy'deki bahçeden ilham alarak yarattığı bu eser, Japon sanatının etkilerini taşır. Her bir süsen çiçeği benzersiz bir karaktere sahiptir ve sanatçının doğayı gözlemlemedeki ustalığını gösterir.";
+            case 3: // Still Life with Apples
+                return "Cézanne'in natürmort çalışmaları arasında öne çıkan bu eser, modern sanatın temellerini atan çalışmalardan biridir. Nesnelerin geometrik formlarla yorumlanması ve çoklu bakış açıları, Kübizm akımına öncülük etmiştir.";
+            case 4: // Water Lilies
+                return "Monet'nin Giverny'deki bahçesindeki nilüfer havuzundan esinlenerek yarattığı bu seri, empresyonizmin en önemli örneklerindendir. Su yüzeyindeki yansımalar ve ışık oyunları, sanatçının doğayı anlık görüntüleme becerisini gösterir.";
+            case 5: // Starry Night
+                return "Van Gogh'un Saint-Rémy'deki akıl hastanesinin penceresinden gördüğü manzarayı yorumladığı bu eser, sanatçının iç dünyasını ve evrenle olan mistik bağını yansıtır. Gökyüzündeki girdaplar ve yıldızlar, doğanın dinamik enerjisini temsil eder.";
+            default:
+                return "Bu eser, döneminin sanatsal akımlarından etkilenmiş ve sanat tarihinde önemli bir yere sahiptir. Sanatçının kendine özgü tekniği ve yorumu, eserin değerini artıran unsurlardır.";
+        }
+    }
+
+    private string GetArtistInfo(int? id)
+    {
+        switch (id)
+        {
+            case 1: // Van Gogh
+            case 2:
+            case 5:
+                return "Vincent van Gogh (1853-1890), Post-empresyonist dönemin en önemli sanatçılarından biridir. Yaşamı boyunca sadece bir eser satabilen sanatçı, bugün dünya sanat tarihinin en tanınmış ve değerli isimlerinden biridir. Canlı renkleri ve dinamik fırça darbeleriyle tanınan sanatçı, modern sanatın öncülerinden sayılır.";
+            case 3: // Cézanne
+                return "Paul Cézanne (1839-1906), modern sanatın babası olarak kabul edilir. Empresyonizmden Kübizme geçişte köprü görevi gören sanatçı, nesneleri geometrik formlarla yorumlama yaklaşımıyla 20. yüzyıl sanatını derinden etkilemiştir.";
+            case 4: // Monet
+                return "Claude Monet (1840-1926), Empresyonizm akımının kurucusu ve en önemli temsilcisidir. Işığın ve atmosferin anlık etkilerini tuvaline aktarmadaki ustalığıyla tanınan sanatçı, modern sanatın gelişiminde büyük rol oynamıştır.";
+            default:
+                return "Sanatçı, döneminin önemli temsilcilerinden biridir ve eserleriyle sanat tarihinde kendine özgü bir yer edinmiştir.";
+        }
+    }
+
+    private List<string> GetKeyPoints(int? id)
+    {
+        switch (id)
+        {
+            case 1: // Wheat Field with Cypresses
+                return new List<string> {
+                    "Post-empresyonist dönemin başyapıtlarından",
+                    "Van Gogh'un karakteristik fırça teknikleri",
+                    "Doğanın dinamik yorumu",
+                    "1889 tarihli orijinal eser"
+                };
+            case 2: // Irises
+                return new List<string> {
+                    "Japon sanatının etkileri",
+                    "Canlı renk kullanımı",
+                    "Detaylı çiçek betimlemeleri",
+                    "Saint-Rémy dönemi eseri"
+                };
+            default:
+                return new List<string> {
+                    "Döneminin önemli örneklerinden",
+                    "Özgün sanatsal teknikler",
+                    "Tarihi ve kültürel değer",
+                    "Koleksiyoner parçası"
+                };
+        }
+    }
+} 

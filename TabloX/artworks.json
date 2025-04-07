@@ -1,0 +1,352 @@
+[
+  {
+    "Year": "1889",
+    "Artist": "Vincent van Gogh",
+    "ImageUrl": "/images/artworks/Wheat_Field_with_Cypresses.jpg",
+    "Description": "Painting",
+    "Title": "Wheat Field with Cypresses"
+  },
+  {
+    "Year": "1889",
+    "Artist": "Vincent van Gogh",
+    "ImageUrl": "/images/artworks/La_Berceuse_(Woman_Rocking_a_Cradle;_Augustine-Alix_Pellicot_Roulin,_1851–1930).jpg",
+    "Description": "Painting",
+    "Title": "La Berceuse (Woman Rocking a Cradle; Augustine-Alix Pellicot Roulin, 1851–1930)"
+  },
+  {
+    "Year": "1890",
+    "Artist": "Vincent van Gogh",
+    "ImageUrl": "/images/artworks/Irises.jpg",
+    "Description": "Painting",
+    "Title": "Irises"
+  },
+  {
+    "Year": "1888–89",
+    "Artist": "Vincent van Gogh",
+    "ImageUrl": "/images/artworks/L'Arlésienne__Madame_Joseph-Michel_Ginoux_(Marie_Julien,_1848–1911).jpg",
+    "Description": "Painting",
+    "Title": "L'Arlésienne: Madame Joseph-Michel Ginoux (Marie Julien, 1848–1911)"
+  },
+  {
+    "Year": "1888",
+    "Artist": "Vincent van Gogh",
+    "ImageUrl": "/images/artworks/Shoes.jpg",
+    "Description": "Painting",
+    "Title": "Shoes"
+  },
+  {
+    "Year": "1874",
+    "Artist": "Claude Monet",
+    "ImageUrl": "/images/artworks/The_Monet_Family_in_Their_Garden_at_Argenteuil.jpg",
+    "Description": "Painting",
+    "Title": "The Monet Family in Their Garden at Argenteuil"
+  },
+  {
+    "Year": "1874",
+    "Artist": "Claude Monet",
+    "ImageUrl": "/images/artworks/The_Monet_Family_in_Their_Garden_at_Argenteuil.jpg",
+    "Description": "Painting",
+    "Title": "The Monet Family in Their Garden at Argenteuil"
+  },
+  {
+    "Year": "1763",
+    "Artist": "Claude Monet",
+    "ImageUrl": "/images/artworks/Charles_Claude_de_Flahaut_(1730–1809),_Comte_d'Angiviller.jpg",
+    "Description": "Painting",
+    "Title": "Charles Claude de Flahaut (1730–1809), Comte d'Angiviller"
+  },
+  {
+    "Year": "ca. 1890",
+    "Artist": "Claude Monet",
+    "ImageUrl": "/images/artworks/Still_Life_with_Apples_and_a_Pot_of_Primroses.jpg",
+    "Description": "Painting",
+    "Title": "Still Life with Apples and a Pot of Primroses"
+  },
+  {
+    "Year": "1893",
+    "Artist": "Claude Monet",
+    "ImageUrl": "/images/artworks/Chrysanthemums_in_the_Garden_at_Petit-Gennevilliers.jpg",
+    "Description": "Painting",
+    "Title": "Chrysanthemums in the Garden at Petit-Gennevilliers"
+  },
+  {
+    "Year": "1874",
+    "Artist": "Pierre-Auguste Renoir",
+    "ImageUrl": "/images/artworks/The_Monet_Family_in_Their_Garden_at_Argenteuil.jpg",
+    "Description": "Painting",
+    "Title": "The Monet Family in Their Garden at Argenteuil"
+  },
+  {
+    "Year": "1763",
+    "Artist": "Pierre-Auguste Renoir",
+    "ImageUrl": "/images/artworks/Charles_Claude_de_Flahaut_(1730–1809),_Comte_d'Angiviller.jpg",
+    "Description": "Painting",
+    "Title": "Charles Claude de Flahaut (1730–1809), Comte d'Angiviller"
+  },
+  {
+    "Year": "ca. 1890",
+    "Artist": "Pierre-Auguste Renoir",
+    "ImageUrl": "/images/artworks/Still_Life_with_Apples_and_a_Pot_of_Primroses.jpg",
+    "Description": "Painting",
+    "Title": "Still Life with Apples and a Pot of Primroses"
+  },
+  {
+    "Year": "1893",
+    "Artist": "Pierre-Auguste Renoir",
+    "ImageUrl": "/images/artworks/Chrysanthemums_in_the_Garden_at_Petit-Gennevilliers.jpg",
+    "Description": "Painting",
+    "Title": "Chrysanthemums in the Garden at Petit-Gennevilliers"
+  },
+  {
+    "Year": "1893",
+    "Artist": "Pierre-Auguste Renoir",
+    "ImageUrl": "/images/artworks/Chrysanthemums_in_the_Garden_at_Petit-Gennevilliers.jpg",
+    "Description": "Painting",
+    "Title": "Chrysanthemums in the Garden at Petit-Gennevilliers"
+  },
+  {
+    "Year": "ca. 1880",
+    "Artist": "Edgar Degas",
+    "ImageUrl": "/images/artworks/Dancer_with_a_Fan.jpg",
+    "Description": "Drawing",
+    "Title": "Dancer with a Fan"
+  },
+  {
+    "Year": "ca. 1874",
+    "Artist": "Edgar Degas",
+    "ImageUrl": "/images/artworks/The_Rehearsal_of_the_Ballet_Onstage.jpg",
+    "Description": "Drawing",
+    "Title": "The Rehearsal of the Ballet Onstage"
+  },
+  {
+    "Year": "1874",
+    "Artist": "Edgar Degas",
+    "ImageUrl": "/images/artworks/The_Dance_Class.jpg",
+    "Description": "Painting",
+    "Title": "The Dance Class"
+  },
+  {
+    "Year": "ca. 1867–68",
+    "Artist": "Edgar Degas",
+    "ImageUrl": "/images/artworks/James-Jacques-Joseph_Tissot_(1836–1902).jpg",
+    "Description": "Painting",
+    "Title": "James-Jacques-Joseph Tissot (1836–1902)"
+  },
+  {
+    "Year": "ca. 1870",
+    "Artist": "Edgar Degas",
+    "ImageUrl": "/images/artworks/Sulking.jpg",
+    "Description": "Painting",
+    "Title": "Sulking"
+  },
+  {
+    "Year": "1888–90",
+    "Artist": "Paul Cézanne",
+    "ImageUrl": "/images/artworks/Madame_Cézanne_(Hortense_Fiquet,_1850–1922)_in_a_Red_Dress.jpg",
+    "Description": "Painting",
+    "Title": "Madame Cézanne (Hortense Fiquet, 1850–1922) in a Red Dress"
+  },
+  {
+    "Year": "ca. 1890",
+    "Artist": "Paul Cézanne",
+    "ImageUrl": "/images/artworks/Still_Life_with_Apples_and_a_Pot_of_Primroses.jpg",
+    "Description": "Painting",
+    "Title": "Still Life with Apples and a Pot of Primroses"
+  },
+  {
+    "Year": "1890–92",
+    "Artist": "Paul Cézanne",
+    "ImageUrl": "/images/artworks/The_Card_Players.jpg",
+    "Description": "Painting",
+    "Title": "The Card Players"
+  },
+  {
+    "Year": "late 1880s",
+    "Artist": "Paul Cézanne",
+    "ImageUrl": "/images/artworks/View_of_the_Domaine_Saint-Joseph.jpg",
+    "Description": "Painting",
+    "Title": "View of the Domaine Saint-Joseph"
+  },
+  {
+    "Year": "1882–85",
+    "Artist": "Paul Cézanne",
+    "ImageUrl": "/images/artworks/Mont_Sainte-Victoire_and_the_Viaduct_of_the_Arc_River_Valley.jpg",
+    "Description": "Painting",
+    "Title": "Mont Sainte-Victoire and the Viaduct of the Arc River Valley"
+  },
+  {
+    "Year": "1874",
+    "Artist": "Édouard Manet",
+    "ImageUrl": "/images/artworks/Boating.jpg",
+    "Description": "Painting",
+    "Title": "Boating"
+  },
+  {
+    "Year": "1874",
+    "Artist": "Édouard Manet",
+    "ImageUrl": "/images/artworks/The_Monet_Family_in_Their_Garden_at_Argenteuil.jpg",
+    "Description": "Painting",
+    "Title": "The Monet Family in Their Garden at Argenteuil"
+  },
+  {
+    "Year": "1866",
+    "Artist": "Édouard Manet",
+    "ImageUrl": "/images/artworks/Young_Lady_in_1866.jpg",
+    "Description": "Painting",
+    "Title": "Young Lady in 1866"
+  },
+  {
+    "Year": "1864",
+    "Artist": "Édouard Manet",
+    "ImageUrl": "/images/artworks/The_Dead_Christ_with_Angels.jpg",
+    "Description": "Painting",
+    "Title": "The Dead Christ with Angels"
+  },
+  {
+    "Year": "1880",
+    "Artist": "Édouard Manet",
+    "ImageUrl": "/images/artworks/Madame_Manet_(Suzanne_Leenhoff,_1829–1906)_at_Bellevue.jpg",
+    "Description": "Painting",
+    "Title": "Madame Manet (Suzanne Leenhoff, 1829–1906) at Bellevue"
+  },
+  {
+    "Year": "1867",
+    "Artist": "Camille Pissarro",
+    "ImageUrl": "/images/artworks/Jalais_Hill,_Pontoise.jpg",
+    "Description": "Painting",
+    "Title": "Jalais Hill, Pontoise"
+  },
+  {
+    "Year": "1899",
+    "Artist": "Camille Pissarro",
+    "ImageUrl": "/images/artworks/Haystacks,_Morning,_Eragny.jpg",
+    "Description": "Painting",
+    "Title": "Haystacks, Morning, Eragny"
+  },
+  {
+    "Year": "1891–92",
+    "Artist": "Camille Pissarro",
+    "ImageUrl": "/images/artworks/Two_Young_Peasant_Women.jpg",
+    "Description": "Painting",
+    "Title": "Two Young Peasant Women"
+  },
+  {
+    "Year": "1874",
+    "Artist": "Camille Pissarro",
+    "ImageUrl": "/images/artworks/A_Cowherd_at_Valhermeil,_Auvers-sur-Oise.jpg",
+    "Description": "Painting",
+    "Title": "A Cowherd at Valhermeil, Auvers-sur-Oise"
+  },
+  {
+    "Year": "1872",
+    "Artist": "Camille Pissarro",
+    "ImageUrl": "/images/artworks/Still_Life_with_Apples_and_Pitcher.jpg",
+    "Description": "Painting",
+    "Title": "Still Life with Apples and Pitcher"
+  },
+  {
+    "Year": "1876",
+    "Artist": "Alfred Sisley",
+    "ImageUrl": "/images/artworks/View_of_Marly-le-Roi_from_Coeur-Volant.jpg",
+    "Description": "Painting",
+    "Title": "View of Marly-le-Roi from Coeur-Volant"
+  },
+  {
+    "Year": "probably 1879",
+    "Artist": "Alfred Sisley",
+    "ImageUrl": "/images/artworks/The_Road_from_Versailles_to_Louveciennes.jpg",
+    "Description": "Painting",
+    "Title": "The Road from Versailles to Louveciennes"
+  },
+  {
+    "Year": "1894",
+    "Artist": "Alfred Sisley",
+    "ImageUrl": "/images/artworks/Sahurs_Meadows_in_Morning_Sun.jpg",
+    "Description": "Painting",
+    "Title": "Sahurs Meadows in Morning Sun"
+  },
+  {
+    "Year": "1872",
+    "Artist": "Alfred Sisley",
+    "ImageUrl": "/images/artworks/The_Bridge_at_Villeneuve-la-Garenne.jpg",
+    "Description": "Painting",
+    "Title": "The Bridge at Villeneuve-la-Garenne"
+  },
+  {
+    "Year": "1891",
+    "Artist": "Alfred Sisley",
+    "ImageUrl": "/images/artworks/Rue_Eugène_Moussoir_at_Moret__Winter.jpg",
+    "Description": "Painting",
+    "Title": "Rue Eugène Moussoir at Moret: Winter"
+  },
+  {
+    "Year": "1876",
+    "Artist": "Gustave Caillebotte",
+    "ImageUrl": "/images/artworks/View_of_Marly-le-Roi_from_Coeur-Volant.jpg",
+    "Description": "Painting",
+    "Title": "View of Marly-le-Roi from Coeur-Volant"
+  },
+  {
+    "Year": "probably 1879",
+    "Artist": "Gustave Caillebotte",
+    "ImageUrl": "/images/artworks/The_Road_from_Versailles_to_Louveciennes.jpg",
+    "Description": "Painting",
+    "Title": "The Road from Versailles to Louveciennes"
+  },
+  {
+    "Year": "1894",
+    "Artist": "Gustave Caillebotte",
+    "ImageUrl": "/images/artworks/Sahurs_Meadows_in_Morning_Sun.jpg",
+    "Description": "Painting",
+    "Title": "Sahurs Meadows in Morning Sun"
+  },
+  {
+    "Year": "1872",
+    "Artist": "Gustave Caillebotte",
+    "ImageUrl": "/images/artworks/The_Bridge_at_Villeneuve-la-Garenne.jpg",
+    "Description": "Painting",
+    "Title": "The Bridge at Villeneuve-la-Garenne"
+  },
+  {
+    "Year": "1891",
+    "Artist": "Gustave Caillebotte",
+    "ImageUrl": "/images/artworks/Rue_Eugène_Moussoir_at_Moret__Winter.jpg",
+    "Description": "Painting",
+    "Title": "Rue Eugène Moussoir at Moret: Winter"
+  },
+  {
+    "Year": "1874",
+    "Artist": "Mary Cassatt",
+    "ImageUrl": "/images/artworks/Boating.jpg",
+    "Description": "Painting",
+    "Title": "Boating"
+  },
+  {
+    "Year": "1888–89",
+    "Artist": "Mary Cassatt",
+    "ImageUrl": "/images/artworks/L'Arlésienne__Madame_Joseph-Michel_Ginoux_(Marie_Julien,_1848–1911).jpg",
+    "Description": "Painting",
+    "Title": "L'Arlésienne: Madame Joseph-Michel Ginoux (Marie Julien, 1848–1911)"
+  },
+  {
+    "Year": "1879",
+    "Artist": "Mary Cassatt",
+    "ImageUrl": "/images/artworks/Fan_Mount__Dancers.jpg",
+    "Description": "Drawing",
+    "Title": "Fan Mount: Dancers"
+  },
+  {
+    "Year": "1528",
+    "Artist": "Mary Cassatt",
+    "ImageUrl": "/images/artworks/Mary_of_Burgundy.jpg",
+    "Description": "Painting",
+    "Title": "Mary of Burgundy"
+  },
+  {
+    "Year": "late 15th century",
+    "Artist": "Mary Cassatt",
+    "ImageUrl": "/images/artworks/The_Virgin_Mary.jpg",
+    "Description": "Statuette",
+    "Title": "The Virgin Mary"
+  }
+]

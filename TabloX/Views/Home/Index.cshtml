@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TabloX.Models.Product>
+
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<div class="text-center my-5">
+    <h1 class="display-4">TabloX'e Hoş Geldiniz</h1>
+    <p class="lead">Benzersiz sanat eserlerini keşfedin ve koleksiyonunuza ekleyin.</p>
+</div>
+
+<div class="container">
+    <h2 class="mb-4">Tüm Eserler</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">@item.Title</h5>
+                        <p class="card-text text-muted" style="height: 48px; overflow: hidden;">@item.Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> İncele
+                                </a>
+                                <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-inline">
+                                    <input type="hidden" name="productId" value="@item.Id" />
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <button type="submit" class="btn btn-sm btn-outline-success">
+                                        <i class="bi bi-cart-plus"></i> Sepete Ekle
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <small class="text-muted d-block">Fiyat: @item.Price.ToString("C2")</small>
+                            <small class="text-muted d-block">
+                                <i class="bi bi-person"></i> @(item.Artist?.FirstName ?? "") @(item.Artist?.LastName ?? "")
+                            </small>
+                            <small class="text-muted d-block">
+                                <i class="bi bi-tag"></i> @(item.Category?.Name ?? "")
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="text-center my-5">
+    <a asp-controller="Products" asp-action="Index" class="btn btn-primary">
+        <i class="bi bi-grid"></i> Tüm Eserleri Görüntüle
+    </a>
+</div>
