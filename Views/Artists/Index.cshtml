@@ -1,8 +1,24 @@
 @model IEnumerable<TabloX2.Models.Artist>
 @{
     ViewData["Title"] = "Sanatçılar";
+    string search = ViewBag.Search as string;
 }
 <h2>Sanatçılar</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-9">
+                <label class="form-label">Sanatçı Arama</label>
+                <input type="text" name="search" class="form-control" placeholder="Sanatçı adı..." value="@search" />
+            </div>
+            <div class="col-md-3 d-grid">
+                <button type="submit" class="btn btn-primary">Ara</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 @if (User.IsInRole("Admin"))
 {
     <a class="btn btn-primary mb-2" asp-action="Create">Yeni Sanatçı Ekle</a>

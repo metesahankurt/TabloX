@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TabloX2.Data;
 using TabloX2.Models;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace TabloX2.Controllers
 {
@@ -17,9 +18,15 @@ namespace TabloX2.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.Artists.ToListAsync());
+            var artists = _context.Artists.AsQueryable();
+            ViewBag.Search = search;
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                artists = artists.Where(a => a.Name.Contains(search));
+            }
+            return View(await artists.ToListAsync());
         }
 
         [AllowAnonymous]

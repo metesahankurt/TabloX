@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TabloX2.Data;
+using TabloX2.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,17 +11,27 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
+
 var app = builder.Build();
 
-// Seed MetMuseum data
+// Seed data
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    TabloX2.Data.MetMuseumSeeder.SeedAsync(db).GetAwaiter().GetResult();
+    // Veritabanını temizle
+    db.Database.EnsureDeleted();
+    db.Database.EnsureCreated();
+    // MetMuseum verilerini ekle (bu içeride kategorileri de ekleyecek)
+    await TabloX2.Data.MetMuseumSeeder.SeedAsync(db);
 }
 
 // Configure the HTTP request pipeline.

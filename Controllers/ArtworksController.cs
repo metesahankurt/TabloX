@@ -18,9 +18,20 @@ namespace TabloX2.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? categoryId, string search)
         {
-            var artworks = _context.Artworks.Include(a => a.Category).Include(a => a.Artist);
+            var artworks = _context.Artworks.Include(a => a.Category).Include(a => a.Artist).AsQueryable();
+            ViewBag.Categories = _context.Categories.ToList();
+            ViewBag.SelectedCategory = categoryId;
+            ViewBag.Search = search;
+            if (categoryId.HasValue)
+            {
+                artworks = artworks.Where(a => a.CategoryId == categoryId.Value);
+            }
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                artworks = artworks.Where(a => a.Title.Contains(search) || a.Description.Contains(search));
+            }
             return View(await artworks.ToListAsync());
         }
 

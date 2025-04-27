@@ -1,8 +1,47 @@
 @model IEnumerable<TabloX2.Models.Artwork>
 @{
     ViewData["Title"] = "Eserler";
+    var categories = ViewBag.Categories as List<TabloX2.Models.Category>;
+    int? selectedCategory = ViewBag.SelectedCategory as int?;
+    string search = ViewBag.Search as string;
 }
+
 <h2>Eserler</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label">Kategori</label>
+                <select name="categoryId" class="form-select">
+                    <option value="">Tümü</option>
+                    @if (categories != null)
+                    {
+                        foreach (var cat in categories)
+                        {
+                            if (selectedCategory == cat.Id)
+                            {
+                                <option value="@cat.Id" selected>@cat.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-5">
+                <label class="form-label">Arama</label>
+                <input type="text" name="search" class="form-control" placeholder="Başlık veya açıklama..." value="@search" />
+            </div>
+            <div class="col-md-3 d-grid">
+                <button type="submit" class="btn btn-primary">Filtrele</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 @if (User.IsInRole("Admin"))
 {
     <a class="btn btn-primary mb-2" asp-action="Create">Yeni Eser Ekle</a>
@@ -31,7 +70,12 @@
             <td>@item.Category?.Name</td>
             <td>@item.Artist?.Name</td>
             <td>@item.Price.ToString("C")</td>
-            <td><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Detay</a></td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Eser İşlemleri">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Detay</a>
+                    <a asp-controller="Cart" asp-action="Add" asp-route-artworkId="@item.Id" class="btn btn-success btn-sm">Satın Al</a>
+                </div>
+            </td>
             @if (User.IsInRole("Admin"))
             {
                 <td>
