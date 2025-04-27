@@ -1,0 +1,32 @@
+@model IEnumerable<TabloX2.Models.Category>
+@{
+    ViewData["Title"] = "Kategoriler";
+}
+<h2>Kategoriler</h2>
+@if (User.IsInRole("Admin"))
+{
+    <a class="btn btn-primary mb-2" asp-action="Create">Yeni Kategori Ekle</a>
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Adı</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Sil</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table> 

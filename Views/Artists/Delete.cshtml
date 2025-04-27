@@ -1,0 +1,15 @@
+@model TabloX2.Models.Artist
+@{
+    ViewData["Title"] = "Sanatçı Sil";
+}
+<h2>Sanatçı Sil</h2>
+<h4>Bu sanatçıyı silmek istediğinize emin misiniz?</h4>
+<div>
+    <h5>@Model.Name</h5>
+    <p>@Model.Bio</p>
+</div>
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">Vazgeç</a>
+</form> 

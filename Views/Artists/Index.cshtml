@@ -1,0 +1,42 @@
+@model IEnumerable<TabloX2.Models.Artist>
+@{
+    ViewData["Title"] = "Sanatçılar";
+}
+<h2>Sanatçılar</h2>
+@if (User.IsInRole("Admin"))
+{
+    <a class="btn btn-primary mb-2" asp-action="Create">Yeni Sanatçı Ekle</a>
+}
+<table class="table table-bordered align-middle">
+    <thead>
+        <tr>
+            <th>Profil</th>
+            <th>Adı</th>
+            <th>Biyografi</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img src="@(string.IsNullOrWhiteSpace(item.ProfileImageUrl) ? "/images/avatar-default.png" : item.ProfileImageUrl)" alt="@item.Name" style="width:48px;height:48px;object-fit:cover;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.08);" />
+            </td>
+            <td>@item.Name</td>
+            <td><span class="text-muted">@((item.Bio?.Length > 80 ? item.Bio.Substring(0, 80) + "..." : item.Bio))</span></td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Detay</a>
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Sil</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table> 

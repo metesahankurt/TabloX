@@ -1,0 +1,50 @@
+@model TabloX2.Models.Artist
+@{
+    ViewData["Title"] = Model.Name;
+}
+<div class="container mt-5">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-3 text-center">
+            <img src="@(string.IsNullOrWhiteSpace(Model.ProfileImageUrl) ? "/images/avatar-default.png" : Model.ProfileImageUrl)" alt="@Model.Name" class="rounded-circle shadow" style="width:160px;height:160px;object-fit:cover;border:6px solid #fff;box-shadow:0 4px 24px rgba(0,0,0,0.12);" />
+        </div>
+        <div class="col-md-9">
+            <h2 class="mb-2">@Model.Name</h2>
+            <div class="row mb-2">
+                <div class="col-auto"><span class="badge bg-secondary">@Model.Bio?.Split(',').LastOrDefault()</span></div>
+            </div>
+            <div class="card bg-light p-3 mb-3">
+                <h5 class="mb-2"><i class="bi bi-person-lines-fill"></i> Sanatçıyı Tanıyın</h5>
+                <p class="mb-0" style="font-size:1.1rem;">@Model.Bio</p>
+                @if (!string.IsNullOrWhiteSpace(Model.Bio) && Model.Bio.ToLower().Contains("wikipedia.org"))
+                {
+                    <a href="@Model.Bio" target="_blank" class="btn btn-outline-info btn-sm mt-2">Wikipedia'da Gör</a>
+                }
+            </div>
+        </div>
+    </div>
+    <hr />
+    <h4 class="mb-4">@Model.Name tarafından oluşturulan eserler</h4>
+    <div class="row">
+        @if (Model.Artworks != null && Model.Artworks.Count > 0)
+        {
+            foreach (var artwork in Model.Artworks)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="@artwork.ImageUrl" class="card-img-top" alt="@artwork.Title" style="max-height:200px;object-fit:cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">@artwork.Title</h5>
+                            <p class="card-text">Kategori: @artwork.Category?.Name</p>
+                            <p class="card-text fw-bold">@artwork.Price.ToString("C")</p>
+                            <a asp-controller="Artworks" asp-action="Details" asp-route-id="@artwork.Id" class="btn btn-outline-primary btn-sm">Detay</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12"><p>Bu sanatçıya ait eser bulunamadı.</p></div>
+        }
+    </div>
+</div> 

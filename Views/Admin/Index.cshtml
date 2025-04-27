@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Admin Paneli";
+}
+<h2>Admin Paneli</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <a class="btn btn-outline-primary w-100 mb-2" asp-controller="Categories" asp-action="Index">Kategorileri Yönet</a>
+    </div>
+    <div class="col-md-4">
+        <a class="btn btn-outline-primary w-100 mb-2" asp-controller="Artists" asp-action="Index">Sanatçıları Yönet</a>
+    </div>
+    <div class="col-md-4">
+        <a class="btn btn-outline-primary w-100 mb-2" asp-controller="Artworks" asp-action="Index">Eserleri Yönet</a>
+    </div>
+</div>
+<p class="mt-4">Hoş geldiniz, buradan tüm içerikleri yönetebilirsiniz.</p> 
