@@ -2,141 +2,49 @@
 @{
     ViewData["Title"] = Model.Title;
 }
-<style>
-    .artwork-image {
-        max-width: 100%;
-        max-height: 500px;
-        border-radius: 12px;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-        cursor: pointer;
-        transition: box-shadow 0.2s;
-    }
-    .artwork-image:hover {
-        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    }
-    .modal-img {
-        width: 100%;
-        max-width: 900px;
-        max-height: 90vh;
-        display: block;
-        margin: 0 auto;
-    }
-    .artwork-bg-blur {
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        z-index: 0;
-        filter: blur(18px) brightness(0.8);
-        background-size: cover;
-        background-position: center;
-        border-radius: 12px;
-        opacity: 0.5;
-    }
-    .artwork-image {
-        position: relative;
-        z-index: 1;
-        max-width: 100%;
-        max-height: 500px;
-        border-radius: 12px;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-        cursor: pointer;
-        transition: box-shadow 0.2s;
-        object-fit: cover;
-        background: #f8f9fa;
-    }
-    .feature-box {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        padding: 18px 16px;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 1.1rem;
-    }
-    .feature-box i {
-        font-size: 1.7rem;
-        color: #0d6efd;
-    }
-</style>
-<div class="container mt-5">
-    <div class="row justify-content-center align-items-center">
-        <div class="col-lg-6 text-center mb-4 mb-lg-0 position-relative">
-            <div class="artwork-bg-blur" style="background-image:url('@Model.ImageUrl');"></div>
-            <img src="@Model.ImageUrl" alt="@Model.Title" class="artwork-image shadow-lg position-relative" id="mainArtworkImg" />
-        </div>
-        <div class="col-lg-6">
-            <div class="card shadow p-4">
-                <h2 class="mb-3">@Model.Title</h2>
-                <div class="mb-2">
-                    <span class="fw-bold">Sanatçı:</span> @Model.Artist?.Name
-                    @if (!string.IsNullOrWhiteSpace(Model.Artist?.Bio))
-                    {
-                        <div class="text-muted small mt-1">@Model.Artist.Bio</div>
-                    }
-                </div>
-                <div class="mb-2"><span class="fw-bold">Kategori:</span> @Model.Category?.Name</div>
-                <div class="mb-2"><span class="fw-bold">Fiyat:</span> <span class="fs-4 text-success">@Model.Price.ToString("C2")</span></div>
-                <div class="mb-3"><span class="fw-bold">Açıklama:</span> @Model.Description</div>
-                <div class="d-flex gap-2 mb-3">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <a asp-controller="Cart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-success btn-lg">Sepete Ekle</a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Account" asp-action="Login" class="btn btn-success btn-lg">Sepete Ekle (Giriş Yap)</a>
-                    }
-                    <a asp-action="Index" class="btn btn-secondary btn-lg">Tüm Eserler</a>
-                </div>
-                @if (!string.IsNullOrWhiteSpace(Model.Description) && Model.Description.Contains("metmuseum.org"))
-                {
-                    <a href="@Model.Description" target="_blank" class="btn btn-outline-info btn-sm">Orijinal Müze Sayfası</a>
-                }
+<div class="container">
+    <div class="artwork-detail-container">
+        <div class="artwork-detail-info">
+            <div class="artwork-detail-title">
+                @Model.Title
             </div>
+            <div class="artwork-detail-meta mb-2">
+                <div class="meta-row"><span class="meta-icon"><i class="bi bi-person-fill"></i></span> <b>@Model.Artist?.Name</b></div>
+                <div class="meta-row"><span class="meta-icon"><i class="bi bi-info-circle"></i></span> <span class="text-muted small">@Model.Artist?.Bio</span></div>
+                <div class="meta-row"><span class="meta-icon"><i class="bi bi-tags-fill"></i></span> @Model.Category?.Name</div>
+                <div class="meta-row"><span class="meta-icon"><i class="bi bi-currency-dollar"></i></span> <span style="font-size:1.3rem;font-weight:700;">@Model.Price.ToString("C2")</span></div>
+            </div>
+            <div class="artwork-detail-desc mb-4"><i class="bi bi-card-text"></i> @Model.Description</div>
+            <div class="d-flex gap-2 mb-3">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Cart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-success btn-lg"><i class="bi bi-cart-plus me-1"></i>Sepete Ekle</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-success btn-lg"><i class="bi bi-cart-plus me-1"></i>Sepete Ekle (Giriş Yap)</a>
+                }
+                <a asp-action="Index" class="btn btn-secondary btn-lg"><i class="bi bi-collection me-1"></i>Tüm Eserler</a>
+            </div>
+        </div>
+        <div>
+            <img src="@Model.HighResImageUrl" alt="@Model.Title" class="artwork-detail-image" id="mainArtworkImg" />
         </div>
     </div>
-    <!-- Özellikler Bölümü -->
-    <div class="row justify-content-center mt-5">
-        <div class="col-lg-10">
-            <div class="card p-4 shadow-sm bg-light">
-                <h4 class="mb-4"><i class="bi bi-info-circle"></i> Ek Özellikler</h4>
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col">
-                        <div class="feature-box">
-                            <i class="bi bi-rulers"></i>
-                            <div><b>Boyut:</b> <span class="text-muted">@("60 x 80 cm")</span></div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="feature-box">
-                            <i class="bi bi-easel"></i>
-                            <div><b>Malzeme:</b> <span class="text-muted">@("Tuval üzerine yağlı boya")</span></div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="feature-box">
-                            <i class="bi bi-award"></i>
-                            <div><b>Sertifika:</b> <span class="text-muted">@("Orijinallik Sertifikalı")</span></div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="feature-box">
-                            <i class="bi bi-thermometer-snow"></i>
-                            <div><b>Saklama Koşulları:</b> <span class="text-muted">@("Serin ve kuru ortamda saklayınız.")</span></div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="feature-box">
-                            <i class="bi bi-check-circle"></i>
-                            <div><b>Ürün Durumu:</b> <span class="text-muted">@("Çerçeveli, Restorasyon görmedi, Orijinal")</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="artwork-detail-extra mt-5">
+        <div class="extra-item"><span class="extra-icon"><i class="bi bi-arrows-angle-expand"></i></span> <b>Boyut:</b> 60 x 80 cm</div>
+        <div class="extra-item"><span class="extra-icon"><i class="bi bi-easel"></i></span> <b>Malzeme:</b> Tuval üzerine yağlı boya</div>
+        <div class="extra-item"><span class="extra-icon"><i class="bi bi-award"></i></span> <b>Sertifika:</b> Orijinallik Sertifikalı</div>
+        <div class="extra-item"><span class="extra-icon"><i class="bi bi-thermometer-snow"></i></span> <b>Saklama Koşulları:</b> Serin ve kuru ortamda saklayınız.</div>
+        <div class="extra-item"><span class="extra-icon"><i class="bi bi-check-circle"></i></span> <b>Ürün Durumu:</b> Çerçeveli, Restorasyon görmedi, Orijinal</div>
     </div>
 </div>
+<script>
+    document.getElementById('mainArtworkImg').onclick = function() {
+        var modal = new bootstrap.Modal(document.getElementById('artworkModal'));
+        modal.show();
+    };
+</script>
 <!-- Modal for fullscreen image -->
 <div class="modal fade" id="artworkModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -144,10 +52,4 @@
       <img src="@Model.HighResImageUrl" class="modal-img" alt="@Model.Title" />
     </div>
   </div>
-</div>
-<script>
-    document.getElementById('mainArtworkImg').onclick = function() {
-        var modal = new bootstrap.Modal(document.getElementById('artworkModal'));
-        modal.show();
-    };
-</script> 
+</div> 

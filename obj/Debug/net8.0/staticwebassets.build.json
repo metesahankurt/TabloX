@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ERvO3lBHZ8wp1RV9VYrMblfaoIAVTyyKdqfCxyiB8hQ=",
+  "Hash": "r2p1wVn4xk/gkQExao8+RHOI7c5H0V84Un8W8yJJ/Ns=",
   "Source": "TabloX2",
   "BasePath": "_content/TabloX2",
   "Mode": "Default",
@@ -59,6 +59,27 @@
       "OriginalItemSpec": "C:\\repos\\TabloX2\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TabloX2.bundle.scp.css"
     },
     {
+      "Identity": "C:\\repos\\TabloX2\\wwwroot\\css\\intlTelInput.min.css",
+      "SourceId": "TabloX2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\repos\\TabloX2\\wwwroot\\",
+      "BasePath": "_content/TabloX2",
+      "RelativePath": "css/intlTelInput.min#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "fwplwgcaka",
+      "Integrity": "oenyx6jIChH9jaXK3fUXpcKOemTQHIQpUBQoOJfHYtg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\intlTelInput.min.css"
+    },
+    {
       "Identity": "C:\\repos\\TabloX2\\wwwroot\\css\\site.css",
       "SourceId": "TabloX2",
       "SourceType": "Discovered",
@@ -73,8 +94,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "b9sayid5wm",
-      "Integrity": "j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=",
+      "Fingerprint": "0paacaiaex",
+      "Integrity": "pOhUJn9LfpVeQVV+pkw7X/zzD2kmDtq+M36b6johzgo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -101,6 +122,132 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+      "Identity": "C:\\repos\\TabloX2\\wwwroot\\images\\flags.png",
+      "SourceId": "TabloX2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\repos\\TabloX2\\wwwroot\\",
+      "BasePath": "_content/TabloX2",
+      "RelativePath": "images/flags#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "pur2ykmz1a",
+      "Integrity": "f7Sqhrwp4hiV6b2Q5rhzWxMdNh2bm4luuqNjQGUJBrg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\flags.png"
+    },
+    {
+      "Identity": "C:\\repos\\TabloX2\\wwwroot\\images\\flags@2x.png",
+      "SourceId": "TabloX2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\repos\\TabloX2\\wwwroot\\",
+      "BasePath": "_content/TabloX2",
+      "RelativePath": "images/flags@2x#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "eugfca6i4e",
+      "Integrity": "+iiQqhf6vTDcE583OZO9b+QK1lxDzW+SwTScjJtbuo0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\flags@2x.png"
+    },
+    {
+      "Identity": "C:\\repos\\TabloX2\\wwwroot\\images\\profile1.png",
+      "SourceId": "TabloX2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\repos\\TabloX2\\wwwroot\\",
+      "BasePath": "_content/TabloX2",
+      "RelativePath": "images/profile1#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "yu78tspv7y",
+      "Integrity": "Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\profile1.png"
+    },
+    {
+      "Identity": "C:\\repos\\TabloX2\\wwwroot\\images\\profile2.png",
+      "SourceId": "TabloX2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\repos\\TabloX2\\wwwroot\\",
+      "BasePath": "_content/TabloX2",
+      "RelativePath": "images/profile2#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "yu78tspv7y",
+      "Integrity": "Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\profile2.png"
+    },
+    {
+      "Identity": "C:\\repos\\TabloX2\\wwwroot\\images\\profile3.png",
+      "SourceId": "TabloX2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\repos\\TabloX2\\wwwroot\\",
+      "BasePath": "_content/TabloX2",
+      "RelativePath": "images/profile3#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "yu78tspv7y",
+      "Integrity": "Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\profile3.png"
+    },
+    {
+      "Identity": "C:\\repos\\TabloX2\\wwwroot\\js\\intlTelInput.min.js",
+      "SourceId": "TabloX2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\repos\\TabloX2\\wwwroot\\",
+      "BasePath": "_content/TabloX2",
+      "RelativePath": "js/intlTelInput.min#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "f80vecw06f",
+      "Integrity": "EW9/1Bv5bDiBgFol3IvxnXMYB96XqQMWVE/PMRulEjs=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\intlTelInput.min.js"
+    },
+    {
       "Identity": "C:\\repos\\TabloX2\\wwwroot\\js\\site.js",
       "SourceId": "TabloX2",
       "SourceType": "Discovered",
@@ -120,6 +267,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
+    },
+    {
+      "Identity": "C:\\repos\\TabloX2\\wwwroot\\js\\utils.js",
+      "SourceId": "TabloX2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\repos\\TabloX2\\wwwroot\\",
+      "BasePath": "_content/TabloX2",
+      "RelativePath": "js/utils#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "buw73pp282",
+      "Integrity": "A5lxm+IxErlj5mZD8lPiMQY4ROVg9uXyfN8b4lxozFo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\utils.js"
     },
     {
       "Identity": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
@@ -2644,8 +2812,8 @@
   ],
   "Endpoints": [
     {
-      "Route": "css/site.b9sayid5wm.css",
-      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\css\\site.css",
+      "Route": "css/intlTelInput.min.css",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\css\\intlTelInput.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2654,7 +2822,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "667"
+          "Value": "19665"
         },
         {
           "Name": "Content-Type",
@@ -2662,11 +2830,48 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
+          "Value": "\"oenyx6jIChH9jaXK3fUXpcKOemTQHIQpUBQoOJfHYtg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 26 Apr 2025 18:41:29 GMT"
+          "Value": "Mon, 28 Apr 2025 16:28:07 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-oenyx6jIChH9jaXK3fUXpcKOemTQHIQpUBQoOJfHYtg="
+        }
+      ]
+    },
+    {
+      "Route": "css/intlTelInput.min.fwplwgcaka.css",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\css\\intlTelInput.min.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "19665"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oenyx6jIChH9jaXK3fUXpcKOemTQHIQpUBQoOJfHYtg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 16:28:07 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2676,7 +2881,52 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "b9sayid5wm"
+          "Value": "fwplwgcaka"
+        },
+        {
+          "Name": "label",
+          "Value": "css/intlTelInput.min.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-oenyx6jIChH9jaXK3fUXpcKOemTQHIQpUBQoOJfHYtg="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.0paacaiaex.css",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\css\\site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4931"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"pOhUJn9LfpVeQVV+pkw7X/zzD2kmDtq+M36b6johzgo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 27 Apr 2025 23:44:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0paacaiaex"
         },
         {
           "Name": "label",
@@ -2684,7 +2934,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
+          "Value": "sha256-pOhUJn9LfpVeQVV+pkw7X/zzD2kmDtq+M36b6johzgo="
         }
       ]
     },
@@ -2699,7 +2949,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "667"
+          "Value": "4931"
         },
         {
           "Name": "Content-Type",
@@ -2707,11 +2957,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
+          "Value": "\"pOhUJn9LfpVeQVV+pkw7X/zzD2kmDtq+M36b6johzgo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 26 Apr 2025 18:41:29 GMT"
+          "Value": "Sun, 27 Apr 2025 23:44:44 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2721,7 +2971,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
+          "Value": "sha256-pOhUJn9LfpVeQVV+pkw7X/zzD2kmDtq+M36b6johzgo="
         }
       ]
     },
@@ -5028,6 +5278,498 @@
       ]
     },
     {
+      "Route": "images/flags.png",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\images\\flags.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "37977"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"f7Sqhrwp4hiV6b2Q5rhzWxMdNh2bm4luuqNjQGUJBrg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 16:14:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-f7Sqhrwp4hiV6b2Q5rhzWxMdNh2bm4luuqNjQGUJBrg="
+        }
+      ]
+    },
+    {
+      "Route": "images/flags.pur2ykmz1a.png",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\images\\flags.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "37977"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"f7Sqhrwp4hiV6b2Q5rhzWxMdNh2bm4luuqNjQGUJBrg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 16:14:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pur2ykmz1a"
+        },
+        {
+          "Name": "label",
+          "Value": "images/flags.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-f7Sqhrwp4hiV6b2Q5rhzWxMdNh2bm4luuqNjQGUJBrg="
+        }
+      ]
+    },
+    {
+      "Route": "images/flags@2x.eugfca6i4e.png",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\images\\flags@2x.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "94105"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+iiQqhf6vTDcE583OZO9b+QK1lxDzW+SwTScjJtbuo0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 16:14:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "eugfca6i4e"
+        },
+        {
+          "Name": "label",
+          "Value": "images/flags@2x.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-+iiQqhf6vTDcE583OZO9b+QK1lxDzW+SwTScjJtbuo0="
+        }
+      ]
+    },
+    {
+      "Route": "images/flags@2x.png",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\images\\flags@2x.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "94105"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+iiQqhf6vTDcE583OZO9b+QK1lxDzW+SwTScjJtbuo0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 16:14:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-+iiQqhf6vTDcE583OZO9b+QK1lxDzW+SwTScjJtbuo0="
+        }
+      ]
+    },
+    {
+      "Route": "images/profile1.png",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\images\\profile1.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 27 Apr 2025 10:12:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg="
+        }
+      ]
+    },
+    {
+      "Route": "images/profile1.yu78tspv7y.png",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\images\\profile1.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 27 Apr 2025 10:12:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "yu78tspv7y"
+        },
+        {
+          "Name": "label",
+          "Value": "images/profile1.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg="
+        }
+      ]
+    },
+    {
+      "Route": "images/profile2.png",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\images\\profile2.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 27 Apr 2025 10:14:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg="
+        }
+      ]
+    },
+    {
+      "Route": "images/profile2.yu78tspv7y.png",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\images\\profile2.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 27 Apr 2025 10:14:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "yu78tspv7y"
+        },
+        {
+          "Name": "label",
+          "Value": "images/profile2.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg="
+        }
+      ]
+    },
+    {
+      "Route": "images/profile3.png",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\images\\profile3.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 27 Apr 2025 10:14:19 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg="
+        }
+      ]
+    },
+    {
+      "Route": "images/profile3.yu78tspv7y.png",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\images\\profile3.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 27 Apr 2025 10:14:19 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "yu78tspv7y"
+        },
+        {
+          "Name": "label",
+          "Value": "images/profile3.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg="
+        }
+      ]
+    },
+    {
+      "Route": "js/intlTelInput.min.f80vecw06f.js",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\js\\intlTelInput.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "30620"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"EW9/1Bv5bDiBgFol3IvxnXMYB96XqQMWVE/PMRulEjs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 15:53:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "f80vecw06f"
+        },
+        {
+          "Name": "label",
+          "Value": "js/intlTelInput.min.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-EW9/1Bv5bDiBgFol3IvxnXMYB96XqQMWVE/PMRulEjs="
+        }
+      ]
+    },
+    {
+      "Route": "js/intlTelInput.min.js",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\js\\intlTelInput.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "30620"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"EW9/1Bv5bDiBgFol3IvxnXMYB96XqQMWVE/PMRulEjs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 15:53:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-EW9/1Bv5bDiBgFol3IvxnXMYB96XqQMWVE/PMRulEjs="
+        }
+      ]
+    },
+    {
       "Route": "js/site.js",
       "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\js\\site.js",
       "Selectors": [],
@@ -5106,6 +5848,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo="
+        }
+      ]
+    },
+    {
+      "Route": "js/utils.buw73pp282.js",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\js\\utils.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "253021"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"A5lxm+IxErlj5mZD8lPiMQY4ROVg9uXyfN8b4lxozFo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 15:54:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "buw73pp282"
+        },
+        {
+          "Name": "label",
+          "Value": "js/utils.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-A5lxm+IxErlj5mZD8lPiMQY4ROVg9uXyfN8b4lxozFo="
+        }
+      ]
+    },
+    {
+      "Route": "js/utils.js",
+      "AssetFile": "C:\\repos\\TabloX2\\wwwroot\\js\\utils.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "253021"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"A5lxm+IxErlj5mZD8lPiMQY4ROVg9uXyfN8b4lxozFo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 28 Apr 2025 15:54:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-A5lxm+IxErlj5mZD8lPiMQY4ROVg9uXyfN8b4lxozFo="
         }
       ]
     },
@@ -10052,7 +10876,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 26 Apr 2025 18:58:15 GMT"
+          "Value": "Mon, 28 Apr 2025 19:50:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -10089,7 +10913,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 26 Apr 2025 18:58:15 GMT"
+          "Value": "Mon, 28 Apr 2025 19:50:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -10126,7 +10950,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 26 Apr 2025 18:58:15 GMT"
+          "Value": "Mon, 28 Apr 2025 19:50:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -10171,7 +10995,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 26 Apr 2025 18:58:15 GMT"
+          "Value": "Mon, 28 Apr 2025 19:50:54 GMT"
         },
         {
           "Name": "Cache-Control",

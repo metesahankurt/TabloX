@@ -1,0 +1,122 @@
+@{
+    ViewData["Title"] = "Kayıt Ol";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Kayıt Ol</h3>
+                </div>
+                <div class="card-body">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <div>@error.ErrorMessage</div>
+                            }
+                        </div>
+                    }
+                    <div class="alert alert-info mb-4">
+                        Profil fotoğrafınız, isim ve soyisminizin baş harflerinden otomatik olarak oluşturulacaktır.
+                    </div>
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label for="UserName" class="form-label">Kullanıcı Adı</label>
+                            <input type="text" name="UserName" class="form-control" placeholder="Kullanıcı Adı" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="FirstName" class="form-label">İsim</label>
+                            <input type="text" name="FirstName" class="form-control" placeholder="İsminiz" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="LastName" class="form-label">Soyisim</label>
+                            <input type="text" name="LastName" class="form-control" placeholder="Soyisminiz" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">E-posta</label>
+                            <input type="email" name="Email" class="form-control" placeholder="E-posta" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Password" class="form-label">Şifre</label>
+                            <input type="password" name="Password" class="form-control" placeholder="Şifre" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="PhoneNumber" class="form-label">Telefon Numarası</label>
+                            <input type="tel" name="PhoneNumber" id="register-phone" class="form-control" placeholder="Telefon Numarası" required autocomplete="off" />
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Kayıt Ol</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css" />
+    <style>
+        .iti { width: 100%; }
+        ul.iti__country-list { list-style: none; margin: 0; padding: 0; }
+        .iti__country-list { max-height: 200px; overflow-y: auto; z-index: 9999 !important; }
+    </style>
+}
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
+    <script>
+        var input = document.querySelector("#register-phone");
+        var iti;
+        if(input) {
+            iti = window.intlTelInput(input, {
+                initialCountry: "tr",
+                preferredCountries: ["tr", "us", "gb"],
+                nationalMode: true,
+                formatOnDisplay: true,
+                geoIpLookup: function(callback) {
+                    fetch('https://ipinfo.io/json?token=eea1b6e2b7b7c7')
+                        .then(function(resp) { return resp.json(); })
+                        .then(function(resp) { callback(resp.country); })
+                        .catch(function() { callback('tr'); });
+                },
+                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"
+            });
+
+            // Yazarken otomatik Türk GSM formatı (5xx xxx xx xx)
+            input.addEventListener('input', function(e) {
+                let val = this.value.replace(/\D/g, '').slice(0, 10);
+                let formatted = '';
+                if (val.length > 0) formatted += val.substring(0, 3);
+                if (val.length > 3) formatted += ' ' + val.substring(3, 6);
+                if (val.length > 6) formatted += ' ' + val.substring(6, 8);
+                if (val.length > 8) formatted += ' ' + val.substring(8, 10);
+                this.value = formatted;
+            });
+
+            // input blur olduğunda otomatik formatla
+            input.addEventListener('blur', function() {
+                if (window.intlTelInputUtils && iti.isValidNumber()) {
+                    var formatted = iti.getNumber(intlTelInputUtils.numberFormat.NATIONAL);
+                    if (formatted) {
+                        input.value = formatted;
+                    }
+                }
+            });
+
+            // Form submit validasyonu
+            var form = input.closest('form');
+            if(form) {
+                form.addEventListener('submit', function(e) {
+                    if (!iti.isValidNumber()) {
+                        e.preventDefault();
+                        alert('Lütfen geçerli bir telefon numarası giriniz.');
+                        input.focus();
+                    }
+                });
+            }
+        }
+    </script>
+} 

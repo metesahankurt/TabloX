@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Kayıt Başarılı";
+    var email = ViewBag.Email as string;
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">Kayıt Başarılı!</h3>
+                </div>
+                <div class="card-body text-center">
+                    <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+                    <p class="lead">Kayıt işleminiz başarıyla tamamlandı.</p>
+                    <p>Lütfen <strong>@email</strong> adresinize gönderilen onay mailini kontrol edin ve hesabınızı aktifleştirmek için linke tıklayın.</p>
+                    <a href="/Account/Login" class="btn btn-primary mt-3">Giriş Yap</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+} 

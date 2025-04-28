@@ -42,6 +42,10 @@
                                     <label class="form-label text-muted">Hakkında</label>
                                     <h5>@Model.About</h5>
                                 </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted">Telefon Numarası</label>
+                                    <input id="phone" name="PhoneNumber" type="tel" class="form-control" value="@Model.PhoneNumber" />
+                                </div>
                             </div>
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -66,6 +70,7 @@
 </div>
 
 @section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/css/intlTelInput.min.css" />
     <style>
         .profile-image-container {
             position: relative;
@@ -92,5 +97,21 @@
 }
 
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/js/intlTelInput.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        var input = document.querySelector("#phone");
+        if(input) {
+            window.intlTelInput(input, {
+                initialCountry: "auto",
+                geoIpLookup: function(callback) {
+                    fetch('https://ipinfo.io/json?token=eea1b6e2b7b7c7')
+                        .then(function(resp) { return resp.json(); })
+                        .then(function(resp) { callback(resp.country); })
+                        .catch(function() { callback('us'); });
+                },
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/js/utils.js"
+            });
+        }
+    </script>
 } 

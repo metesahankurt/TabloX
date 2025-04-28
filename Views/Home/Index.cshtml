@@ -24,7 +24,7 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <a asp-controller="Cart" asp-action="Add" asp-route-id="@artwork.Id" class="btn btn-success btn-sm">Sepete Ekle</a>
-                                <a asp-controller="Orders" asp-action="Checkout" class="btn btn-warning btn-sm">Satın Al</a>
+                                <a asp-controller="Orders" asp-action="Checkout" asp-route-artworkId="@artwork.Id" class="btn btn-warning btn-sm">Satın Al</a>
                             }
                             else
                             {

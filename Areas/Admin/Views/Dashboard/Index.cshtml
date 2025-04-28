@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Yönetim Paneli";
+    Layout = "_AdminLayout";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Yönetim Paneli</h1>
+    
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Kategoriler</h5>
+                    <p class="card-text">Eser kategorilerini yönetin</p>
+                    <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="btn btn-primary">Kategorileri Yönet</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Sanatçılar</h5>
+                    <p class="card-text">Sanatçıları yönetin</p>
+                    <a asp-area="Admin" asp-controller="Artists" asp-action="Index" class="btn btn-primary">Sanatçıları Yönet</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Eserler</h5>
+                    <p class="card-text">Eserleri yönetin</p>
+                    <a asp-area="Admin" asp-controller="Artworks" asp-action="Index" class="btn btn-primary">Eserleri Yönet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TabloX2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5cd0694ad91ee8953dff5d9d80d4fc8165f59ffd")]
 [assembly: System.Reflection.AssemblyProductAttribute("TabloX2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TabloX2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

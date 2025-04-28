@@ -13,9 +13,15 @@ else
     {
         <div class="card mb-3">
             <div class="card-header">
+                <strong>Sipariş No:</strong> @order.OrderNumber<br />
                 <strong>Sipariş Tarihi:</strong> @order.OrderDate.ToString("g")
             </div>
             <div class="card-body">
+                <div class="mb-2">
+                    <strong>Kargo Adresi:</strong> @order.ShippingAddress<br />
+                    <strong>Kart:</strong> @order.MaskedCardNumber<br />
+                    <strong>Kargo Durumu:</strong> @order.ShippingStatus
+                </div>
                 <table class="table table-sm">
                     <thead>
                         <tr>
@@ -31,8 +37,8 @@ else
                         <tr>
                             <td>@item.Artwork?.Title</td>
                             <td>@item.Quantity</td>
-                            <td>@item.Artwork?.Price.ToString("C")</td>
-                            <td>@((item.Artwork?.Price ?? 0) * item.Quantity).ToString("C")</td>
+                            <td>@((item.Artwork?.Price ?? 0).ToString("C"))</td>
+                            <td>@(((decimal)(item.Artwork?.Price ?? 0) * item.Quantity).ToString("C"))</td>
                         </tr>
                     }
                     </tbody>

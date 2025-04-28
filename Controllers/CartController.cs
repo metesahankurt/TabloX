@@ -38,7 +38,18 @@ namespace TabloX2.Controllers
             }
             else
             {
-                _context.CartItems.Add(new CartItem { UserId = userId, ArtworkId = id, Quantity = 1 });
+                var artwork = await _context.Artworks.FindAsync(id);
+                if (artwork == null)
+                {
+                    return NotFound();
+                }
+                _context.CartItems.Add(new CartItem 
+                { 
+                    UserId = userId, 
+                    ArtworkId = id, 
+                    Artwork = artwork,
+                    Quantity = 1 
+                });
             }
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");

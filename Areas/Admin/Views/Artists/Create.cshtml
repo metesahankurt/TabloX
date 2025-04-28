@@ -1,0 +1,31 @@
+@model TabloX2.Models.Artist
+@{
+    ViewData["Title"] = "Yeni Sanatçı Ekle";
+    Layout = "../Shared/_AdminLayout.cshtml";
+}
+
+<h2>Yeni Sanatçı Ekle</h2>
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Bio" class="form-label"></label>
+        <textarea asp-for="Bio" class="form-control"></textarea>
+        <span asp-validation-for="Bio" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="ProfileImageUrl" class="form-label">Profil Görseli Linki</label>
+        <input asp-for="ProfileImageUrl" class="form-control" />
+        <span asp-validation-for="ProfileImageUrl" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Country" class="form-label">Ülke</label>
+        <input asp-for="Country" class="form-control" />
+        <span asp-validation-for="Country" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Kaydet</button>
+    <a asp-action="Index" class="btn btn-secondary">Geri</a>
+</form> 

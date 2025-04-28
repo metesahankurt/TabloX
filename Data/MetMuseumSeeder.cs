@@ -160,7 +160,7 @@ namespace TabloX2.Data
                         if (addedTitles.Contains(obj.title)) continue; // Aynı başlık eklenmesin
                         if (!string.IsNullOrEmpty(obj.classification) && !obj.classification.ToLower().Contains("painting")) continue;
                         string description = $"{obj.objectName} - {obj.culture} - {obj.period} - {obj.medium}";
-                        if (string.IsNullOrWhiteSpace(description) || description == " -  -  - ")
+                        if (string.IsNullOrWhiteSpace(description) || description == " -  -  - " || description.Trim() == "Painting - - - Oil on wood")
                             description = "Açıklama bulunamadı.";
                         string artist = string.IsNullOrEmpty(obj.artistDisplayName) ? "Bilinmeyen" : obj.artistDisplayName;
                         if (!allowedArtists.Contains(artist)) continue; // Sadece izin verilen sanatçılar eklensin
@@ -196,7 +196,7 @@ namespace TabloX2.Data
                         {
                             Title = obj.title,
                             Description = promo,
-                            ImageUrl = obj.primaryImage,
+                            ImageUrl = obj.primaryImageSmall,
                             HighResImageUrl = obj.primaryImage,
                             Price = price,
                             Category = category,

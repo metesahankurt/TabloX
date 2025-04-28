@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\TabloX2.u2t8mhvnpa.bundle.scp.css"
     },
     {
+      "Id": "C:\\repos\\TabloX2\\wwwroot\\css\\intlTelInput.min.css",
+      "PackagePath": "staticwebassets\\css\\intlTelInput.min.css"
+    },
+    {
       "Id": "C:\\repos\\TabloX2\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -13,8 +17,36 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\flags.png",
+      "PackagePath": "staticwebassets\\images\\flags.png"
+    },
+    {
+      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\flags@2x.png",
+      "PackagePath": "staticwebassets\\images\\flags@2x.png"
+    },
+    {
+      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\profile1.png",
+      "PackagePath": "staticwebassets\\images\\profile1.png"
+    },
+    {
+      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\profile2.png",
+      "PackagePath": "staticwebassets\\images\\profile2.png"
+    },
+    {
+      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\profile3.png",
+      "PackagePath": "staticwebassets\\images\\profile3.png"
+    },
+    {
+      "Id": "C:\\repos\\TabloX2\\wwwroot\\js\\intlTelInput.min.js",
+      "PackagePath": "staticwebassets\\js\\intlTelInput.min.js"
+    },
+    {
       "Id": "C:\\repos\\TabloX2\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\repos\\TabloX2\\wwwroot\\js\\utils.js",
+      "PackagePath": "staticwebassets\\js\\utils.js"
     },
     {
       "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\LICENSE",

@@ -1,0 +1,17 @@
+@model TabloX2.Models.Artist
+@{
+    ViewData["Title"] = "Sanatçı Düzenle";
+    Layout = "../Shared/_AdminLayout.cshtml";
+}
+
+<h2>Sanatçı Düzenle</h2>
+<form asp-action="EditArtist" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <a asp-action="Artists" class="btn btn-secondary">Geri</a>
+</form> 

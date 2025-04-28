@@ -1,0 +1,115 @@
+@model TabloX2.Models.CheckoutViewModel
+@{
+    ViewData["Title"] = "Satın Alma";
+    var cartItems = ViewBag.CartItems as List<TabloX2.Models.CartItem>;
+    var total = ViewBag.Total;
+    string formAction = (ViewBag.DirectBuy == true && cartItems != null && cartItems.Count == 1)
+        ? Url.Action("Checkout", "Orders", new { artworkId = cartItems[0].ArtworkId })
+        : Url.Action("Checkout", "Orders");
+}
+<h2>Satın Alma</h2>
+<div class="row">
+    <div class="col-md-6">
+        <form action="@formAction" method="post">
+            @Html.AntiForgeryToken()
+            @if (ViewBag.DirectBuy == true && cartItems != null && cartItems.Count == 1)
+            {
+                <input type="hidden" name="artworkId" value="@cartItems[0].ArtworkId" />
+            }
+            <div class="form-group mb-2">
+                <label asp-for="CardNumber"></label>
+                <div class="input-group">
+                    <input asp-for="CardNumber" class="form-control" id="cardNumberInput" maxlength="19" autocomplete="off" />
+                    <span class="input-group-text" id="cardBrandIcon">
+                        <img id="cardBrandImg" src="" alt="" style="height:24px;display:none;" />
+                    </span>
+                </div>
+                <span asp-validation-for="CardNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Expiry"></label>
+                <input asp-for="Expiry" class="form-control" placeholder="AA/YY" maxlength="5" />
+                <span asp-validation-for="Expiry" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="CVV"></label>
+                <input asp-for="CVV" class="form-control" maxlength="4" />
+                <span asp-validation-for="CVV" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="CardHolder"></label>
+                <input asp-for="CardHolder" class="form-control" />
+                <span asp-validation-for="CardHolder" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="ShippingAddress"></label>
+                <textarea asp-for="ShippingAddress" class="form-control" rows="2"></textarea>
+                <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success">Satın Al</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <h4>Sepet Özeti</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Eser</th>
+                    <th>Adet</th>
+                    <th>Fiyat</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (cartItems != null)
+                {
+                    foreach (var item in cartItems)
+                    {
+                        <tr>
+                            <td>@item.Artwork.Title</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Artwork.Price.ToString("C")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <div class="text-end">
+            <strong>Toplam: @total.ToString("C")</strong>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function getCardBrand(number) {
+            number = number.replace(/\D/g, '');
+            if (/^4[0-9]{6,}$/.test(number)) return 'visa';
+            if (/^5[1-5][0-9]{5,}$/.test(number) || /^2(2[2-9][1-9]|2[3-9][0-9]|[3-6][0-9]{2}|7[01][0-9]|720)[0-9]{0,}$/.test(number)) return 'mastercard';
+            return '';
+        }
+        document.getElementById('cardNumberInput').addEventListener('input', function (e) {
+            let value = this.value.replace(/\D/g, '');
+            let formatted = value.match(/.{1,4}/g)?.join(' ') || '';
+            this.value = formatted;
+            var brand = getCardBrand(value);
+            var img = document.getElementById('cardBrandImg');
+            if (brand === 'visa') {
+                img.src = 'https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg';
+                img.style.display = 'inline';
+            } else if (brand === 'mastercard') {
+                img.src = 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg';
+                img.style.display = 'inline';
+            } else {
+                img.src = '';
+                img.style.display = 'none';
+            }
+        });
+        document.querySelector('input[name="Expiry"]').addEventListener('input', function (e) {
+            let value = this.value.replace(/[^0-9]/g, '');
+            if (value.length > 2) {
+                value = value.slice(0,2) + '/' + value.slice(2,4);
+            }
+            this.value = value;
+        });
+    </script>
+} 
