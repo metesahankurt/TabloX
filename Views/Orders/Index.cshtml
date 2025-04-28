@@ -5,7 +5,9 @@
 <h2>Siparişlerim</h2>
 @if (!Model.Any())
 {
-    <p>Henüz siparişiniz yok.</p>
+    <div class="alert alert-info">
+        Henüz siparişiniz bulunmamaktadır.
+    </div>
 }
 else
 {
@@ -13,39 +15,111 @@ else
     {
         <div class="card mb-3">
             <div class="card-header">
-                <strong>Sipariş No:</strong> @order.OrderNumber<br />
-                <strong>Sipariş Tarihi:</strong> @order.OrderDate.ToString("g")
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="mb-0">Sipariş No: @order.OrderNumber</h5>
+                        <small class="text-muted">Sipariş Tarihi: @order.OrderDate.ToString("g")</small>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <span class="badge bg-info">@order.ShippingStatus</span>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
-                <div class="mb-2">
-                    <strong>Kargo Adresi:</strong> @order.ShippingAddress<br />
-                    <strong>Kart:</strong> @order.MaskedCardNumber<br />
-                    <strong>Kargo Durumu:</strong> @order.ShippingStatus
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Kargo Adresi:</strong> @order.ShippingAddress
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Ödeme Yöntemi:</strong>
+                        @{
+                            string paymentIcon = order.PaymentMethod switch
+                            {
+                                PaymentMethod.CreditCard => "💳",
+                                PaymentMethod.BankTransfer => "🏦",
+                                PaymentMethod.CryptoCurrency => "₿",
+                                PaymentMethod.GiftCard => "🎁",
+                                _ => "💰"
+                            };
+                        }
+                        @paymentIcon @order.PaymentMethod.ToString() 
+                        @if (order.PaymentMethod == PaymentMethod.CreditCard && !string.IsNullOrEmpty(order.MaskedCardNumber))
+                        {
+                            <br/>
+                            <small class="text-muted">Kart: @order.MaskedCardNumber</small>
+                            @if (order.InstallmentCount > 1)
+                            {
+                                <small class="text-muted"> (@order.InstallmentCount Taksit)</small>
+                            }
+                        }
+                        else if (order.PaymentMethod == PaymentMethod.BankTransfer && !string.IsNullOrEmpty(order.BankAccountNumber))
+                        {
+                            <br/>
+                            <small class="text-muted">IBAN: @order.BankAccountNumber</small>
+                        }
+                        else if (order.PaymentMethod == PaymentMethod.CryptoCurrency && !string.IsNullOrEmpty(order.CryptoWalletAddress))
+                        {
+                            <br/>
+                            <small class="text-muted">Cüzdan: @order.CryptoWalletAddress</small>
+                        }
+                        else if (order.PaymentMethod == PaymentMethod.GiftCard && !string.IsNullOrEmpty(order.GiftCardCode))
+                        {
+                            <br/>
+                            <small class="text-muted">Hediye Kartı: @order.GiftCardCode</small>
+                        }
+                    </div>
                 </div>
+
                 <table class="table table-sm">
                     <thead>
                         <tr>
+                            <th style="width: 100px">Görsel</th>
                             <th>Eser</th>
-                            <th>Adet</th>
-                            <th>Fiyat</th>
-                            <th>Toplam</th>
+                            <th class="text-center">Adet</th>
+                            <th class="text-end">Fiyat</th>
+                            <th class="text-end">Toplam</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach (var item in order.Items)
-                    {
-                        <tr>
-                            <td>@item.Artwork?.Title</td>
-                            <td>@item.Quantity</td>
-                            <td>@((item.Artwork?.Price ?? 0).ToString("C"))</td>
-                            <td>@(((decimal)(item.Artwork?.Price ?? 0) * item.Quantity).ToString("C"))</td>
-                        </tr>
-                    }
+                        @foreach (var item in order.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@item.Artwork.ImageUrl" alt="@item.Artwork.Title" 
+                                         class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;" />
+                                </td>
+                                <td class="align-middle">
+                                    <strong>@item.Artwork.Title</strong>
+                                    @if (!string.IsNullOrEmpty(item.Artwork.Artist?.Name))
+                                    {
+                                        <br/>
+                                        <small class="text-muted">@item.Artwork.Artist.Name</small>
+                                    }
+                                </td>
+                                <td class="text-center align-middle">@item.Quantity</td>
+                                <td class="text-end align-middle">@item.Artwork.Price.ToString("C")</td>
+                                <td class="text-end align-middle">@((item.Artwork.Price * item.Quantity).ToString("C"))</td>
+                            </tr>
+                        }
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Toplam:</strong></td>
+                            <td class="text-end">@order.TotalAmount.ToString("C")</td>
+                        </tr>
+                        @if (order.DiscountAmount > 0)
+                        {
+                            <tr class="text-success">
+                                <td colspan="3" class="text-end"><strong>İndirim:</strong></td>
+                                <td class="text-end">-@order.DiscountAmount.ToString("C")</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-end"><strong>Ödenecek Tutar:</strong></td>
+                                <td class="text-end"><strong>@order.FinalAmount.ToString("C")</strong></td>
+                            </tr>
+                        }
+                    </tfoot>
                 </table>
-                <div class="text-end">
-                    <strong>Toplam: @order.Items.Sum(i => (i.Artwork?.Price ?? 0) * i.Quantity).ToString("C")</strong>
-                </div>
             </div>
         </div>
     }

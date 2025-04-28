@@ -4,27 +4,30 @@ namespace TabloX2.Models
 {
     public class CheckoutViewModel
     {
-        [Required]
-        [Display(Name = "Kart Numarası")]
-        [CreditCard(ErrorMessage = "Geçerli bir kart numarası giriniz.")]
-        public string CardNumber { get; set; }
+        [Required(ErrorMessage = "Ödeme yöntemi seçilmesi zorunludur")]
+        public PaymentMethod PaymentMethod { get; set; }
 
-        [Required]
-        [Display(Name = "Son Kullanma Tarihi (AA/YY)")]
-        [RegularExpression(@"^(0[1-9]|1[0-2])\/([0-9]{2})$", ErrorMessage = "Geçerli bir tarih giriniz (AA/YY).")]
-        public string Expiry { get; set; }
+        [Required(ErrorMessage = "Kargo adresi zorunludur")]
+        [MinLength(10, ErrorMessage = "Kargo adresi en az 10 karakter olmalıdır")]
+        public string? ShippingAddress { get; set; }
 
-        [Required]
-        [Display(Name = "CVV")]
-        [RegularExpression(@"^[0-9]{3,4}$", ErrorMessage = "Geçerli bir CVV giriniz.")]
-        public string CVV { get; set; }
+        // Kredi Kartı Bilgileri
+        public string? CardNumber { get; set; }
+        public string? Expiry { get; set; }
+        public string? CVV { get; set; }
+        public string? CardHolder { get; set; }
+        public int InstallmentCount { get; set; } = 1;
 
-        [Required]
-        [Display(Name = "Kart Üzerindeki İsim")]
-        public string CardHolder { get; set; }
+        // Banka Transferi Bilgileri
+        public string? BankAccountNumber { get; set; }
 
-        [Required]
-        [Display(Name = "Kargo Adresi")]
-        public string ShippingAddress { get; set; }
+        // Kripto Para Bilgileri
+        public string? CryptoWalletAddress { get; set; }
+
+        // Hediye Kartı Bilgileri
+        public string? GiftCardCode { get; set; }
+
+        // İndirim Kodu
+        public string? CouponCode { get; set; }
     }
 } 

@@ -7,17 +7,39 @@ namespace TabloX2.Models
     public class Order
     {
         public int Id { get; set; }
-        public required string UserId { get; set; }
+
+        [Required]
+        public string UserId { get; set; } = string.Empty;
+
         public DateTime OrderDate { get; set; }
-        public ICollection<OrderItem> Items { get; set; } = new List<OrderItem>();
+
         [Required]
-        public string OrderNumber { get; set; }
+        public string OrderNumber { get; set; } = string.Empty;
+
         [Required]
-        public string ShippingAddress { get; set; }
-        [Required]
-        public string MaskedCardNumber { get; set; }
-        [Required]
-        public string ShippingStatus { get; set; }
+        public string ShippingAddress { get; set; } = string.Empty;
+
+        public string ShippingStatus { get; set; } = string.Empty;
+
+        public PaymentMethod PaymentMethod { get; set; }
+
+        public int InstallmentCount { get; set; }
+
+        public string? MaskedCardNumber { get; set; }
+
+        public string? BankAccountNumber { get; set; }
+
+        public string? CryptoWalletAddress { get; set; }
+
+        public string? GiftCardCode { get; set; }
+
+        public decimal TotalAmount { get; set; }
+
+        public decimal DiscountAmount { get; set; }
+
+        public decimal FinalAmount { get; set; }
+
+        public virtual ICollection<OrderItem> Items { get; set; } = new List<OrderItem>();
     }
 
     public class OrderItem

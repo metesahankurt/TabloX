@@ -37,6 +37,10 @@
       "PackagePath": "staticwebassets\\images\\profile3.png"
     },
     {
+      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\visa.png",
+      "PackagePath": "staticwebassets\\images\\visa.png"
+    },
+    {
       "Id": "C:\\repos\\TabloX2\\wwwroot\\js\\intlTelInput.min.js",
       "PackagePath": "staticwebassets\\js\\intlTelInput.min.js"
     },

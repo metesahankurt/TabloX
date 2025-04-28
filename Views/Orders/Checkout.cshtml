@@ -2,114 +2,558 @@
 @{
     ViewData["Title"] = "Satın Alma";
     var cartItems = ViewBag.CartItems as List<TabloX2.Models.CartItem>;
-    var total = ViewBag.Total;
+    var totalAmount = ViewBag.TotalAmount;
+    var discountAmount = ViewBag.DiscountAmount;
+    var finalAmount = ViewBag.FinalAmount;
     string formAction = (ViewBag.DirectBuy == true && cartItems != null && cartItems.Count == 1)
         ? Url.Action("Checkout", "Orders", new { artworkId = cartItems[0].ArtworkId })
         : Url.Action("Checkout", "Orders");
 }
-<h2>Satın Alma</h2>
-<div class="row">
-    <div class="col-md-6">
-        <form action="@formAction" method="post">
-            @Html.AntiForgeryToken()
-            @if (ViewBag.DirectBuy == true && cartItems != null && cartItems.Count == 1)
-            {
-                <input type="hidden" name="artworkId" value="@cartItems[0].ArtworkId" />
-            }
-            <div class="form-group mb-2">
-                <label asp-for="CardNumber"></label>
-                <div class="input-group">
-                    <input asp-for="CardNumber" class="form-control" id="cardNumberInput" maxlength="19" autocomplete="off" />
-                    <span class="input-group-text" id="cardBrandIcon">
-                        <img id="cardBrandImg" src="" alt="" style="height:24px;display:none;" />
-                    </span>
-                </div>
-                <span asp-validation-for="CardNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-2">
-                <label asp-for="Expiry"></label>
-                <input asp-for="Expiry" class="form-control" placeholder="AA/YY" maxlength="5" />
-                <span asp-validation-for="Expiry" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-2">
-                <label asp-for="CVV"></label>
-                <input asp-for="CVV" class="form-control" maxlength="4" />
-                <span asp-validation-for="CVV" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="CardHolder"></label>
-                <input asp-for="CardHolder" class="form-control" />
-                <span asp-validation-for="CardHolder" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="ShippingAddress"></label>
-                <textarea asp-for="ShippingAddress" class="form-control" rows="2"></textarea>
-                <span asp-validation-for="ShippingAddress" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-success">Satın Al</button>
-        </form>
-    </div>
-    <div class="col-md-6">
-        <h4>Sepet Özeti</h4>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Eser</th>
-                    <th>Adet</th>
-                    <th>Fiyat</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (cartItems != null)
+
+<style>
+    .payment-section {
+        display: none;
+    }
+
+    .payment-section.active {
+        display: block;
+        animation: fadeInSection 0.3s ease-in-out;
+    }
+
+    @@keyframes fadeInSection {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .input-group-text {
+        background-color: #fff;
+        border-left: none;
+        padding: 0.375rem 0.75rem;
+    }
+
+    .card-brand-image {
+        height: 24px;
+        width: auto;
+        display: none;
+    }
+
+    .payment-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    .form-select {
+        padding-left: 40px;
+        width: 100%;
+        height: calc(1.5em + 0.75rem + 2px);
+        appearance: auto;
+    }
+
+    .installment-select {
+        padding-left: 12px;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+    }
+
+    .card {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .card-number-input {
+        border-right: none;
+    }
+
+    .card-brand-container {
+        min-width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card-brand {
+        display: none;
+        font-size: 24px;
+    }
+
+    .card-brand.visa {
+        color: #1A1F71;
+    }
+
+    .card-brand.mastercard {
+        color: #EB001B;
+    }
+
+    .card-brand.amex {
+        color: #006FCF;
+    }
+
+    .card-brand.generic {
+        color: #6c757d;
+    }
+</style>
+
+<div class="container py-4">
+    <h2 class="mb-4">Satın Alma</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <ul class="mb-0">
+                @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
                 {
-                    foreach (var item in cartItems)
-                    {
-                        <tr>
-                            <td>@item.Artwork.Title</td>
-                            <td>@item.Quantity</td>
-                            <td>@item.Artwork.Price.ToString("C")</td>
-                        </tr>
-                    }
+                    <li>@modelError.ErrorMessage</li>
                 }
-            </tbody>
-        </table>
-        <div class="text-end">
-            <strong>Toplam: @total.ToString("C")</strong>
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" id="checkoutForm" action="@formAction">
+                @Html.AntiForgeryToken()
+                @if (ViewBag.DirectBuy == true && cartItems != null && cartItems.Count == 1)
+                {
+                    <input type="hidden" name="artworkId" value="@cartItems[0].ArtworkId" />
+                }
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="PaymentMethod" class="form-label">Ödeme Yöntemi</label>
+                    <select asp-for="PaymentMethod" class="form-select" id="PaymentMethod">
+                        <option value="CreditCard">💳 Kredi Kartı</option>
+                        <option value="BankTransfer">🏦 Havale/EFT</option>
+                        <option value="CryptoCurrency">₿ Kripto Para</option>
+                        <option value="GiftCard">🎁 Hediye Kartı</option>
+                    </select>
+                    <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+                </div>
+
+                <!-- Kredi Kartı Bölümü -->
+                <div id="CreditCardSection" class="payment-section">
+                    <div class="card p-3 mb-3">
+                        <h5 class="mb-3">💳 Kredi Kartı Bilgileri</h5>
+                        <div class="form-group">
+                            <label asp-for="CardNumber">Kart Numarası</label>
+                            <div class="input-group">
+                                <input asp-for="CardNumber" class="form-control card-number-input" id="CardNumber" maxlength="19" placeholder="•••• •••• •••• ••••" />
+                                <span class="input-group-text card-brand-container">
+                                    <i class="card-brand visa fa-brands fa-cc-visa"></i>
+                                    <i class="card-brand mastercard fa-brands fa-cc-mastercard"></i>
+                                    <i class="card-brand amex fa-brands fa-cc-amex"></i>
+                                    <i class="card-brand generic fa-regular fa-credit-card"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label asp-for="Expiry">Son Kullanma</label>
+                                    <input asp-for="Expiry" class="form-control" id="Expiry" placeholder="AA/YY" maxlength="5" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label asp-for="CVV">CVV</label>
+                                    <input asp-for="CVV" class="form-control" id="CVV" maxlength="4" placeholder="•••" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CardHolder">Kart Üzerindeki İsim</label>
+                            <input asp-for="CardHolder" class="form-control" id="CardHolder" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="InstallmentCount">Taksit</label>
+                            <select asp-for="InstallmentCount" class="form-select installment-select">
+                                <option value="1">Tek Çekim</option>
+                                <option value="2">2 Taksit</option>
+                                <option value="3">3 Taksit</option>
+                                <option value="6">6 Taksit</option>
+                                <option value="9">9 Taksit</option>
+                                <option value="12">12 Taksit</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Havale/EFT Bölümü -->
+                <div id="BankTransferSection" class="payment-section">
+                    <div class="card p-3 mb-3">
+                        <h5 class="mb-3">🏦 Havale/EFT Bilgileri</h5>
+                        <div class="alert alert-info">
+                            <strong>Banka Hesap Bilgileri:</strong><br/>
+                            Banka: Örnek Bank<br/>
+                            IBAN: TR12 3456 7890 1234 5678 9012 34<br/>
+                            Hesap Sahibi: TabloX2 Sanat Galerisi
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BankAccountNumber">Gönderici IBAN</label>
+                            <input asp-for="BankAccountNumber" class="form-control" id="BankAccountNumber" 
+                                   placeholder="TR12 3456 7890 1234 5678 9012 34"
+                                   pattern="TR\d{2}\s\d{4}\s\d{4}\s\d{4}\s\d{4}\s\d{4}\s\d{2}"
+                                   maxlength="32" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kripto Para Bölümü -->
+                <div id="CryptoCurrencySection" class="payment-section">
+                    <div class="card p-3 mb-3">
+                        <h5 class="mb-3">₿ Kripto Para Bilgileri</h5>
+                        <div class="alert alert-info">
+                            <strong>Kripto Cüzdan Adresleri:</strong><br/>
+                            BTC: bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh<br/>
+                            ETH: 0x71C7656EC7ab88b098defB751B7401B5f6d8976F
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CryptoWalletAddress">Gönderici Cüzdan Adresi</label>
+                            <input asp-for="CryptoWalletAddress" class="form-control" id="CryptoWalletAddress" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hediye Kartı Bölümü -->
+                <div id="GiftCardSection" class="payment-section">
+                    <div class="card p-3 mb-3">
+                        <h5 class="mb-3">🎁 Hediye Kartı</h5>
+                        <div class="form-group">
+                            <label asp-for="GiftCardCode">Hediye Kartı Kodu</label>
+                            <input asp-for="GiftCardCode" class="form-control" id="GiftCardCode" 
+                                   placeholder="XXXX-XXXX-XXXX-XXXX"
+                                   pattern="[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}"
+                                   maxlength="19" />
+                            <small class="text-muted">Örnek: GIFT-X100-2024-FULL</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ShippingAddress" class="form-label">Kargo Adresi</label>
+                    <textarea asp-for="ShippingAddress" class="form-control" rows="3" required minlength="10"></textarea>
+                    <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="CouponCode" class="form-label">İndirim Kodu</label>
+                    <input asp-for="CouponCode" class="form-control" placeholder="Varsa indirim kodunuz" />
+                    <span asp-validation-for="CouponCode" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-lg w-100" id="submitButton">
+                    Satın Al
+                </button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Sepet Özeti</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Eser</th>
+                                <th>Adet</th>
+                                <th class="text-end">Fiyat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in cartItems)
+                            {
+                                <tr>
+                                    <td>@item.Artwork.Title</td>
+                                    <td>@item.Quantity</td>
+                                    <td class="text-end">@item.Artwork.Price.ToString("C")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="text-end">
+                        <div class="mb-2">
+                            <strong>Toplam:</strong> 
+                            <span class="fs-5">@totalAmount.ToString("C")</span>
+                        </div>
+                        @if (discountAmount > 0)
+                        {
+                            <div class="mb-2 text-success">
+                                <strong>İndirim:</strong> 
+                                <span class="fs-5">-@discountAmount.ToString("C")</span>
+                            </div>
+                        }
+                        <div class="mb-2">
+                            <strong>Ödenecek Tutar:</strong> 
+                            <span class="fs-4 text-success">@finalAmount.ToString("C")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        function getCardBrand(number) {
-            number = number.replace(/\D/g, '');
-            if (/^4[0-9]{6,}$/.test(number)) return 'visa';
-            if (/^5[1-5][0-9]{5,}$/.test(number) || /^2(2[2-9][1-9]|2[3-9][0-9]|[3-6][0-9]{2}|7[01][0-9]|720)[0-9]{0,}$/.test(number)) return 'mastercard';
-            return '';
-        }
-        document.getElementById('cardNumberInput').addEventListener('input', function (e) {
-            let value = this.value.replace(/\D/g, '');
-            let formatted = value.match(/.{1,4}/g)?.join(' ') || '';
-            this.value = formatted;
-            var brand = getCardBrand(value);
-            var img = document.getElementById('cardBrandImg');
-            if (brand === 'visa') {
-                img.src = 'https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg';
-                img.style.display = 'inline';
-            } else if (brand === 'mastercard') {
-                img.src = 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg';
-                img.style.display = 'inline';
-            } else {
-                img.src = '';
-                img.style.display = 'none';
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentMethodSelect = document.getElementById('PaymentMethod');
+            const paymentSections = document.querySelectorAll('.payment-section');
+            const cardNumberInput = document.getElementById('CardNumber');
+            const cardBrands = document.querySelectorAll('.card-brand');
+            const expiryInput = document.getElementById('Expiry');
+            const cvvInput = document.getElementById('CVV');
+            const form = document.querySelector('form');
+
+            // İlk yükleme için ödeme yöntemini güncelle
+            updatePaymentSection(paymentMethodSelect.value);
+
+            // Ödeme yöntemi değiştiğinde
+            paymentMethodSelect.addEventListener('change', function() {
+                updatePaymentSection(this.value);
+            });
+
+            function updatePaymentSection(selectedMethod) {
+                // Tüm bölümleri gizle
+                paymentSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Seçilen bölümü göster
+                const selectedSection = document.querySelector(`#${selectedMethod}Section`);
+                if (selectedSection) {
+                    selectedSection.classList.add('active');
+                }
+
+                // Form validasyonunu güncelle
+                updateFormValidation(selectedMethod);
             }
-        });
-        document.querySelector('input[name="Expiry"]').addEventListener('input', function (e) {
-            let value = this.value.replace(/[^0-9]/g, '');
-            if (value.length > 2) {
-                value = value.slice(0,2) + '/' + value.slice(2,4);
+
+            function updateFormValidation(selectedMethod) {
+                // Tüm required alanları kaldır
+                form.querySelectorAll('[required]').forEach(input => {
+                    input.removeAttribute('required');
+                });
+
+                // Seçilen ödeme yöntemine göre required alanları ekle
+                if (selectedMethod === 'CreditCard') {
+                    document.getElementById('CardNumber').setAttribute('required', '');
+                    document.getElementById('Expiry').setAttribute('required', '');
+                    document.getElementById('CVV').setAttribute('required', '');
+                    document.getElementById('CardHolder').setAttribute('required', '');
+                } else if (selectedMethod === 'BankTransfer') {
+                    document.getElementById('BankAccountNumber').setAttribute('required', '');
+                } else if (selectedMethod === 'CryptoCurrency') {
+                    document.getElementById('CryptoWalletAddress').setAttribute('required', '');
+                } else if (selectedMethod === 'GiftCard') {
+                    document.getElementById('GiftCardCode').setAttribute('required', '');
+                }
             }
-            this.value = value;
+
+            // Kredi kartı numarası formatlaması
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    let formattedValue = '';
+                    
+                    for (let i = 0; i < value.length; i++) {
+                        if (i > 0 && i % 4 === 0) {
+                            formattedValue += ' ';
+                        }
+                        formattedValue += value[i];
+                    }
+                    
+                    e.target.value = formattedValue;
+
+                    // Kart markası logosunu güncelle
+                    updateCardBrand(value);
+                });
+            }
+
+            // Kart markasını güncelle
+            function updateCardBrand(cardNumber) {
+                // Tüm logoları gizle
+                cardBrands.forEach(brand => brand.style.display = 'none');
+
+                if (!cardNumber) {
+                    document.querySelector('.card-brand.generic').style.display = 'block';
+                    return;
+                }
+
+                // Kart numarasının ilk karakterine göre kart markasını belirle
+                const firstDigit = cardNumber.charAt(0);
+                const firstTwoDigits = cardNumber.substr(0, 2);
+
+                if (firstDigit === '4') {
+                    document.querySelector('.card-brand.visa').style.display = 'block';
+                } else if (firstDigit === '5' && ['1','2','3','4','5'].includes(cardNumber.charAt(1))) {
+                    document.querySelector('.card-brand.mastercard').style.display = 'block';
+                } else if (firstTwoDigits === '34' || firstTwoDigits === '37') {
+                    document.querySelector('.card-brand.amex').style.display = 'block';
+                } else {
+                    document.querySelector('.card-brand.generic').style.display = 'block';
+                }
+            }
+
+            // İlk yükleme için generic kart ikonunu göster
+            updateCardBrand('');
+
+            // Son kullanma tarihi formatlaması
+            if (expiryInput) {
+                expiryInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    
+                    if (value.length > 2) {
+                        value = value.substr(0, 2) + '/' + value.substr(2, 2);
+                    }
+                    
+                    e.target.value = value;
+                });
+            }
+
+            // CVV input kontrolü
+            if (cvvInput) {
+                cvvInput.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.replace(/\D/g, '').substr(0, 3);
+                });
+            }
+
+            // IBAN formatlaması
+            const ibanInput = document.getElementById('BankAccountNumber');
+            if (ibanInput) {
+                ibanInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, ''); // Sadece rakamları al
+                    
+                    if (value.length > 0 && !value.startsWith('TR')) {
+                        value = 'TR' + value;
+                    }
+                    
+                    let formattedValue = '';
+                    const groups = ['TR', '00', '0000', '0000', '0000', '0000', '0000', '00'];
+                    let currentPos = 0;
+                    
+                    for (let i = 0; i < groups.length && currentPos < value.length; i++) {
+                        if (i === 0) {
+                            formattedValue += 'TR';
+                            currentPos += 2;
+                        } else {
+                            const groupLength = groups[i].length;
+                            const group = value.substr(currentPos, groupLength);
+                            if (group) {
+                                if (formattedValue) formattedValue += ' ';
+                                formattedValue += group;
+                                currentPos += groupLength;
+                            }
+                        }
+                    }
+                    
+                    e.target.value = formattedValue;
+                });
+
+                // IBAN doğrulama
+                ibanInput.addEventListener('blur', function(e) {
+                    const iban = e.target.value.replace(/\s/g, '');
+                    if (iban && !isValidIBANFormat(iban)) {
+                        alert('Lütfen geçerli bir IBAN giriniz.');
+                        e.target.value = '';
+                    }
+                });
+            }
+
+            function isValidIBANFormat(iban) {
+                const ibanRegex = /^TR\d{24}$/;
+                return ibanRegex.test(iban);
+            }
+
+            // Hediye kartı kodu formatlaması
+            const giftCardInput = document.getElementById('GiftCardCode');
+            if (giftCardInput) {
+                giftCardInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/[^A-Z0-9]/g, '').toUpperCase();
+                    let formattedValue = '';
+                    
+                    for (let i = 0; i < value.length && i < 16; i++) {
+                        if (i > 0 && i % 4 === 0) {
+                            formattedValue += '-';
+                        }
+                        formattedValue += value[i];
+                    }
+                    
+                    e.target.value = formattedValue;
+                });
+
+                // Hediye kartı kodu doğrulama
+                giftCardInput.addEventListener('blur', function(e) {
+                    const code = e.target.value;
+                    if (code && !isValidGiftCardFormat(code)) {
+                        alert('Lütfen geçerli bir hediye kartı kodu giriniz.');
+                        e.target.value = '';
+                    }
+                });
+            }
+
+            function isValidGiftCardFormat(code) {
+                const giftCardRegex = /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
+                return giftCardRegex.test(code);
+            }
+
+            // Form gönderilmeden önce validasyon
+            form.addEventListener('submit', function(e) {
+                const selectedMethod = paymentMethodSelect.value;
+                let isValid = true;
+
+                if (selectedMethod === 'CreditCard') {
+                    if (!cardNumberInput.value || cardNumberInput.value.replace(/\s/g, '').length < 16) {
+                        alert('Lütfen geçerli bir kredi kartı numarası giriniz.');
+                        isValid = false;
+                    }
+                    if (!expiryInput.value || expiryInput.value.length < 5) {
+                        alert('Lütfen geçerli bir son kullanma tarihi giriniz.');
+                        isValid = false;
+                    }
+                    if (!cvvInput.value || cvvInput.value.length < 3) {
+                        alert('Lütfen geçerli bir CVV giriniz.');
+                        isValid = false;
+                    }
+                }
+
+                if (selectedMethod === 'BankTransfer') {
+                    const iban = ibanInput.value.replace(/\s/g, '');
+                    if (!isValidIBANFormat(iban)) {
+                        alert('Lütfen geçerli bir IBAN giriniz.');
+                        isValid = false;
+                    }
+                }
+
+                if (selectedMethod === 'GiftCard') {
+                    const code = giftCardInput.value;
+                    if (!isValidGiftCardFormat(code)) {
+                        alert('Lütfen geçerli bir hediye kartı kodu giriniz.');
+                        isValid = false;
+                    }
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
         });
     </script>
 } 
