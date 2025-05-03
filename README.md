@@ -25,6 +25,7 @@ TabloX, dünyaca ünlü sanatçıların eserlerini ve biyografilerini sergileyen
 - Sipariş takibi
 - Hediye kartı sistemi
 - Sipariş geçmişi
+- PDF fatura oluşturma ve indirme
 
 ### Admin Paneli
 - Kullanıcı yönetimi
