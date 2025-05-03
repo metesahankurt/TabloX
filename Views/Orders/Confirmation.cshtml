@@ -1,0 +1,32 @@
+@model TabloX2.Models.Order
+@{
+    ViewData["Title"] = "Sipariş Onayı";
+}
+<div class="container mt-5">
+    <div class="alert alert-info text-center" style="font-size:1.3em; font-weight:600;">Kargonuz hazırlanıyor</div>
+    <div class="card shadow p-4 mb-4">
+        <h2 class="text-success text-center mb-3">Siparişiniz başarıyla oluşturuldu!</h2>
+        <p class="text-center">Sipariş Numaranız / Kargo Kodunuz: <b>@Model.OrderNumber</b></p>
+        <hr />
+        <h4>Aldığınız Ürünler</h4>
+        <ul class="list-group mb-3">
+            @foreach (var item in Model.OrderItems)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <b>@item.Artwork?.Title</b>
+                        <span class="text-muted">(@item.Artwork?.Artist?.Name)</span>
+                    </div>
+                    <span>@item.Price.ToString("C") x @item.Quantity</span>
+                </li>
+            }
+        </ul>
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-bold">Toplam Tutar:</span>
+            <span class="fs-5 text-success">@Model.TotalAmount.ToString("C")</span>
+        </div>
+        <div class="mt-4 text-center">
+            <a href="@Url.Action("Index", "Orders")" class="btn btn-primary">Siparişlerime Git</a>
+        </div>
+    </div>
+</div> 

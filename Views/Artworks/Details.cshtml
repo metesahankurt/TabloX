@@ -2,48 +2,244 @@
 @{
     ViewData["Title"] = Model.Title;
 }
-<div class="container">
-    <div class="artwork-detail-container">
-        <div class="artwork-detail-info">
-            <div class="artwork-detail-title">
-                @Model.Title
-            </div>
-            <div class="artwork-detail-meta mb-2">
-                <div class="meta-row"><span class="meta-icon"><i class="bi bi-person-fill"></i></span> <b>@Model.Artist?.Name</b></div>
-                <div class="meta-row"><span class="meta-icon"><i class="bi bi-info-circle"></i></span> <span class="text-muted small">@Model.Artist?.Bio</span></div>
-                <div class="meta-row"><span class="meta-icon"><i class="bi bi-tags-fill"></i></span> @Model.Category?.Name</div>
-                <div class="meta-row"><span class="meta-icon"><i class="bi bi-currency-dollar"></i></span> <span style="font-size:1.3rem;font-weight:700;">@Model.Price.ToString("C2")</span></div>
-            </div>
-            <div class="artwork-detail-desc mb-4"><i class="bi bi-card-text"></i> @Model.Description</div>
-            <div class="d-flex gap-2 mb-3">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a asp-controller="Cart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-success btn-lg"><i class="bi bi-cart-plus me-1"></i>Sepete Ekle</a>
-                }
-                else
-                {
-                    <a asp-controller="Account" asp-action="Login" class="btn btn-success btn-lg"><i class="bi bi-cart-plus me-1"></i>Sepete Ekle (Giriş Yap)</a>
-                }
-                <a asp-action="Index" class="btn btn-secondary btn-lg"><i class="bi bi-collection me-1"></i>Tüm Eserler</a>
+
+<style>
+    .artwork-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .artwork-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: start;
+    }
+
+    .artwork-image-section {
+        position: relative;
+    }
+
+    .artwork-image {
+        width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .fullscreen-link {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(255,255,255,0.9);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #2c3e50;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        width: auto;
+    }
+
+    .fullscreen-link:hover {
+        background: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .info-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .artwork-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-family: "Playfair Display", serif;
+    }
+
+    .artwork-artist {
+        color: #e31837;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .artwork-category {
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+
+    .artwork-description {
+        color: #2c3e50;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    .artwork-price {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #2c3e50;
+        margin-bottom: 2rem;
+    }
+
+    .action-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .btn-action {
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-cart {
+        background: #f8f9fa;
+        color: #2c3e50;
+        border: 1px solid #dee2e6;
+    }
+
+    .btn-cart:hover {
+        background: #e9ecef;
+        text-decoration: none;
+        color: #2c3e50;
+    }
+
+    .btn-buy {
+        background: #e31837;
+        color: white;
+        border: none;
+    }
+
+    .btn-buy:hover {
+        background: #8b0000;
+        text-decoration: none;
+        color: white;
+    }
+
+    .artwork-detail-extra {
+        margin-top: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .extra-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #2c3e50;
+    }
+
+    .extra-icon {
+        color: #e31837;
+    }
+
+    @@media (max-width: 768px) {
+        .artwork-details {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="artwork-container">
+    <div class="artwork-details">
+        <div class="artwork-image-section">
+            <img src="@Model.HighResImageUrl" alt="@Model.Title" class="artwork-image">
+            <a href="@Model.HighResImageUrl" target="_blank" class="fullscreen-link">
+                <i class="bi bi-arrows-fullscreen"></i>
+                Tam Ekran
+            </a>
+        </div>
+        <div class="info-section">
+            <h1 class="artwork-title">@Model.Title</h1>
+            @if (Model.Artist != null)
+            {
+                <div class="artwork-artist">@Model.Artist.Name</div>
+            }
+            @if (Model.Category != null)
+            {
+                <div class="artwork-category">@Model.Category.Name</div>
+            }
+            <p class="artwork-description">@Model.Description</p>
+            <div class="artwork-price">@Model.Price.ToString("C")</div>
+            <div class="action-buttons">
+                <a href="#" class="btn-action btn-cart add-to-cart-btn" data-artwork-id="@Model.Id">
+                    <i class="bi bi-cart-plus"></i>
+                    Sepete Ekle
+                </a>
+                <a href="@Url.Action("Checkout", "Orders", new { artworkId = Model.Id })" class="btn-action btn-buy">
+                    <i class="bi bi-credit-card"></i>
+                    Satın Al
+                </a>
             </div>
         </div>
-        <div>
-            <img src="@Model.HighResImageUrl" alt="@Model.Title" class="artwork-detail-image" id="mainArtworkImg" />
-        </div>
-    </div>
-    <div class="artwork-detail-extra mt-5">
-        <div class="extra-item"><span class="extra-icon"><i class="bi bi-arrows-angle-expand"></i></span> <b>Boyut:</b> 60 x 80 cm</div>
-        <div class="extra-item"><span class="extra-icon"><i class="bi bi-easel"></i></span> <b>Malzeme:</b> Tuval üzerine yağlı boya</div>
-        <div class="extra-item"><span class="extra-icon"><i class="bi bi-award"></i></span> <b>Sertifika:</b> Orijinallik Sertifikalı</div>
-        <div class="extra-item"><span class="extra-icon"><i class="bi bi-thermometer-snow"></i></span> <b>Saklama Koşulları:</b> Serin ve kuru ortamda saklayınız.</div>
-        <div class="extra-item"><span class="extra-icon"><i class="bi bi-check-circle"></i></span> <b>Ürün Durumu:</b> Çerçeveli, Restorasyon görmedi, Orijinal</div>
     </div>
 </div>
+
+<div class="artwork-container">
+    <div class="artwork-detail-extra">
+        <div class="extra-item">
+            <span class="extra-icon"><i class="bi bi-arrows-angle-expand"></i></span>
+            <b>Boyut:</b> 60 x 80 cm
+        </div>
+        <div class="extra-item">
+            <span class="extra-icon"><i class="bi bi-easel"></i></span>
+            <b>Malzeme:</b> Tuval üzerine yağlı boya
+        </div>
+        <div class="extra-item">
+            <span class="extra-icon"><i class="bi bi-award"></i></span>
+            <b>Sertifika:</b> Orijinallik Sertifikalı
+        </div>
+        <div class="extra-item">
+            <span class="extra-icon"><i class="bi bi-thermometer-snow"></i></span>
+            <b>Saklama Koşulları:</b> Serin ve kuru ortamda saklayınız.
+        </div>
+        <div class="extra-item">
+            <span class="extra-icon"><i class="bi bi-check-circle"></i></span>
+            <b>Ürün Durumu:</b> Çerçeveli, Restorasyon görmedi, Orijinal
+        </div>
+    </div>
+</div>
+
 <script>
-    document.getElementById('mainArtworkImg').onclick = function() {
-        var modal = new bootstrap.Modal(document.getElementById('artworkModal'));
-        modal.show();
-    };
+let isHighQuality = false;
+
+function toggleImageQuality() {
+    const img = document.getElementById('artworkImage');
+    const btn = document.getElementById('qualityToggle');
+    
+    if (isHighQuality) {
+        img.src = '@Model.MediumImageUrl';
+        btn.innerHTML = '<i class="bi bi-arrows-fullscreen"></i> Yüksek Çözünürlük';
+    } else {
+        img.src = '@Model.HighResImageUrl';
+        btn.innerHTML = '<i class="bi bi-arrows-angle-contract"></i> Normal Çözünürlük';
+    }
+    
+    isHighQuality = !isHighQuality;
+}
 </script>
 <!-- Modal for fullscreen image -->
 <div class="modal fade" id="artworkModal" tabindex="-1" aria-hidden="true">
@@ -52,4 +248,41 @@
       <img src="@Model.HighResImageUrl" class="modal-img" alt="@Model.Title" />
     </div>
   </div>
-</div> 
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.add-to-cart-btn').click(function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var artworkId = btn.data('artwork-id');
+                $.ajax({
+                    url: '/Cart/AddToCart',
+                    type: 'POST',
+                    data: { artworkId: artworkId },
+                    success: function (response) {
+                        if (typeof response !== 'object') {
+                            window.location.href = '/Account/Login';
+                            return;
+                        }
+                        if (response.success) {
+                            window.location.href = '/Cart';
+                        } else if (response.message && response.message.toLowerCase().includes('kullanıcı bulunamadı')) {
+                            window.location.href = '/Account/Login';
+                        } else {
+                            alert(response.message || 'Sepete eklenirken bir hata oluştu.');
+                        }
+                    },
+                    error: function (xhr) {
+                        if ((xhr && xhr.status === 401) || (xhr && xhr.responseText && xhr.responseText.includes('id="loginForm"'))) {
+                            window.location.href = '/Account/Login';
+                        } else {
+                            alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+} 

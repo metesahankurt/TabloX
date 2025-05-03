@@ -6,48 +6,159 @@
     <title>@ViewData["Title"] - Yönetim Paneli</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #e31837 !important;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: "Playfair Display", serif;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.2rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-1px);
+        }
+
+        .nav-link.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .navbar-nav {
+            align-items: center;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .auth-buttons .nav-link {
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1.2rem !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .auth-buttons .nav-link i {
+            font-size: 1.1rem;
+        }
+
+        .auth-buttons .nav-link:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .cart-link {
+            position: relative;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #8b0000;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .admin-link {
+            background: #8b0000 !important;
+            color: white !important;
+            font-weight: 600 !important;
+        }
+
+        .admin-link:hover {
+            background: #6b0000 !important;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Yönetim Paneli</a>
+                <a class="navbar-brand" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">TabloX - Yönetim</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Categories" asp-action="Index">Kategoriler</a>
+                            <a class="nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Artists" asp-action="Index">Sanatçılar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Artworks" asp-action="Index">Eserler</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-arrow-left"></i> Siteye Dön
+                            </a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Siteye Dön</a>
-                        </li>
-                    </ul>
+                    <div class="auth-buttons">
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a class="nav-link" href="/Identity/Account/Login">
+                                <i class="bi bi-box-arrow-in-right"></i>
+                                Giriş Yap
+                            </a>
+                            <a class="nav-link" href="/Identity/Account/Register">
+                                <i class="bi bi-person-plus"></i>
+                                Kayıt Ol
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="nav-link" href="/Identity/Account/Logout">
+                                <i class="bi bi-box-arrow-right"></i>
+                                Çıkış Yap
+                            </a>
+                        }
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid" style="margin-top: 86px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - TabloX2 Yönetim Paneli
-        </div>
-    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

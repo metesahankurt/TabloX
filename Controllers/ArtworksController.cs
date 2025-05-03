@@ -5,34 +5,60 @@ using TabloX2.Data;
 using TabloX2.Models;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace TabloX2.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class ArtworksController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public ArtworksController(ApplicationDbContext context)
+        private readonly ILogger<ArtworksController> _logger;
+
+        public ArtworksController(ApplicationDbContext context, ILogger<ArtworksController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
-        [AllowAnonymous]
-        public async Task<IActionResult> Index(int? categoryId, string search)
+        public async Task<IActionResult> Index(int? categoryId = null, int? artistId = null, decimal? minPrice = null, decimal? maxPrice = null)
         {
-            var artworks = _context.Artworks.Include(a => a.Category).Include(a => a.Artist).AsQueryable();
-            ViewBag.Categories = _context.Categories.ToList();
-            ViewBag.SelectedCategory = categoryId;
-            ViewBag.Search = search;
+            var query = _context.Artworks
+                .Include(a => a.Artist)
+                .Include(a => a.Category)
+                .AsQueryable();
+
+            // Kategori filtresi
             if (categoryId.HasValue)
             {
-                artworks = artworks.Where(a => a.CategoryId == categoryId.Value);
+                query = query.Where(a => a.CategoryId == categoryId);
             }
-            if (!string.IsNullOrWhiteSpace(search))
+
+            // Sanatçı filtresi
+            if (artistId.HasValue)
             {
-                artworks = artworks.Where(a => a.Title.Contains(search) || a.Description.Contains(search));
+                query = query.Where(a => a.ArtistId == artistId);
             }
-            return View(await artworks.ToListAsync());
+
+            // Fiyat aralığı filtresi
+            if (minPrice.HasValue)
+            {
+                query = query.Where(a => a.Price >= minPrice);
+            }
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(a => a.Price <= maxPrice);
+            }
+
+            // Kategorileri ve sanatçıları ViewBag'e ekle
+            ViewBag.Categories = await _context.Categories.ToListAsync();
+            ViewBag.Artists = await _context.Artists.ToListAsync();
+            ViewBag.SelectedCategoryId = categoryId;
+            ViewBag.SelectedArtistId = artistId;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+
+            var artworks = await query.OrderByDescending(a => a.Id).ToListAsync();
+            return View(artworks);
         }
 
         [AllowAnonymous]
@@ -52,6 +78,7 @@ namespace TabloX2.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Artwork artwork)
@@ -67,6 +94,7 @@ namespace TabloX2.Controllers
             return View(artwork);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -77,6 +105,7 @@ namespace TabloX2.Controllers
             return View(artwork);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Artwork artwork)
@@ -93,6 +122,7 @@ namespace TabloX2.Controllers
             return View(artwork);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -101,6 +131,7 @@ namespace TabloX2.Controllers
             return View(artwork);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

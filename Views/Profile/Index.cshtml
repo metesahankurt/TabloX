@@ -1,0 +1,285 @@
+@model TabloX2.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Profilim";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+}
+
+<style>
+    .profile-container {
+        margin-top: 2rem;
+        padding: 1rem;
+    }
+
+    .profile-card {
+        border: none;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: white;
+    }
+
+    .profile-header {
+        background-color: #e31837;
+        padding: 1.5rem;
+        position: relative;
+    }
+
+    .profile-header h4 {
+        font-family: "Playfair Display", serif;
+        margin: 0;
+        color: white;
+        font-size: 1.8rem;
+    }
+
+    .profile-body {
+        padding: 2rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #333;
+        font-size: 0.95rem;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+        border: 1px solid #dee2e6;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #e31837;
+        box-shadow: 0 0 0 0.2rem rgba(227, 24, 55, 0.15);
+    }
+
+    .btn-tablox {
+        background-color: #e31837;
+        color: white;
+        padding: 0.6rem 1.5rem;
+        border-radius: 8px;
+        border: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-tablox:hover {
+        background-color: #c41530;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .section-divider {
+        border-top: 2px solid #f0f0f0;
+        margin: 2rem 0;
+    }
+
+    .section-title {
+        font-family: "Playfair Display", serif;
+        color: #333;
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .badge-2fa {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        border-radius: 6px;
+    }
+
+    .alert-tablox {
+        background-color: #fef0f2;
+        border: 1px solid #fde0e5;
+        color: #e31837;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    .iti {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .iti__flag {
+        background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/img/flags.png");
+    }
+
+    @@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .iti__flag {
+            background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/img/flags@2x.png");
+        }
+    }
+</style>
+
+<div class="profile-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <h4><i class="bi bi-person-circle me-2"></i>Profil Bilgileri</h4>
+                    </div>
+                    <div class="text-end mt-2 mb-3 pe-3">
+                        <a href="/Orders" class="btn btn-tablox shadow-sm" style="font-weight:600; font-size:1.08em; border-radius:8px; box-shadow:0 2px 8px rgba(227,24,55,0.08); padding:10px 28px;">
+                            <i class="bi bi-box-seam me-1"></i> Siparişlerim
+                        </a>
+                    </div>
+                    <div class="profile-body">
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-tablox mb-4">
+                                <i class="bi bi-check-circle me-2"></i>@TempData["SuccessMessage"]
+                            </div>
+                        }
+
+                        <form asp-action="UpdateProfile" method="post">
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label asp-for="FirstName" class="form-label">Ad</label>
+                                    <input asp-for="FirstName" class="form-control" />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="LastName" class="form-label">Soyad</label>
+                                    <input asp-for="LastName" class="form-control" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="DisplayUserName" class="form-label">Kullanıcı Adı</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">@@</span>
+                                    <input asp-for="DisplayUserName" class="form-control" />
+                                </div>
+                                <span asp-validation-for="DisplayUserName" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="Email" class="form-label">E-posta</label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label asp-for="PhoneNumber" class="form-label">Telefon Numarası</label>
+                                <input asp-for="PhoneNumber" type="tel" class="form-control" id="phone" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-tablox">
+                                <i class="bi bi-check2 me-2"></i>Profil Bilgilerini Güncelle
+                            </button>
+                        </form>
+
+                        <div class="section-divider"></div>
+
+                        <div class="section-title">Şifre Değiştir</div>
+                        <form asp-action="ChangePassword" method="post">
+                            <div class="mb-4">
+                                <label for="currentPassword" class="form-label">Mevcut Şifre</label>
+                                <input type="password" name="currentPassword" class="form-control" required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="newPassword" class="form-label">Yeni Şifre</label>
+                                <input type="password" name="newPassword" class="form-control" required />
+                            </div>
+                            <button type="submit" class="btn btn-tablox">
+                                <i class="bi bi-key me-2"></i>Şifreyi Değiştir
+                            </button>
+                        </form>
+
+                        <div class="section-divider"></div>
+
+                        <div class="section-title">İki Faktörlü Kimlik Doğrulama</div>
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <span class="badge badge-2fa @(Model.TwoFactorEnabled ? "bg-success" : "bg-danger")">
+                                    <i class="bi @(Model.TwoFactorEnabled ? "bi-shield-check" : "bi-shield-lock") me-2"></i>
+                                    @(Model.TwoFactorEnabled ? "Aktif" : "Pasif")
+                                </span>
+                            </div>
+                            <form asp-action="@(Model.TwoFactorEnabled ? "Disable2FA" : "Enable2FA")" method="post">
+                                <button type="submit" class="btn @(Model.TwoFactorEnabled ? "btn-outline-danger" : "btn-outline-success")">
+                                    <i class="bi @(Model.TwoFactorEnabled ? "bi-shield-x" : "bi-shield-plus") me-2"></i>
+                                    @(Model.TwoFactorEnabled ? "Devre Dışı Bırak" : "Etkinleştir")
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var input = document.querySelector("#phone");
+            var iti = window.intlTelInput(input, {
+                initialCountry: "tr",
+                preferredCountries: ["tr", "us", "gb", "de", "fr"],
+                separateDialCode: true,
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+            });
+
+            // Form gönderilmeden önce telefon numarasını formatla
+            var form = input.closest("form");
+            form.addEventListener("submit", function(e) {
+                e.preventDefault();
+                var phoneNumber = iti.getNumber();
+                if (iti.isValidNumber()) {
+                    input.value = phoneNumber;
+                    form.submit();
+                } else {
+                    alert("Lütfen geçerli bir telefon numarası giriniz.");
+                }
+            });
+
+            // Türkiye için özel format
+            input.addEventListener('input', function() {
+                if (iti.getSelectedCountryData().iso2 === 'tr') {
+                    var number = this.value.replace(/\D/g, ''); // Sadece rakamları al
+                    if (number.length > 0) {
+                        number = number.match(/(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+                        this.value = !number[2] ? number[1] : 
+                                   !number[3] ? number[1] + ' ' + number[2] :
+                                   !number[4] ? number[1] + ' ' + number[2] + ' ' + number[3] :
+                                   number[1] + ' ' + number[2] + ' ' + number[3] + ' ' + number[4];
+                    }
+                }
+            });
+
+            // Validasyon mesajlarını göster
+            input.addEventListener('blur', function() {
+                if (!iti.isValidNumber()) {
+                    var errorMsg = document.querySelector("#phone-error");
+                    if (!errorMsg) {
+                        errorMsg = document.createElement('span');
+                        errorMsg.id = 'phone-error';
+                        errorMsg.className = 'text-danger';
+                        input.parentNode.appendChild(errorMsg);
+                    }
+                    errorMsg.textContent = 'Lütfen geçerli bir telefon numarası giriniz.';
+                } else {
+                    var errorMsg = document.querySelector("#phone-error");
+                    if (errorMsg) {
+                        errorMsg.remove();
+                    }
+                }
+            });
+
+            // Mevcut telefon numarasını ayarla
+            if (input.value) {
+                iti.setNumber(input.value);
+            }
+        });
+    </script>
+} 

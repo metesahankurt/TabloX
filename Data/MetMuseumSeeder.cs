@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TabloX2.Models;
 using System.Text.Json.Serialization;
+using System.IO;
+using System.Net;
 
 namespace TabloX2.Data
 {
@@ -29,10 +31,104 @@ namespace TabloX2.Data
                 var categories = context.Categories.ToDictionary(c => c.Name, c => c);
                 var defaultCategory = categories["Modern Yaşam"];
 
-                // Anahtar kelimelerle arama
-                var keywords = new List<string> {
-                    "Van Gogh", "Monet", "Rembrandt", "Picasso", "Da Vinci", "Klimt", "Cézanne", "Matisse", "Goya", "Vermeer", "Dali", "Munch", "Renoir", "Degas", "Raphael", "Botticelli", "Michelangelo", "Turner", "Frida Kahlo", "Painting"
+                // Sanatçı listesi (isim ve soyisim ayrı)
+                var allowedArtists = new Dictionary<string, (string Name, string Surname)> {
+                    { "Vincent van Gogh", ("Vincent", "van Gogh") },
+                    { "Claude Monet", ("Claude", "Monet") },
+                    { "Leonardo da Vinci", ("Leonardo", "da Vinci") },
+                    { "Pablo Picasso", ("Pablo", "Picasso") },
+                    { "Rembrandt", ("Rembrandt", "van Rijn") },
+                    { "Johannes Vermeer", ("Johannes", "Vermeer") },
+                    { "Michelangelo Buonarroti", ("Michelangelo", "Buonarroti") },
+                    { "Gustav Klimt", ("Gustav", "Klimt") },
+                    { "Salvador Dalí", ("Salvador", "Dalí") },
+                    { "Frida Kahlo", ("Frida", "Kahlo") },
+                    { "Edvard Munch", ("Edvard", "Munch") },
+                    { "Henri Matisse", ("Henri", "Matisse") },
+                    { "Paul Gauguin", ("Paul", "Gauguin") },
+                    { "Auguste Renoir", ("Auguste", "Renoir") },
+                    { "Edgar Degas", ("Edgar", "Degas") },
+                    { "Andy Warhol", ("Andy", "Warhol") },
+                    { "Georgia O'Keeffe", ("Georgia", "O'Keeffe") },
+                    { "Paul Cézanne", ("Paul", "Cézanne") },
+                    { "Wassily Kandinsky", ("Wassily", "Kandinsky") },
+                    { "Diego Velázquez", ("Diego", "Velázquez") }
                 };
+
+                // Sanatçı biyografileri
+                var artistBios = new Dictionary<string, string> {
+                    { "Vincent van Gogh", "Hollandalı post-empresyonist ressam. 1853-1890 yılları arasında yaşamış, duygusal yoğunluklu eserleriyle tanınır." },
+                    { "Claude Monet", "Fransız empresyonist ressam. 1840-1926 yılları arasında yaşamış, doğa ve ışık üzerine çalışmalarıyla tanınır." },
+                    { "Leonardo da Vinci", "İtalyan Rönesans dönemi sanatçısı, mucit ve bilim insanı. 1452-1519 yılları arasında yaşamıştır." },
+                    { "Pablo Picasso", "İspanyol ressam ve heykeltıraş. 1881-1973 yılları arasında yaşamış, kübizmin öncüsüdür." },
+                    { "Rembrandt", "Hollandalı Barok dönem ressamı. 1606-1669 yılları arasında yaşamış, ışık-gölge kullanımıyla ünlüdür." },
+                    { "Johannes Vermeer", "Hollandalı Barok dönem ressamı. 1632-1675 yılları arasında yaşamış, günlük yaşam sahneleriyle ünlüdür." },
+                    { "Michelangelo Buonarroti", "İtalyan Rönesans dönemi heykeltıraş, mimar ve ressam. 1475-1564 yılları arasında yaşamıştır." },
+                    { "Gustav Klimt", "Avusturyalı sembolist ressam. 1862-1918 yılları arasında yaşamış, Art Nouveau akımının öncülerindendir." },
+                    { "Salvador Dalí", "İspanyol sürrealist ressam. 1904-1989 yılları arasında yaşamış, fantastik eserleriyle tanınır." },
+                    { "Frida Kahlo", "Meksikalı ressam. 1907-1954 yılları arasında yaşamış, otoportreleri ve Meksika kültürünü yansıtan eserleriyle ünlüdür." },
+                    { "Edvard Munch", "Norveçli ekspresyonist ressam. 1863-1944 yılları arasında yaşamış, 'Çığlık' tablosuyla ünlüdür." },
+                    { "Henri Matisse", "Fransız ressam. 1869-1954 yılları arasında yaşamış, fovizmin öncülerindendir." },
+                    { "Paul Gauguin", "Fransız post-empresyonist ressam. 1848-1903 yılları arasında yaşamış, Tahiti resimleriyle tanınır." },
+                    { "Auguste Renoir", "Fransız empresyonist ressam. 1841-1919 yılları arasında yaşamış, portre ve günlük yaşam sahneleriyle ünlüdür." },
+                    { "Edgar Degas", "Fransız empresyonist ressam. 1834-1917 yılları arasında yaşamış, balerinleri ve hareketi betimleyen eserleriyle tanınır." },
+                    { "Andy Warhol", "Amerikalı pop art sanatçısı. 1928-1987 yılları arasında yaşamış, popüler kültür ikonlarını resmeder." },
+                    { "Georgia O'Keeffe", "Amerikalı modernist ressam. 1887-1986 yılları arasında yaşamış, çiçek resimleriyle tanınır." },
+                    { "Paul Cézanne", "Fransız post-empresyonist ressam. 1839-1906 yılları arasında yaşamış, modern sanatın öncülerindendir." },
+                    { "Wassily Kandinsky", "Rus ressam ve sanat teorisyeni. 1866-1944 yılları arasında yaşamış, soyut sanatın öncülerindendir." },
+                    { "Diego Velázquez", "İspanyol Barok dönem ressamı. 1599-1660 yılları arasında yaşamış, portre ve tarihi sahneleriyle ünlüdür." }
+                };
+
+                // Sanatçı ülkeleri
+                var artistCountries = new Dictionary<string, string> {
+                    { "Vincent van Gogh", "Hollanda" },
+                    { "Claude Monet", "Fransa" },
+                    { "Leonardo da Vinci", "İtalya" },
+                    { "Pablo Picasso", "İspanya" },
+                    { "Rembrandt", "Hollanda" },
+                    { "Johannes Vermeer", "Hollanda" },
+                    { "Michelangelo Buonarroti", "İtalya" },
+                    { "Gustav Klimt", "Avusturya" },
+                    { "Salvador Dalí", "İspanya" },
+                    { "Frida Kahlo", "Meksika" },
+                    { "Edvard Munch", "Norveç" },
+                    { "Henri Matisse", "Fransa" },
+                    { "Paul Gauguin", "Fransa" },
+                    { "Auguste Renoir", "Fransa" },
+                    { "Edgar Degas", "Fransa" },
+                    { "Andy Warhol", "Amerika Birleşik Devletleri" },
+                    { "Georgia O'Keeffe", "Amerika Birleşik Devletleri" },
+                    { "Paul Cézanne", "Fransa" },
+                    { "Wassily Kandinsky", "Rusya" },
+                    { "Diego Velázquez", "İspanya" }
+                };
+
+                // Önce sanatçıları ekle
+                foreach (var artist in allowedArtists)
+                {
+                    if (context.Artists.Any(a => a.Name == artist.Value.Name && a.Surname == artist.Value.Surname)) continue;
+                    
+                    string artistBio = artistBios.ContainsKey(artist.Key) ? artistBios[artist.Key] : "";
+                    string country = artistCountries.ContainsKey(artist.Key) ? artistCountries[artist.Key] : "Bilinmiyor";
+                    
+                    var artistEntity = new Artist { 
+                        Name = artist.Value.Name,
+                        Surname = artist.Value.Surname,
+                        Bio = artistBio,
+                        Description = artistBio,
+                        Country = country
+                    };
+                    context.Artists.Add(artistEntity);
+                }
+                context.SaveChanges();
+
+                // wwwroot/images klasörünü oluştur
+                var imagesPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+                if (!Directory.Exists(imagesPath))
+                {
+                    Directory.CreateDirectory(imagesPath);
+                }
+
                 var handler = new HttpClientHandler();
                 handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
                 using var httpClient = new HttpClient(handler);
@@ -40,246 +136,147 @@ namespace TabloX2.Data
                 var artworks = new List<Artwork>();
                 var addedTitles = new HashSet<string>();
                 int added = 0;
-                var allowedArtists = new HashSet<string> {
-                    "Vincent van Gogh",
-                    "Auguste Renoir",
-                    "Adolphe Monticelli",
-                    "Rembrandt (Rembrandt van Rijn)",
-                    "Philippe Rousseau",
-                    "Eugène Delacroix",
-                    "Camille Pissarro",
-                    "Jean Michelin",
-                    "Edouard Manet",
-                    "Paul Cézanne",
-                    "Domenico Fetti",
-                    "Anton Mauve",
-                    "Jean-François Millet",
-                    "Charles Bargue",
-                    "Charles-François Daubigny",
-                    "Nicolaes Maes",
-                    "Camille Corot",
-                    "Théodore Rousseau",
-                    "Théodule-Augustin Ribot",
-                    "Edgar Degas",
-                    "Henri de Toulouse-Lautrec",
-                    "Honoré Daumier",
-                    "Odilon Redon",
-                    "Alfred Stevens"
-                };
 
-                // Sanatçı biyografileri ve kullanıcı adları
-                var artistBios = new Dictionary<string, string> {
-                    { "Vincent van Gogh", "Hollandalı post-empresyonist ressam. 1853-1890 yılları arasında yaşamış, kısa ömründe sanat tarihinin en etkili isimlerinden biri olmuştur. Eserlerinde duygusal yoğunluk ve canlı renkler ön plandadır." },
-                    { "Auguste Renoir", "Fransız empresyonist ressam. Renk ve ışık kullanımıyla tanınır, portre ve günlük yaşam sahneleriyle ünlüdür. 1841-1919 yılları arasında yaşamıştır." },
-                    { "Adolphe Monticelli", "Fransız ressam. Marseilles 1824–1886. Renkli ve dokulu fırça darbeleriyle tanınır." },
-                    { "Rembrandt (Rembrandt van Rijn)", "Hollandalı barok ressam ve gravür sanatçısı. Işık-gölge kullanımı ve portreleriyle ünlüdür. 1606-1669." },
-                    { "Philippe Rousseau", "Fransız ressam. Paris 1816–1887 Acquigny. Özellikle natürmortlarıyla tanınır." },
-                    { "Eugène Delacroix", "Fransız romantik ressam. Renk ve hareketin ustası olarak kabul edilir. 1798-1863." },
-                    { "Camille Pissarro", "Danimarka asıllı Fransız empresyonist ressam. Doğa ve köy yaşamı temalı eserleriyle bilinir. 1830-1903." },
-                    { "Jean Michelin", "Fransız ressam. 1616–1670. Barok dönemi eserleriyle tanınır." },
-                    { "Edouard Manet", "Fransız ressam. Empresyonizmin öncülerindendir, modern yaşamı konu alan eserleriyle tanınır. 1832-1883." },
-                    { "Paul Cézanne", "Fransız post-empresyonist ressam. Modern sanatın öncülerindendir, doğa ve nesne analizleriyle bilinir. 1839-1906." },
-                    { "Domenico Fetti", "İtalyan ressam. Roma 1591/92–1623 Venedik. Barok dönemi eserleriyle tanınır." },
-                    { "Anton Mauve", "Hollandalı ressam. 1838–1888. Manzara ve köy yaşamı temalı eserleriyle bilinir." },
-                    { "Jean-François Millet", "Fransız ressam. 1814–1875. Köylü yaşamını ve doğayı konu alan eserleriyle tanınır." },
-                    { "Charles Bargue", "Fransız ressam ve gravür sanatçısı. 1825/26–1883. Akademik sanat eğitimiyle bilinir." },
-                    { "Charles-François Daubigny", "Fransız ressam. 1817–1878. Barbizon ekolünün önemli temsilcilerindendir." },
-                    { "Nicolaes Maes", "Hollandalı ressam. 1634–1693. Portre ve günlük yaşam sahneleriyle tanınır." },
-                    { "Camille Corot", "Fransız ressam. 1796–1875. Manzara resminin öncülerindendir." },
-                    { "Théodore Rousseau", "Fransız ressam. 1812–1867. Barbizon ekolünün kurucularındandır." },
-                    { "Théodule-Augustin Ribot", "Fransız ressam. 1823–1891. Natürmort ve portreleriyle tanınır." },
-                    { "Edgar Degas", "Fransız empresyonist ressam ve heykeltıraş. Özellikle balerinleri ve hareketi betimleyen eserleriyle tanınır. 1834-1917." },
-                    { "Henri de Toulouse-Lautrec", "Fransız ressam, illüstratör ve litograf. Paris gece hayatını ve kabare sahnelerini ölümsüzleştirmiştir. 1864-1901." },
-                    { "Honoré Daumier", "Fransız ressam, karikatürist ve heykeltıraş. Toplumsal eleştirileriyle tanınır. 1808-1879." },
-                    { "Odilon Redon", "Fransız sembolist ressam. 1840–1916. Hayal gücüne dayalı eserleriyle bilinir." },
-                    { "Alfred Stevens", "Belçikalı ressam. Özellikle kadın portreleriyle tanınır. 1823–1906." }
-                };
-
-                // Sanatçı ülkeleri sözlüğü
-                var artistCountries = new Dictionary<string, string> {
-                    { "Vincent van Gogh", "Hollanda" },
-                    { "Auguste Renoir", "Fransa" },
-                    { "Adolphe Monticelli", "Fransa" },
-                    { "Rembrandt (Rembrandt van Rijn)", "Hollanda" },
-                    { "Philippe Rousseau", "Fransa" },
-                    { "Eugène Delacroix", "Fransa" },
-                    { "Camille Pissarro", "Fransa" },
-                    { "Jean Michelin", "Fransa" },
-                    { "Edouard Manet", "Fransa" },
-                    { "Paul Cézanne", "Fransa" },
-                    { "Domenico Fetti", "İtalya" },
-                    { "Anton Mauve", "Hollanda" },
-                    { "Jean-François Millet", "Fransa" },
-                    { "Charles Bargue", "Fransa" },
-                    { "Charles-François Daubigny", "Fransa" },
-                    { "Nicolaes Maes", "Hollanda" },
-                    { "Camille Corot", "Fransa" },
-                    { "Théodore Rousseau", "Fransa" },
-                    { "Théodule-Augustin Ribot", "Fransa" },
-                    { "Edgar Degas", "Fransa" },
-                    { "Henri de Toulouse-Lautrec", "Fransa" },
-                    { "Honoré Daumier", "Fransa" },
-                    { "Odilon Redon", "Fransa" },
-                    { "Alfred Stevens", "Belçika" }
-                };
-
-                // Önce sanatçıları ekle
-                foreach (var artistName in allowedArtists)
-                {
-                    if (context.Artists.Any(a => a.Name == artistName)) continue;
-                    string profileImg = $"https://ui-avatars.com/api/?name={System.Web.HttpUtility.UrlEncode(artistName)}&background=0D8ABC&color=fff";
-                    string artistBio = artistBios.ContainsKey(artistName) ? artistBios[artistName] : "";
-                    string country = artistCountries.ContainsKey(artistName) ? artistCountries[artistName] : "Bilinmiyor";
-                    var artistEntity = new Artist { Name = artistName, Bio = artistBio, ProfileImageUrl = profileImg, Country = country };
-                    context.Artists.Add(artistEntity);
-                }
-                context.SaveChanges();
-
-                var rand = new Random();
-                foreach (var keyword in keywords)
+                foreach (var artist in allowedArtists)
                 {
                     if (added >= 48) break;
-                    var searchUrl = $"https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q={System.Web.HttpUtility.UrlEncode(keyword)}";
+
+                    var searchUrl = $"https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q={System.Web.HttpUtility.UrlEncode(artist.Key)}";
                     var searchResponse = await httpClient.GetStringAsync(searchUrl);
                     var searchObj = JsonSerializer.Deserialize<MetSearchResult>(searchResponse);
-                    var objectIds = searchObj?.objectIDs ?? new List<int>();
+                    var objectIds = searchObj?.objectIDs?.Take(10).ToList() ?? new List<int>();
+
                     foreach (var id in objectIds)
                     {
                         if (added >= 48) break;
-                        string objResponse = null;
+
                         try
                         {
-                            objResponse = await httpClient.GetStringAsync($"https://collectionapi.metmuseum.org/public/collection/v1/objects/{id}");
-                        }
-                        catch
-                        {
-                            continue; // 404 veya başka hata olursa atla
-                        }
-                        var obj = JsonSerializer.Deserialize<MetObject>(objResponse);
-                        if (obj == null || string.IsNullOrEmpty(obj.primaryImage) || string.IsNullOrEmpty(obj.title)) continue;
-                        if (addedTitles.Contains(obj.title)) continue; // Aynı başlık eklenmesin
-                        if (!string.IsNullOrEmpty(obj.classification) && !obj.classification.ToLower().Contains("painting")) continue;
-                        string description = $"{obj.objectName} - {obj.culture} - {obj.period} - {obj.medium}";
-                        if (string.IsNullOrWhiteSpace(description) || description == " -  -  - " || description.Trim() == "Painting - - - Oil on wood")
-                            description = "Açıklama bulunamadı.";
-                        string artist = string.IsNullOrEmpty(obj.artistDisplayName) ? "Bilinmeyen" : obj.artistDisplayName;
-                        if (!allowedArtists.Contains(artist)) continue; // Sadece izin verilen sanatçılar eklensin
-                        string artistBio = string.IsNullOrEmpty(obj.artistDisplayBio) ? "" : obj.artistDisplayBio;
-                        decimal price = rand.Next(1000, 10001); // 1000-10000 TL arası rastgele fiyat
-                        string yearInfo = string.IsNullOrWhiteSpace(obj.objectEndDate) ? "yıl bilgisi yok" : obj.objectEndDate;
-                        string promo = $"Bu eser {artist} tarafından {yearInfo} yılında yapılmıştır. {description}";
+                            var objResponse = await httpClient.GetStringAsync($"https://collectionapi.metmuseum.org/public/collection/v1/objects/{id}");
+                            var obj = JsonSerializer.Deserialize<MetObject>(objResponse);
 
-                        // Eserin kategorisini belirle
-                        Category category = defaultCategory;
-                        if (obj.title.ToLower().Contains("portrait") || obj.title.ToLower().Contains("figure"))
-                        {
-                            category = categories["Portre ve Figür"];
+                            if (obj == null || string.IsNullOrEmpty(obj.primaryImage) || string.IsNullOrEmpty(obj.title)) continue;
+                            if (addedTitles.Contains(obj.title)) continue;
+                            if (!string.IsNullOrEmpty(obj.classification) && !obj.classification.ToLower().Contains("painting")) continue;
+                            if (obj.artistDisplayName != artist.Key) continue;
+
+                            // Görselleri indir ve kaydet
+                            string imageId = obj.primaryImage.Split('/').Last().Split('.').First();
+                            string thumbnailUrl = $"https://images.metmuseum.org/CRDImages/ep/web-large/{imageId}.jpg";
+                            string mediumUrl = $"https://images.metmuseum.org/CRDImages/ep/web-additional/{imageId}.jpg";
+                            string highResUrl = $"https://images.metmuseum.org/CRDImages/ep/original/{imageId}.jpg";
+
+                            // Görselleri indir
+                            string thumbnailPath = Path.Combine(imagesPath, $"thumbnail_{imageId}.jpg");
+                            string mediumPath = Path.Combine(imagesPath, $"medium_{imageId}.jpg");
+                            string highResPath = Path.Combine(imagesPath, $"highres_{imageId}.jpg");
+
+                            using (var response = await httpClient.GetAsync(thumbnailUrl))
+                            using (var fileStream = new FileStream(thumbnailPath, FileMode.Create))
+                            {
+                                await response.Content.CopyToAsync(fileStream);
+                            }
+
+                            using (var response = await httpClient.GetAsync(mediumUrl))
+                            using (var fileStream = new FileStream(mediumPath, FileMode.Create))
+                            {
+                                await response.Content.CopyToAsync(fileStream);
+                            }
+
+                            using (var response = await httpClient.GetAsync(highResUrl))
+                            using (var fileStream = new FileStream(highResPath, FileMode.Create))
+                            {
+                                await response.Content.CopyToAsync(fileStream);
+                            }
+
+                            thumbnailUrl = $"/images/thumbnail_{imageId}.jpg";
+                            mediumUrl = $"/images/medium_{imageId}.jpg";
+                            highResUrl = $"/images/highres_{imageId}.jpg";
+
+                            string description = $"{obj.title} - {obj.objectDate}\n\n{obj.medium}\n\n{obj.artistDisplayName} tarafından yapılan bu eser, {obj.period} dönemine aittir.";
+                            if (string.IsNullOrWhiteSpace(description) || description == " -  -  - ")
+                                description = "Bu eser hakkında detaylı bilgi bulunmamaktadır.";
+
+                            decimal price = new Random().Next(1000, 10001);
+
+                            // Eserin kategorisini belirle
+                            Category category = defaultCategory;
+                            if (obj.title.ToLower().Contains("portrait") || obj.title.ToLower().Contains("figure"))
+                            {
+                                category = categories["Portre ve Figür"];
+                            }
+                            else if (obj.title.ToLower().Contains("landscape") || obj.title.ToLower().Contains("nature"))
+                            {
+                                category = categories["Manzara ve Doğa"];
+                            }
+                            else if (obj.title.ToLower().Contains("still life") || obj.title.ToLower().Contains("nature morte"))
+                            {
+                                category = categories["Natürmort"];
+                            }
+                            else if (obj.title.ToLower().Contains("historical") || obj.title.ToLower().Contains("religious"))
+                            {
+                                category = categories["Tarihsel ve Dini"];
+                            }
+
+                            var artistEntity = context.Artists.First(a => a.Name == artist.Value.Name && a.Surname == artist.Value.Surname);
+                            var artwork = new Artwork
+                            {
+                                Title = obj.title,
+                                Description = description,
+                                ImageUrl = thumbnailUrl,
+                                MediumImageUrl = mediumUrl,
+                                HighResImageUrl = highResUrl,
+                                Price = price,
+                                CategoryId = category.Id,
+                                ArtistId = artistEntity.Id
+                            };
+
+                            context.Artworks.Add(artwork);
+                            addedTitles.Add(obj.title);
+                            added++;
+                            Console.WriteLine($"Added artwork: {obj.title} by {artist.Key}");
+
+                            // Her 5 eserde bir veritabanını kaydet
+                            if (added % 5 == 0)
+                            {
+                                await context.SaveChangesAsync();
+                                Console.WriteLine($"Saved {added} artworks so far");
+                            }
                         }
-                        else if (obj.title.ToLower().Contains("landscape") || obj.title.ToLower().Contains("nature"))
+                        catch (Exception ex)
                         {
-                            category = categories["Manzara ve Doğa"];
+                            Console.WriteLine($"Error processing artwork {id}: {ex.Message}");
+                            continue;
                         }
-                        else if (obj.title.ToLower().Contains("still life") || obj.title.ToLower().Contains("nature morte"))
-                        {
-                            category = categories["Natürmort"];
-                        }
-                        else if (obj.title.ToLower().Contains("historical") || obj.title.ToLower().Contains("religious"))
-                        {
-                            category = categories["Tarihsel ve Dini"];
-                        }
-                        else if (obj.title.ToLower().Contains("modern") || obj.title.ToLower().Contains("contemporary"))
-                        {
-                            category = categories["Modern Yaşam"];
-                        }
-                        var artistEntity = context.Artists.FirstOrDefault(a => a.Name == artist);
-                        var artwork = new Artwork
-                        {
-                            Title = obj.title,
-                            Description = promo,
-                            ImageUrl = obj.primaryImageSmall,
-                            HighResImageUrl = obj.primaryImage,
-                            Price = price,
-                            Category = category,
-                            Artist = artistEntity
-                        };
-                        context.Artworks.Add(artwork);
-                        addedTitles.Add(obj.title);
-                        added++;
                     }
                 }
-                context.SaveChanges();
+
+                // Son değişiklikleri kaydet
+                await context.SaveChangesAsync();
+                Console.WriteLine($"Successfully added {added} artworks to the database.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"MetMuseumSeeder hata: {ex}");
+                Console.WriteLine($"MetMuseumSeeder error: {ex}");
+                throw;
             }
         }
 
         private class MetSearchResult
         {
             public int total { get; set; }
-            public List<int> objectIDs { get; set; }
+            public required List<int> objectIDs { get; set; }
         }
+
         private class MetObject
         {
             public string? title { get; set; }
             public string? primaryImage { get; set; }
-            public string? primaryImageSmall { get; set; }
-            public string? objectName { get; set; }
-            public string? culture { get; set; }
-            public string? period { get; set; }
+            public string? objectDate { get; set; }
             public string? medium { get; set; }
+            public string? period { get; set; }
             public string? artistDisplayName { get; set; }
-            public string? artistDisplayBio { get; set; }
             public string? classification { get; set; }
-            [JsonConverter(typeof(FlexibleStringConverter))]
-            public string? objectEndDate { get; set; }
         }
-
-        // FlexibleStringConverter: int veya string gelen JSON'u string'e çevirir
-        public class FlexibleStringConverter : JsonConverter<string>
-        {
-            public override string? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-            {
-                if (reader.TokenType == JsonTokenType.String)
-                    return reader.GetString();
-                if (reader.TokenType == JsonTokenType.Number)
-                    return reader.GetInt32().ToString();
-                return null;
-            }
-            public override void Write(Utf8JsonWriter writer, string? value, JsonSerializerOptions options)
-            {
-                writer.WriteStringValue(value);
-            }
-        }
-
-        // Sanatçı profil görseli ve biyografi sözlüğü
-        private static readonly Dictionary<string, (string img, string bio)> artistProfiles = new Dictionary<string, (string img, string bio)>
-        {
-            { "Vincent van Gogh", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Hollandalı post-empresyonist ressam. 1853-1890 yılları arasında yaşamış, kısa ömründe sanat tarihinin en etkili isimlerinden biri olmuştur. Eserlerinde duygusal yoğunluk ve canlı renkler ön plandadır.") },
-            { "Auguste Renoir", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız empresyonist ressam. Renk ve ışık kullanımıyla tanınır, portre ve günlük yaşam sahneleriyle ünlüdür. 1841-1919 yılları arasında yaşamıştır.") },
-            { "Adolphe Monticelli", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam. Marseilles 1824–1886. Renkli ve dokulu fırça darbeleriyle tanınır.") },
-            { "Rembrandt (Rembrandt van Rijn)", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Hollandalı barok ressam ve gravür sanatçısı. Işık-gölge kullanımı ve portreleriyle ünlüdür. 1606-1669.") },
-            { "Philippe Rousseau", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam. Paris 1816–1887 Acquigny. Özellikle natürmortlarıyla tanınır.") },
-            { "Eugène Delacroix", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız romantik ressam. Renk ve hareketin ustası olarak kabul edilir. 1798-1863.") },
-            { "Camille Pissarro", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Danimarka asıllı Fransız empresyonist ressam. Doğa ve köy yaşamı temalı eserleriyle bilinir. 1830-1903.") },
-            { "Jean Michelin", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam. 1616–1670. Barok dönemi eserleriyle tanınır.") },
-            { "Edouard Manet", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam. Empresyonizmin öncülerindendir, modern yaşamı konu alan eserleriyle tanınır. 1832-1883.") },
-            { "Paul Cézanne", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız post-empresyonist ressam. Modern sanatın öncülerindendir, doğa ve nesne analizleriyle bilinir. 1839-1906.") },
-            { "Domenico Fetti", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "İtalyan ressam. Roma 1591/92–1623 Venedik. Barok dönemi eserleriyle tanınır.") },
-            { "Anton Mauve", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Hollandalı ressam. 1838–1888. Manzara ve köy yaşamı temalı eserleriyle bilinir.") },
-            { "Jean-François Millet", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam. 1814–1875. Köylü yaşamını ve doğayı konu alan eserleriyle tanınır.") },
-            { "Charles Bargue", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam ve gravür sanatçısı. 1825/26–1883. Akademik sanat eğitimiyle bilinir.") },
-            { "Charles-François Daubigny", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam. 1817–1878. Barbizon ekolünün önemli temsilcilerindendir.") },
-            { "Nicolaes Maes", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Hollandalı ressam. 1634–1693. Portre ve günlük yaşam sahneleriyle tanınır.") },
-            { "Camille Corot", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam. 1796–1875. Manzara resminin öncülerindendir.") },
-            { "Théodore Rousseau", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam. 1812–1867. Barbizon ekolünün kurucularındandır.") },
-            { "Théodule-Augustin Ribot", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam. 1823–1891. Natürmort ve portreleriyle tanınır.") },
-            { "Edgar Degas", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız empresyonist ressam ve heykeltıraş. Özellikle balerinleri ve hareketi betimleyen eserleriyle tanınır. 1834-1917.") },
-            { "Henri de Toulouse-Lautrec", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam, illüstratör ve litograf. Paris gece hayatını ve kabare sahnelerini ölümsüzleştirmiştir. 1864-1901.") },
-            { "Honoré Daumier", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız ressam, karikatürist ve heykeltıraş. Toplumsal eleştirileriyle tanınır. 1808-1879.") },
-            { "Odilon Redon", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Fransız sembolist ressam. 1840–1916. Hayal gücüne dayalı eserleriyle bilinir.") },
-            { "Alfred Stevens", ("https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png", "Belçikalı ressam. Özellikle kadın portreleriyle tanınır. 1823–1906.") },
-        };
     }
 } 

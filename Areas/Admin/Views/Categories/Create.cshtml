@@ -1,16 +1,185 @@
 @model TabloX2.Models.Category
 @{
-    ViewData["Title"] = "Yeni Kategori Ekle";
+    ViewData["Title"] = "Yeni Kategori";
     Layout = "../Shared/_AdminLayout.cshtml";
 }
 
-<h2>Yeni Kategori Ekle</h2>
-<form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<style>
+    .create-category-container {
+        padding: 2rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
+
+    .page-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #E4002B;
+    }
+
+    .page-title {
+        font-family: "Playfair Display", serif;
+        color: #333;
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 0.75rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #E4002B;
+        box-shadow: 0 0 0 0.2rem rgba(228, 0, 43, 0.25);
+    }
+
+    .artworks-section {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+    }
+
+    .artworks-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .artwork-card {
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .artwork-card:hover {
+        border-color: #E4002B;
+        transform: translateY(-2px);
+    }
+
+    .artwork-card.selected {
+        border-color: #E4002B;
+        background-color: rgba(228, 0, 43, 0.05);
+    }
+
+    .artwork-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+    }
+
+    .artwork-title {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 0.2rem;
+    }
+
+    .artwork-artist {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .btn-submit {
+        background: #E4002B;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 6px;
+        border: none;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-submit:hover {
+        background: #C1001F;
+        transform: translateY(-2px);
+    }
+
+    .btn-cancel {
+        background: #6c757d;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-right: 1rem;
+    }
+
+    .btn-cancel:hover {
+        background: #5a6268;
+        color: white;
+    }
+</style>
+
+<div class="create-category-container">
+    <div class="page-header">
+        <h1 class="page-title">Yeni Kategori Ekle</h1>
     </div>
-    <button type="submit" class="btn btn-success">Kaydet</button>
-    <a asp-action="Categories" class="btn btn-secondary">Geri</a>
-</form> 
+
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="Name" class="form-label">Kategori Adı</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="artworks-section">
+            <h3 class="section-title">Eserler</h3>
+            <p class="text-muted">Bu kategoriye eklemek istediğiniz eserleri seçin:</p>
+            
+            <div class="artworks-grid">
+                @foreach (var artwork in ViewBag.Artworks)
+                {
+                    <div class="artwork-card" onclick="toggleArtworkSelection(this, @artwork.Id)">
+                        <img src="@(string.IsNullOrEmpty(artwork.ImageUrl) ? "/images/artwork-default.png" : artwork.ImageUrl)" 
+                             alt="@artwork.Title" class="artwork-image" />
+                        <div class="artwork-title">@artwork.Title</div>
+                        <div class="artwork-artist">@artwork.Artist?.Name @artwork.Artist?.Surname</div>
+                        <input type="checkbox" name="SelectedArtworks" value="@artwork.Id" style="display: none;" />
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a asp-action="Index" class="btn-cancel">İptal</a>
+            <button type="submit" class="btn-submit">
+                <i class="bi bi-plus-lg"></i>
+                Kategori Oluştur
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleArtworkSelection(element, artworkId) {
+            element.classList.toggle('selected');
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+        }
+    </script>
+} 

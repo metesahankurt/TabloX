@@ -2,127 +2,173 @@
 @{
     ViewData["Title"] = "Siparişlerim";
 }
-<h2>Siparişlerim</h2>
-@if (!Model.Any())
-{
-    <div class="alert alert-info">
-        Henüz siparişiniz bulunmamaktadır.
-    </div>
-}
-else
-{
-    foreach (var order in Model)
-    {
-        <div class="card mb-3">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5 class="mb-0">Sipariş No: @order.OrderNumber</h5>
-                        <small class="text-muted">Sipariş Tarihi: @order.OrderDate.ToString("g")</small>
-                    </div>
-                    <div class="col-md-6 text-md-end">
-                        <span class="badge bg-info">@order.ShippingStatus</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <strong>Kargo Adresi:</strong> @order.ShippingAddress
-                    </div>
-                    <div class="col-md-6">
-                        <strong>Ödeme Yöntemi:</strong>
-                        @{
-                            string paymentIcon = order.PaymentMethod switch
-                            {
-                                PaymentMethod.CreditCard => "💳",
-                                PaymentMethod.BankTransfer => "🏦",
-                                PaymentMethod.CryptoCurrency => "₿",
-                                PaymentMethod.GiftCard => "🎁",
-                                _ => "💰"
-                            };
-                        }
-                        @paymentIcon @order.PaymentMethod.ToString() 
-                        @if (order.PaymentMethod == PaymentMethod.CreditCard && !string.IsNullOrEmpty(order.MaskedCardNumber))
-                        {
-                            <br/>
-                            <small class="text-muted">Kart: @order.MaskedCardNumber</small>
-                            @if (order.InstallmentCount > 1)
-                            {
-                                <small class="text-muted"> (@order.InstallmentCount Taksit)</small>
-                            }
-                        }
-                        else if (order.PaymentMethod == PaymentMethod.BankTransfer && !string.IsNullOrEmpty(order.BankAccountNumber))
-                        {
-                            <br/>
-                            <small class="text-muted">IBAN: @order.BankAccountNumber</small>
-                        }
-                        else if (order.PaymentMethod == PaymentMethod.CryptoCurrency && !string.IsNullOrEmpty(order.CryptoWalletAddress))
-                        {
-                            <br/>
-                            <small class="text-muted">Cüzdan: @order.CryptoWalletAddress</small>
-                        }
-                        else if (order.PaymentMethod == PaymentMethod.GiftCard && !string.IsNullOrEmpty(order.GiftCardCode))
-                        {
-                            <br/>
-                            <small class="text-muted">Hediye Kartı: @order.GiftCardCode</small>
-                        }
-                    </div>
-                </div>
-
-                <table class="table table-sm">
-                    <thead>
-                        <tr>
-                            <th style="width: 100px">Görsel</th>
-                            <th>Eser</th>
-                            <th class="text-center">Adet</th>
-                            <th class="text-end">Fiyat</th>
-                            <th class="text-end">Toplam</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in order.Items)
-                        {
-                            <tr>
-                                <td>
-                                    <img src="@item.Artwork.ImageUrl" alt="@item.Artwork.Title" 
-                                         class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;" />
-                                </td>
-                                <td class="align-middle">
-                                    <strong>@item.Artwork.Title</strong>
-                                    @if (!string.IsNullOrEmpty(item.Artwork.Artist?.Name))
-                                    {
-                                        <br/>
-                                        <small class="text-muted">@item.Artwork.Artist.Name</small>
-                                    }
-                                </td>
-                                <td class="text-center align-middle">@item.Quantity</td>
-                                <td class="text-end align-middle">@item.Artwork.Price.ToString("C")</td>
-                                <td class="text-end align-middle">@((item.Artwork.Price * item.Quantity).ToString("C"))</td>
-                            </tr>
-                        }
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3" class="text-end"><strong>Toplam:</strong></td>
-                            <td class="text-end">@order.TotalAmount.ToString("C")</td>
-                        </tr>
-                        @if (order.DiscountAmount > 0)
-                        {
-                            <tr class="text-success">
-                                <td colspan="3" class="text-end"><strong>İndirim:</strong></td>
-                                <td class="text-end">-@order.DiscountAmount.ToString("C")</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" class="text-end"><strong>Ödenecek Tutar:</strong></td>
-                                <td class="text-end"><strong>@order.FinalAmount.ToString("C")</strong></td>
-                            </tr>
-                        }
-                    </tfoot>
-                </table>
-            </div>
-        </div>
+<style>
+    .order-card {
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(227,24,55,0.08), 0 1.5px 3px rgba(0,0,0,0.03);
+        border: 1.5px solid #ffe3e8;
+        background: #fff;
+        margin-bottom: 2.5rem;
+        padding: 32px 32px 28px 32px;
     }
+    .order-header {
+        font-size: 1.1em;
+        color: #e31837;
+        font-weight: 700;
+        line-height: 1.5;
+        margin-bottom: 18px;
+    }
+    .order-badge {
+        background: #e31837;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 8px;
+        font-size: 1em;
+        padding: 7px 18px;
+        box-shadow: 0 2px 8px rgba(227,24,55,0.08);
+        margin-left: 18px;
+        margin-bottom: 10px;
+    }
+    .order-total-box {
+        background: linear-gradient(90deg, #fff 60%, #ffe3e8 100%);
+        border-radius: 10px;
+        padding: 16px 22px;
+        margin-bottom: 16px;
+        text-align: right;
+        line-height: 1.7;
+    }
+    .order-total-box .order-total {
+        color: #22c55e;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .order-total-box .order-tax {
+        color: #e31837;
+        font-weight: 600;
+    }
+    .order-address-box {
+        background: #fff5f7;
+        border-radius: 10px;
+        padding: 12px 22px;
+        font-size: 1em;
+        margin-bottom: 18px;
+        text-align: right;
+        line-height: 1.6;
+    }
+    .order-detail-btn {
+        background: linear-gradient(90deg, #e31837 0%, #c41530 100%);
+        color: #fff;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.08em;
+        padding: 12px 32px;
+        border: none;
+        box-shadow: 0 2px 8px rgba(227,24,55,0.08);
+        transition: background 0.2s, box-shadow 0.2s;
+        margin-top: 18px;
+        margin-bottom: 4px;
+        display: inline-block;
+    }
+    .order-detail-btn:hover {
+        background: linear-gradient(90deg, #c41530 0%, #e31837 100%);
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(227,24,55,0.12);
+    }
+    @@media only screen and (max-width: 900px) {
+        .order-card { padding: 18px 8px 16px 8px; }
+        .order-total-box, .order-address-box { padding: 10px 8px; }
+        .order-detail-btn { width: 100%; }
+    }
+</style>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <h2 class="mb-3" style="font-family:'Playfair Display',serif; font-weight:700;">Siparişlerim</h2>
+            <p class="text-muted mb-4">Geçmiş siparişlerinizi ve durumlarını buradan takip edebilirsiniz.</p>
+            @if (TempData["OrderSuccess"] != null)
+            {
+                <div class="alert alert-success">@TempData["OrderSuccess"]</div>
+            }
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info text-center p-4 rounded-3">
+                    <i class="bi bi-bag-x fs-1 mb-2"></i>
+                    <div>Henüz bir siparişiniz bulunmamaktadır.</div>
+                </div>
+            }
+            else
+            {
+                @foreach (var order in Model)
+                {
+                    <div class="order-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+                                <div class="order-header">
+                                    Sipariş No: <span class="text-primary fw-bold">@order.OrderNumber</span>
+                                    <span class="mx-2">|</span>
+                                    Tarih: <span>@order.OrderDate.ToString("dd.MM.yyyy HH:mm")</span>
+                                </div>
+                                <span class="order-badge">
+                                    <i class="bi @(order.Status switch {
+                                        OrderStatus.Pending => "bi-hourglass-split",
+                                        OrderStatus.Approved => "bi-clipboard-check",
+                                        OrderStatus.Shipped => "bi-truck",
+                                        OrderStatus.Completed => "bi-check-circle",
+                                        OrderStatus.Cancelled => "bi-x-circle",
+                                        _ => "bi-info-circle"
+                                    }) me-1"></i>
+                                    @order.Status.GetDisplayName()
+                                </span>
+                            </div>
+                            <hr />
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-8">
+                                    <div class="d-flex flex-wrap">
+                                        @foreach (var item in order.OrderItems)
+                                        {
+                                            <div class="me-3 mb-2 d-flex align-items-center" style="min-width:170px; background:#f8fafc; border-radius:8px; padding:6px 10px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
+                                                <img src="@item.Artwork?.ImageUrl" alt="@item.Artwork?.Title" style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid #eee;" class="me-2" />
+                                                <div>
+                                                    <div class="fw-semibold">@item.Artwork?.Title</div>
+                                                    <div class="text-muted small">@item.Artwork?.Artist?.Name</div>
+                                                    <div class="text-primary small">$@item.Price.ToString("N0") x @item.Quantity</div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <div class="order-total-box">
+                                        <div>Ara Toplam: <span class="fw-bold">$@order.OrderItems.Sum(i => i.Price * i.Quantity).ToString("N0")</span></div>
+                                        <div class="order-tax">KDV (%18): <span class="fw-bold">$@((order.OrderItems.Sum(i => i.Price * i.Quantity) * 0.18M).ToString("N0"))</span></div>
+                                        <div class="order-total">Toplam: <span>$@order.TotalAmount.ToString("N0")</span></div>
+                                    </div>
+                                    <div class="order-address-box">
+                                        <span class="fw-bold">Adres:</span>
+                                        <span class="text-muted small">@order.ShippingAddress</span>
+                                    </div>
+                                    <a href="@Url.Action("Details", new { id = order.Id })" class="order-detail-btn mt-2">
+                                        <i class="bi bi-info-circle me-1"></i> Detaylar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.order-details-btn').click(function () {
+                var orderId = $(this).data('order-id');
+                $('#orderDetails' + orderId).slideToggle();
+            });
+        });
+    </script>
 }
 @if (TempData["Success"] != null)
 {

@@ -1,17 +1,530 @@
 @{
+    Layout = "~/Views/Admin/_Layout.cshtml";
     ViewData["Title"] = "Admin Paneli";
 }
-<h2>Admin Paneli</h2>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <a class="btn btn-outline-primary w-100 mb-2" asp-controller="Categories" asp-action="Index">Kategorileri Yönet</a>
-    </div>
-    <div class="col-md-4">
-        <a class="btn btn-outline-primary w-100 mb-2" asp-controller="Artists" asp-action="Index">Sanatçıları Yönet</a>
-    </div>
-    <div class="col-md-4">
-        <a class="btn btn-outline-primary w-100 mb-2" asp-controller="Artworks" asp-action="Index">Eserleri Yönet</a>
+@using System.Linq
+
+<div class="content-header mb-4">
+    <div class="d-flex align-items-center">
+        <div>
+            <h1 class="page-title mb-0">Admin Paneli</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#"><i class="bi bi-house"></i></a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Yönetim Paneli</li>
+                </ol>
+            </nav>
+        </div>
     </div>
 </div>
-<p class="mt-4">Hoş geldiniz, buradan tüm içerikleri yönetebilirsiniz.</p> 
+
+<style>
+    .content-header {
+        background: linear-gradient(135deg, #0061f2 0%, #0044b3 100%);
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+
+    .page-title {
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .breadcrumb {
+        margin: 0;
+        background: transparent;
+        padding: 0;
+    }
+
+    .breadcrumb-item, .breadcrumb-item a {
+        color: rgba(255,255,255,0.8);
+    }
+
+    .breadcrumb-item.active {
+        color: #fff;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: rgba(255,255,255,0.6);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-edit {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-edit:hover {
+        background: #2980b9;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .btn-delete {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-delete:hover {
+        background: #c0392b;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .btn-add {
+        background: linear-gradient(45deg, #2ecc71, #27ae60);
+        color: white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(46,204,113,0.3);
+    }
+
+    .btn-add:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(46,204,113,0.4);
+        color: white;
+    }
+
+    .table {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .table th {
+        background: #f8f9fa;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        border-top: none;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .nav-tabs {
+        border-bottom: 2px solid #e9ecef;
+        margin-bottom: 1.5rem;
+    }
+
+    .nav-tabs .nav-link {
+        border: none;
+        color: #6c757d;
+        font-weight: 500;
+        padding: 1rem 1.5rem;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .nav-tabs .nav-link:hover {
+        color: #0061f2;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: #0061f2;
+        background: transparent;
+    }
+
+    .nav-tabs .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #0061f2;
+    }
+
+    .nav-tabs .nav-link i {
+        margin-right: 0.5rem;
+    }
+</style>
+
+<div class="tab-content" id="adminTabContent">
+    <!-- Dashboard Sekmesi -->
+    <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+        <ul class="nav nav-tabs" id="dashboardInnerTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="kategoriler-tab" data-bs-toggle="tab" data-bs-target="#kategoriler" type="button" role="tab">
+                    <i class="bi bi-tags"></i> Kategoriler
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="sanatcilar-tab" data-bs-toggle="tab" data-bs-target="#sanatcilar" type="button" role="tab">
+                    <i class="bi bi-people"></i> Sanatçılar
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="eserler-tab" data-bs-toggle="tab" data-bs-target="#eserler" type="button" role="tab">
+                    <i class="bi bi-image"></i> Eserler
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="siparisler-tab" data-bs-toggle="tab" data-bs-target="#siparisler" type="button" role="tab">
+                    <i class="bi bi-cart-check"></i> Siparişler
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="kullanicilar-tab" data-bs-toggle="tab" data-bs-target="#kullanicilar" type="button" role="tab">
+                    <i class="bi bi-person-gear"></i> Kullanıcılar
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="dashboardInnerTabContent">
+            <!-- Kategoriler Sekmesi -->
+            <div class="tab-pane fade show active" id="kategoriler" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0">Kategoriler</h3>
+                    <a class="btn btn-add" asp-controller="Categories" asp-action="Create">
+                        <i class="bi bi-plus-lg"></i> Yeni Kategori Ekle
+                    </a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Adı</th>
+                                <th class="text-end">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @if (ViewBag.Categories != null)
+                        {
+                            foreach (var item in ViewBag.Categories)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>
+                                        <div class="action-buttons justify-content-end">
+                                            <a asp-controller="Categories" asp-action="Edit" asp-route-id="@item.Id" 
+                                               class="btn btn-edit">
+                                                <i class="bi bi-pencil"></i> Düzenle
+                                            </a>
+                                            <a asp-controller="Categories" asp-action="Delete" asp-route-id="@item.Id" 
+                                               class="btn btn-delete">
+                                                <i class="bi bi-trash"></i> Sil
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Sanatçılar Sekmesi -->
+            <div class="tab-pane fade" id="sanatcilar" role="tabpanel" aria-labelledby="sanatcilar-tab">
+                <h3>Sanatçılar</h3>
+                <a class="btn btn-primary mb-2" asp-controller="Artists" asp-action="Create">Yeni Sanatçı Ekle</a>
+                <table class="table table-bordered align-middle">
+                    <thead>
+                        <tr>
+                            <th>Profil</th>
+                            <th>Adı</th>
+                            <th>Biyografi</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @if (ViewBag.Artists != null)
+                    {
+                        foreach (var item in ViewBag.Artists)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@(string.IsNullOrWhiteSpace(item.ProfileImageUrl) ? "/images/avatar-default.png" : item.ProfileImageUrl)" alt="@item.Name" style="width:48px;height:48px;object-fit:cover;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.08);" />
+                                </td>
+                                <td>@item.Name</td>
+                                <td><span class="text-muted">@((item.Bio?.Length > 80 ? item.Bio.Substring(0, 80) + "..." : item.Bio))</span></td>
+                                <td>
+                                    <a asp-controller="Artists" asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Detay</a>
+                                </td>
+                                <td>
+                                    <a asp-controller="Artists" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                                    <a asp-controller="Artists" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Sil</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <!-- Eserler Sekmesi -->
+            <div class="tab-pane fade" id="eserler" role="tabpanel" aria-labelledby="eserler-tab">
+                <h3>Eserler</h3>
+                <a class="btn btn-primary mb-2" asp-controller="Artworks" asp-action="Create">Yeni Eser Ekle</a>
+                <table class="table table-bordered align-middle">
+                    <thead>
+                        <tr>
+                            <th>Görsel</th>
+                            <th>Başlık</th>
+                            <th>Kategori</th>
+                            <th>Sanatçı</th>
+                            <th>Fiyat</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @if (ViewBag.Artworks != null)
+                    {
+                        foreach (var item in ViewBag.Artworks)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@item.ImageUrl" alt="@item.Title" style="width:72px;height:72px;object-fit:cover;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.08);" />
+                                </td>
+                                <td>@item.Title</td>
+                                <td>@item.Category?.Name</td>
+                                <td>@item.Artist?.Name</td>
+                                <td>@item.Price.ToString("C")</td>
+                                <td>
+                                    <a asp-controller="Artworks" asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Detay</a>
+                                    <a asp-controller="Artworks" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                                    <a asp-controller="Artworks" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Sil</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <!-- Siparişler Sekmesi -->
+            <div class="tab-pane fade" id="siparisler" role="tabpanel" aria-labelledby="siparisler-tab">
+                <h3>Siparişler</h3>
+                @if (ViewBag.Orders == null || ViewBag.Orders.Count == 0)
+                {
+                    <div class="alert alert-info">
+                        Henüz sipariş bulunmamaktadır.
+                    </div>
+                }
+                else
+                {
+                    foreach (var order in ViewBag.Orders)
+                    {
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 class="mb-0">Sipariş No: @order.OrderNumber</h5>
+                                        <small class="text-muted">Sipariş Tarihi: @order.OrderDate.ToString("g")</small>
+                                    </div>
+                                    <div class="col-md-6 text-md-end">
+                                        <span class="badge bg-info">@order.ShippingStatus</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 100px">Görsel</th>
+                                            <th>Eser</th>
+                                            <th class="text-center">Adet</th>
+                                            <th class="text-end">Fiyat</th>
+                                            <th class="text-end">Toplam</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in order.Items)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <img src="@item.Artwork.ImageUrl" alt="@item.Artwork.Title" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;" />
+                                                </td>
+                                                <td class="align-middle">
+                                                    <strong>@item.Artwork.Title</strong>
+                                                    @if (!string.IsNullOrEmpty(item.Artwork.Artist?.Name))
+                                                    {
+                                                        <br />
+                                                        <small class="text-muted">@item.Artwork.Artist.Name</small>
+                                                    }
+                                                </td>
+                                                <td class="text-center align-middle">@item.Quantity</td>
+                                                <td class="text-end align-middle">@item.Artwork.Price.ToString("C")</td>
+                                                <td class="text-end align-middle">@((item.Artwork.Price * item.Quantity).ToString("C"))</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="3" class="text-end"><strong>Toplam:</strong></td>
+                                            <td class="text-end">@order.TotalAmount.ToString("C")</td>
+                                        </tr>
+                                        @if (order.DiscountAmount > 0)
+                                        {
+                                            <tr class="text-success">
+                                                <td colspan="3" class="text-end"><strong>İndirim:</strong></td>
+                                                <td class="text-end">-@order.DiscountAmount.ToString("C")</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-end"><strong>Ödenecek Tutar:</strong></td>
+                                                <td class="text-end"><strong>@order.FinalAmount.ToString("C")</strong></td>
+                                            </tr>
+                                        }
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <!-- Kullanıcılar Sekmesi -->
+            <div class="tab-pane fade" id="kullanicilar" role="tabpanel" aria-labelledby="kullanicilar-tab">
+                <h3>Kullanıcılar</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Kullanıcı Adı</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.Users != null)
+                        {
+                            foreach (var user in ViewBag.Users)
+                            {
+                                <tr>
+                                    <td>@user.UserName</td>
+                                    <td>@user.Email</td>
+                                    <td>@user.Role</td>
+                                    <td>
+                                        <a asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                                        <a asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger btn-sm">Sil</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+    </div>
+    </div>
+</div>
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Veritabanı Temizleme</h5>
+                    <p class="card-text">Eseri olmayan sanatçıları ve kategorileri temizle.</p>
+                    <button id="cleanupBtn" class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                        Temizle
+                    </button>
+                    <div id="results" class="mt-4" style="display:none;">
+                        <h6>Temizleme Sonuçları:</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6>Silinen Sanatçılar:</h6>
+                                        <ul id="removedArtists" class="list-unstyled"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6>Silinen Kategoriler:</h6>
+                                        <ul id="removedCategories" class="list-unstyled"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6>Kalan Sanatçılar:</h6>
+                                        <ul id="remainingArtists" class="list-unstyled"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6>Kalan Kategoriler:</h6>
+                                        <ul id="remainingCategories" class="list-unstyled"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#cleanupBtn').click(function() {
+                $(this).prop('disabled', true).html('<span class="spinner-border spinner-border-sm"></span> Temizleniyor...');
+                
+                $.get('/Admin/CleanupDatabase', function(data) {
+                    // Silinen sanatçıları listele
+                    $('#removedArtists').empty();
+                    data.removedArtists.forEach(function(artist) {
+                        $('#removedArtists').append(`<li class="text-danger"><i class="bi bi-x-circle"></i> ${artist}</li>`);
+                    });
+                    
+                    // Silinen kategorileri listele
+                    $('#removedCategories').empty();
+                    data.removedCategories.forEach(function(category) {
+                        $('#removedCategories').append(`<li class="text-danger"><i class="bi bi-x-circle"></i> ${category}</li>`);
+                    });
+                    
+                    // Kalan sanatçıları listele
+                    $('#remainingArtists').empty();
+                    data.remainingArtists.forEach(function(artist) {
+                        $('#remainingArtists').append(`<li class="text-success">
+                            <i class="bi bi-check-circle"></i> ${artist.name} (${artist.artworkCount} eser)
+                        </li>`);
+                    });
+                    
+                    // Kalan kategorileri listele
+                    $('#remainingCategories').empty();
+                    data.remainingCategories.forEach(function(category) {
+                        $('#remainingCategories').append(`<li class="text-success">
+                            <i class="bi bi-check-circle"></i> ${category.name} (${category.artworkCount} eser)
+                        </li>`);
+                    });
+                    
+                    // Sonuçları göster
+                    $('#results').slideDown();
+                    
+                    // Butonu normale döndür
+                    $('#cleanupBtn').prop('disabled', false).html('<i class="bi bi-trash"></i> Temizle');
+                });
+            });
+        });
+    </script>
+}

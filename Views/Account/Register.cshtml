@@ -1,122 +1,221 @@
+@model TabloX2.Models.ViewModels.RegisterViewModel
+
 @{
     ViewData["Title"] = "Kayıt Ol";
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-7">
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">Kayıt Ol</h3>
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <style>
+        .register-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .register-title {
+            text-align: center;
+            font-family: "Playfair Display", serif;
+            margin-bottom: 1.5rem;
+        }
+
+        .register-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .form-control:focus {
+            border-color: #e31837;
+            box-shadow: 0 0 0 0.2rem rgba(227, 24, 55, 0.15);
+        }
+
+        .btn-register {
+            background: #e31837;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .btn-register:hover {
+            background: #c41530;
+            color: white;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #e31837;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .iti {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .iti__flag {
+            background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/img/flags.png");
+        }
+
+        @@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .iti__flag {
+                background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/img/flags@2x.png");
+            }
+        }
+    </style>
+}
+
+<div class="register-container">
+    <h2 class="register-title">Kayıt Ol</h2>
+    <p class="register-subtitle">TabloX ailesine katılın</p>
+
+    <form asp-controller="Account" asp-action="Register" method="post">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="FirstName">Ad</label>
+                    <input asp-for="FirstName" class="form-control" placeholder="Ad" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
-                <div class="card-body">
-                    @if (!ViewData.ModelState.IsValid)
-                    {
-                        <div class="alert alert-danger">
-                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                            {
-                                <div>@error.ErrorMessage</div>
-                            }
-                        </div>
-                    }
-                    <div class="alert alert-info mb-4">
-                        Profil fotoğrafınız, isim ve soyisminizin baş harflerinden otomatik olarak oluşturulacaktır.
-                    </div>
-                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <div class="mb-3">
-                            <label for="UserName" class="form-label">Kullanıcı Adı</label>
-                            <input type="text" name="UserName" class="form-control" placeholder="Kullanıcı Adı" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="FirstName" class="form-label">İsim</label>
-                            <input type="text" name="FirstName" class="form-control" placeholder="İsminiz" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="LastName" class="form-label">Soyisim</label>
-                            <input type="text" name="LastName" class="form-control" placeholder="Soyisminiz" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="Email" class="form-label">E-posta</label>
-                            <input type="email" name="Email" class="form-control" placeholder="E-posta" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="Password" class="form-label">Şifre</label>
-                            <input type="password" name="Password" class="form-control" placeholder="Şifre" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="PhoneNumber" class="form-label">Telefon Numarası</label>
-                            <input type="tel" name="PhoneNumber" id="register-phone" class="form-control" placeholder="Telefon Numarası" required autocomplete="off" />
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Kayıt Ol</button>
-                    }
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="LastName">Soyad</label>
+                    <input asp-for="LastName" class="form-control" placeholder="Soyad" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
             </div>
         </div>
+
+        <div class="form-group">
+            <label asp-for="UserName">Kullanıcı Adı</label>
+            <div class="input-group">
+                <span class="input-group-text">@@</span>
+                <input asp-for="UserName" class="form-control" placeholder="Kullanıcı Adı" />
+            </div>
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email">E-posta</label>
+            <input asp-for="Email" class="form-control" placeholder="E-posta" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PhoneNumber">Telefon Numarası</label>
+            <input asp-for="PhoneNumber" type="tel" class="form-control" id="phone" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password">Şifre</label>
+            <input asp-for="Password" class="form-control" placeholder="Şifre" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ConfirmPassword">Şifre Tekrar</label>
+            <input asp-for="ConfirmPassword" class="form-control" placeholder="Şifre Tekrar" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-register">Kayıt Ol</button>
+    </form>
+
+    <div class="login-link">
+        Zaten hesabınız var mı? <a asp-action="Login">Giriş Yap</a>
     </div>
 </div>
 
-@section Styles {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css" />
-    <style>
-        .iti { width: 100%; }
-        ul.iti__country-list { list-style: none; margin: 0; padding: 0; }
-        .iti__country-list { max-height: 200px; overflow-y: auto; z-index: 9999 !important; }
-    </style>
-}
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
     <script>
-        var input = document.querySelector("#register-phone");
-        var iti;
-        if(input) {
-            iti = window.intlTelInput(input, {
+        document.addEventListener('DOMContentLoaded', function() {
+            var input = document.querySelector("#phone");
+            var iti = window.intlTelInput(input, {
                 initialCountry: "tr",
-                preferredCountries: ["tr", "us", "gb"],
-                nationalMode: true,
-                formatOnDisplay: true,
-                geoIpLookup: function(callback) {
-                    fetch('https://ipinfo.io/json?token=eea1b6e2b7b7c7')
-                        .then(function(resp) { return resp.json(); })
-                        .then(function(resp) { callback(resp.country); })
-                        .catch(function() { callback('tr'); });
-                },
-                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"
+                preferredCountries: ["tr", "us", "gb", "de", "fr"],
+                separateDialCode: true,
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
             });
 
-            // Yazarken otomatik Türk GSM formatı (5xx xxx xx xx)
-            input.addEventListener('input', function(e) {
-                let val = this.value.replace(/\D/g, '').slice(0, 10);
-                let formatted = '';
-                if (val.length > 0) formatted += val.substring(0, 3);
-                if (val.length > 3) formatted += ' ' + val.substring(3, 6);
-                if (val.length > 6) formatted += ' ' + val.substring(6, 8);
-                if (val.length > 8) formatted += ' ' + val.substring(8, 10);
-                this.value = formatted;
+            // Form gönderilmeden önce telefon numarasını formatla
+            var form = document.querySelector("form");
+            form.addEventListener("submit", function(e) {
+                e.preventDefault();
+                var phoneNumber = iti.getNumber();
+                if (iti.isValidNumber()) {
+                    input.value = phoneNumber;
+                    form.submit();
+                } else {
+                    alert("Lütfen geçerli bir telefon numarası giriniz.");
+                }
             });
 
-            // input blur olduğunda otomatik formatla
-            input.addEventListener('blur', function() {
-                if (window.intlTelInputUtils && iti.isValidNumber()) {
-                    var formatted = iti.getNumber(intlTelInputUtils.numberFormat.NATIONAL);
-                    if (formatted) {
-                        input.value = formatted;
+            // Türkiye için özel format
+            input.addEventListener('input', function() {
+                if (iti.getSelectedCountryData().iso2 === 'tr') {
+                    var number = this.value.replace(/\D/g, ''); // Sadece rakamları al
+                    if (number.length > 0) {
+                        number = number.match(/(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+                        this.value = !number[2] ? number[1] : 
+                                   !number[3] ? number[1] + ' ' + number[2] :
+                                   !number[4] ? number[1] + ' ' + number[2] + ' ' + number[3] :
+                                   number[1] + ' ' + number[2] + ' ' + number[3] + ' ' + number[4];
                     }
                 }
             });
 
-            // Form submit validasyonu
-            var form = input.closest('form');
-            if(form) {
-                form.addEventListener('submit', function(e) {
-                    if (!iti.isValidNumber()) {
-                        e.preventDefault();
-                        alert('Lütfen geçerli bir telefon numarası giriniz.');
-                        input.focus();
+            // Validasyon mesajlarını göster
+            input.addEventListener('blur', function() {
+                if (!iti.isValidNumber()) {
+                    var errorMsg = document.querySelector("#phone-error");
+                    if (!errorMsg) {
+                        errorMsg = document.createElement('span');
+                        errorMsg.id = 'phone-error';
+                        errorMsg.className = 'text-danger';
+                        input.parentNode.appendChild(errorMsg);
                     }
-                });
-            }
-        }
+                    errorMsg.textContent = 'Lütfen geçerli bir telefon numarası giriniz.';
+                } else {
+                    var errorMsg = document.querySelector("#phone-error");
+                    if (errorMsg) {
+                        errorMsg.remove();
+                    }
+                }
+            });
+        });
     </script>
 } 

@@ -1,0 +1,114 @@
+@model TabloX2.Models.ViewModels.VerifyTwoFactorCodeViewModel
+
+@{
+    ViewData["Title"] = "İki Faktörlü Kimlik Doğrulama";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-shield-lock me-2"></i>
+                        İki Faktörlü Kimlik Doğrulama
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">
+                        Google Authenticator uygulamasında görünen 6 haneli doğrulama kodunu girin.
+                    </p>
+
+                    <form asp-action="LoginWith2fa" method="post" id="twoFactorForm">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="mb-4">
+                            <input asp-for="Code" class="form-control form-control-lg text-center" 
+                                   placeholder="000000" maxlength="6" autocomplete="off" autofocus
+                                   style="letter-spacing: 4px; font-size: 24px;" />
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input asp-for="RememberMachine" class="form-check-input" />
+                                <label asp-for="RememberMachine" class="form-check-label">
+                                    Bu cihazı hatırla
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger w-100" id="submitButton">
+                            <i class="bi bi-shield-check me-2"></i>
+                            Doğrula ve Giriş Yap
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Form gönderildiğinde
+        document.getElementById('twoFactorForm')?.addEventListener('submit', function(e) {
+            e.preventDefault(); // Formun normal gönderimini engelle
+            
+            const submitButton = document.getElementById('submitButton');
+            const form = this;
+            const code = document.getElementById('Code').value;
+            
+            if (code.length !== 6) {
+                alert('Lütfen 6 haneli doğrulama kodunu girin.');
+                return;
+            }
+
+            // Butonu devre dışı bırak ve loading göster
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Doğrulanıyor...';
+
+            // Formu gönder
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                }
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    response.text().then(html => {
+                        console.log('2FA yanıtı:', response.status, response.statusText);
+                        if (response.ok) {
+                            window.location.href = '/Home/Index';
+                        } else {
+                            document.open();
+                            document.write(html);
+                            document.close();
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('2FA hatası:', error);
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="bi bi-shield-check me-2"></i>Doğrula ve Giriş Yap';
+                alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+            });
+        });
+
+        // Sadece sayı girişine izin ver
+        document.getElementById('Code')?.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            
+            // 6 hane girildiğinde otomatik gönder
+            if (this.value.length === 6) {
+                document.getElementById('twoFactorForm').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+} 

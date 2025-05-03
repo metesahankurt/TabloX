@@ -1,59 +1,154 @@
 @model IEnumerable<TabloX2.Models.CartItem>
 @{
     ViewData["Title"] = "Sepetim";
-    decimal total = Model.Sum(i => i.Artwork.Price * i.Quantity);
 }
-<h2>Sepetim</h2>
-@if (!Model.Any())
-{
-    <p>Sepetinizde ürün yok.</p>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/cart.css" />
 }
-else
-{
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Eser</th>
-                <th>Sanatçı</th>
-                <th>Adet</th>
-                <th>Fiyat</th>
-                <th>Toplam</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td><img src="@item.Artwork.ImageUrl" alt="@item.Artwork.Title" style="width:60px; height:40px; object-fit:cover; border-radius:4px;" /></td>
-                <td>@item.Artwork.Title</td>
-                <td>@item.Artwork.Artist?.Name</td>
-                <td>
-                    <form asp-action="Decrease" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="@item.Id" />
-                        <button type="submit" class="btn btn-outline-secondary btn-sm">-</button>
-                    </form>
-                    <span class="mx-2">@item.Quantity</span>
-                    <form asp-action="Increase" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="@item.Id" />
-                        <button type="submit" class="btn btn-outline-secondary btn-sm">+</button>
-                    </form>
-                </td>
-                <td>@item.Artwork.Price.ToString("C2")</td>
-                <td>@string.Format("{0:C2}", item.Artwork.Price * item.Quantity)</td>
-                <td>
-                    <form asp-action="Remove" method="post">
-                        <input type="hidden" name="id" value="@item.Id" />
-                        <button type="submit" class="btn btn-danger btn-sm">Kaldır</button>
-                    </form>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-    <div class="text-end">
-        <h4>Toplam: @string.Format("{0:C2}", total)</h4>
-        <a asp-controller="Orders" asp-action="Checkout" class="btn btn-success">Siparişi Tamamla</a>
+
+<div class="container mt-5 mb-5">
+    <div class="cart-header">
+        <h1 class="mb-4">Sepetim</h1>
     </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-cart">
+            <div class="empty-cart-icon">
+                <i class="bi bi-bag-x"></i>
+            </div>
+            <h2>Sepetiniz Şu An Boş</h2>
+            <p>Birbirinden güzel sanat eserlerini keşfetmek için hemen alışverişe başlayın!</p>
+            <div class="empty-cart-actions">
+                <a href="@Url.Action("Index", "Home")" class="btn-primary">
+                    <i class="bi bi-house"></i>
+                    Ana Sayfaya Dön
+                </a>
+                <a href="@Url.Action("Index", "Artworks")" class="btn-secondary">
+                    <i class="bi bi-grid"></i>
+                    Eserleri Keşfet
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="cart-items">
+                    @foreach (var item in Model)
+                    {
+                        <div class="cart-item" data-id="@item.ArtworkId">
+                            <div class="cart-item-image">
+                                <img src="@item.Artwork?.ImageUrl" alt="@item.Artwork?.Title" />
+                            </div>
+                            <div class="cart-item-info">
+                                <h3>@item.Artwork?.Title</h3>
+                                <p class="artist">@item.Artwork?.Artist?.Name @item.Artwork?.Artist?.Surname</p>
+                                <p class="category">@item.Artwork?.Category?.Name</p>
+                                <p class="price">$@item.Artwork?.Price.ToString("N0")</p>
+                                <div class="quantity-controls">
+                                    <button class="btn-quantity" onclick="updateQuantity(@item.ArtworkId, -1)">-</button>
+                                    <span class="quantity">@item.Quantity</span>
+                                    <button class="btn-quantity" onclick="updateQuantity(@item.ArtworkId, 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="cart-item-actions">
+                                <button class="btn-remove" onclick="removeFromCart(@item.ArtworkId)">
+                                    <i class="bi bi-trash"></i>
+                                    Kaldır
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="cart-summary">
+                    <h4>Sipariş Özeti</h4>
+                    <div class="summary-item">
+                        <span>Ara Toplam</span>
+                        <span class="subtotal">$@Model.Sum(i => (i.Artwork?.Price ?? 0) * i.Quantity).ToString("N0")</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>KDV (%18)</span>
+                        <span class="tax">$@((Model.Sum(i => (i.Artwork?.Price ?? 0) * i.Quantity) * 0.18M).ToString("N0"))</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Toplam</span>
+                        <span class="total-price">$@((Model.Sum(i => (i.Artwork?.Price ?? 0) * i.Quantity) * 1.18M).ToString("N0"))</span>
+                    </div>
+                    <a href="@Url.Action("Checkout", "Orders")" class="btn-checkout">
+                        <i class="bi bi-credit-card"></i>
+                        ÖDEMEYE GEÇ
+                    </a>
+                    <a href="@Url.Action("Index", "Home")" class="btn-continue-shopping">
+                        <i class="bi bi-arrow-left"></i>
+                        Alışverişe Devam Et
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function updateQuantity(artworkId, change) {
+            const quantityElement = document.querySelector(`[data-id="${artworkId}"] .quantity`);
+            let quantity = parseInt(quantityElement.textContent);
+            quantity = Math.max(1, quantity + change);
+            
+            $.ajax({
+                url: '@Url.Action("UpdateQuantity", "Cart")',
+                type: 'POST',
+                data: { artworkId: artworkId, quantity: quantity },
+                success: function(response) {
+                    if (response.success) {
+                        quantityElement.textContent = quantity;
+                        updateCartSummary();
+                    }
+                }
+            });
+        }
+
+        function updateCartSummary() {
+            $.ajax({
+                url: '@Url.Action("GetCartSummary", "Cart")',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        $('.subtotal').text('$' + response.subtotal);
+                        $('.tax').text('$' + response.tax);
+                        $('.total-price').text('$' + response.total);
+                    }
+                }
+            });
+        }
+
+        function removeFromCart(artworkId) {
+            const item = document.querySelector(`[data-id="${artworkId}"]`);
+            item.classList.add('removing');
+            
+            $.ajax({
+                url: '@Url.Action("RemoveFromCart", "Cart")',
+                type: 'POST',
+                data: { artworkId: artworkId },
+                success: function(response) {
+                    if (response.success) {
+                        setTimeout(() => {
+                            item.remove();
+                            updateCartSummary();
+                            updateCartCount(response.cartCount);
+                            
+                            if (response.cartCount === 0) {
+                                location.reload();
+                            }
+                        }, 500);
+                    }
+                }
+            });
+        }
+    </script>
 } 

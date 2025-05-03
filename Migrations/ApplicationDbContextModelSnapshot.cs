@@ -101,12 +101,10 @@ namespace TabloX2.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("longtext");
@@ -143,12 +141,10 @@ namespace TabloX2.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Value")
                         .HasColumnType("longtext");
@@ -169,12 +165,24 @@ namespace TabloX2.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AuthenticatorKey")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("City")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
 
                     b.Property<string>("DisplayUserName")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("District")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Email")
@@ -191,6 +199,12 @@ namespace TabloX2.Migrations
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastLoginDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -218,6 +232,9 @@ namespace TabloX2.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ProfileImage")
                         .HasColumnType("longtext");
@@ -260,11 +277,15 @@ namespace TabloX2.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ProfileImageUrl")
+                    b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -284,7 +305,7 @@ namespace TabloX2.Migrations
                     b.Property<int>("ArtistId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -299,8 +320,15 @@ namespace TabloX2.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("MediumImageUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("SalesCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -315,6 +343,25 @@ namespace TabloX2.Migrations
                     b.ToTable("Artworks");
                 });
 
+            modelBuilder.Entity("TabloX2.Models.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("TabloX2.Models.CartItem", b =>
                 {
                     b.Property<int>("Id")
@@ -324,6 +371,9 @@ namespace TabloX2.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ArtworkId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CartId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -337,6 +387,8 @@ namespace TabloX2.Migrations
 
                     b.HasIndex("ArtworkId");
 
+                    b.HasIndex("CartId");
+
                     b.ToTable("CartItems");
                 });
 
@@ -347,6 +399,9 @@ namespace TabloX2.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -404,26 +459,11 @@ namespace TabloX2.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BankAccountNumber")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("CryptoWalletAddress")
-                        .HasColumnType("longtext");
-
                     b.Property<decimal>("DiscountAmount")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<decimal>("FinalAmount")
                         .HasColumnType("decimal(65,30)");
-
-                    b.Property<string>("GiftCardCode")
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("InstallmentCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MaskedCardNumber")
-                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime(6)");
@@ -432,8 +472,9 @@ namespace TabloX2.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("PaymentMethod")
-                        .HasColumnType("int");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ShippingAddress")
                         .IsRequired()
@@ -443,14 +484,19 @@ namespace TabloX2.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -468,6 +514,9 @@ namespace TabloX2.Migrations
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -543,12 +592,22 @@ namespace TabloX2.Migrations
                     b.HasOne("TabloX2.Models.Category", "Category")
                         .WithMany("Artworks")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Artist");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("TabloX2.Models.Cart", b =>
+                {
+                    b.HasOne("TabloX2.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TabloX2.Models.CartItem", b =>
@@ -559,7 +618,26 @@ namespace TabloX2.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TabloX2.Models.Cart", "Cart")
+                        .WithMany("Items")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Artwork");
+
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("TabloX2.Models.Order", b =>
+                {
+                    b.HasOne("TabloX2.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TabloX2.Models.OrderItem", b =>
@@ -571,7 +649,7 @@ namespace TabloX2.Migrations
                         .IsRequired();
 
                     b.HasOne("TabloX2.Models.Order", "Order")
-                        .WithMany("Items")
+                        .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -586,6 +664,11 @@ namespace TabloX2.Migrations
                     b.Navigation("Artworks");
                 });
 
+            modelBuilder.Entity("TabloX2.Models.Cart", b =>
+                {
+                    b.Navigation("Items");
+                });
+
             modelBuilder.Entity("TabloX2.Models.Category", b =>
                 {
                     b.Navigation("Artworks");
@@ -593,7 +676,7 @@ namespace TabloX2.Migrations
 
             modelBuilder.Entity("TabloX2.Models.Order", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

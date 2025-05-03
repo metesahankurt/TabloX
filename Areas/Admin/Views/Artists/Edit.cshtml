@@ -4,14 +4,72 @@
     Layout = "../Shared/_AdminLayout.cshtml";
 }
 
-<h2>Sanatçı Düzenle</h2>
-<form asp-action="EditArtist" method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<link rel="stylesheet" href="~/css/admin/artist-edit.css" />
+
+<div class="edit-artist-container">
+    <div class="page-header">
+        <h1 class="page-title">@Model.Name @Model.Surname Sanatçısını Düzenle</h1>
     </div>
-    <button type="submit" class="btn btn-primary">Kaydet</button>
-    <a asp-action="Artists" class="btn btn-secondary">Geri</a>
-</form> 
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="profile-image-section">
+            <div class="image-placeholder">
+                <span>@Model.Name[0]@Model.Surname[0]</span>
+            </div>
+            <div class="image-upload-info">
+                <h3 class="image-upload-title">Profil Fotoğrafı</h3>
+                <p class="image-upload-text">Sanatçının profil fotoğrafı, isim ve soyisim baş harflerinden otomatik olarak oluşturulmaktadır.</p>
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label asp-for="Name" class="form-label">Ad</label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Surname" class="form-label">Soyad</label>
+                <input asp-for="Surname" class="form-control" required />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Country" class="form-label">Ülke</label>
+            <input asp-for="Country" class="form-control" required />
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+
+        <div class="form-section">
+            <h3 class="section-title">Sanatçı Hakkında</h3>
+            
+            <div class="form-group">
+                <label asp-for="Bio" class="form-label">Biyografi</label>
+                <textarea asp-for="Bio" class="form-control" rows="4" required></textarea>
+                <span asp-validation-for="Bio" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="form-label">Detaylı Açıklama</label>
+                <textarea asp-for="Description" class="form-control" rows="6" required></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a asp-action="Index" class="btn-cancel">İptal</a>
+            <button type="submit" class="btn-submit">
+                <i class="bi bi-check-lg"></i>
+                Değişiklikleri Kaydet
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

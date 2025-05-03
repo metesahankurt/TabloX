@@ -32,7 +32,7 @@ body {
 
 body, html {
     font-family: 'MetSerif', Georgia, serif !important;
-    background: #f8f9fb;
+    background: #fff5f7;
 }
 
 /* Custom artwork detail style */
@@ -222,4 +222,189 @@ body, html {
         width: 56px;
         height: 56px;
     }
+}
+
+:root {
+  --metmuseum-red: #d90032;
+  --metmuseum-red-dark: #b80029;
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --accent-color: #e74c3c;
+  --text-color: #2c3e50;
+  --background-color: #ecf0f1;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+  background: #e31837 !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  min-height: 64px;
+  padding: 0 2rem;
+  box-shadow: 0 2px 8px rgba(217,0,50,0.06);
+}
+
+.navbar .navbar-brand {
+  color: #fff !important;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  font-size: 1.5rem;
+  padding-left: 12px;
+  margin-right: 32px;
+  font-family: "Playfair Display", serif;
+}
+
+.navbar .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  font-size: 1.05rem;
+  padding: 0 18px !important;
+  transition: border-bottom 0.18s, color 0.18s;
+  border-bottom: 2px solid transparent;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+  background: none !important;
+}
+
+.navbar .nav-link:hover, .navbar .nav-link.active {
+  color: #ffe0e6 !important;
+  border-bottom: 2px solid #fff;
+  background: none !important;
+}
+
+.navbar .navbar-collapse {
+  justify-content: space-between !important;
+}
+
+.navbar .navbar-nav {
+  gap: 2px;
+  align-items: center;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.auth-buttons .nav-link,
+.auth-buttons button.nav-link {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  padding: 0.5rem 1.2rem !important;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: white !important;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  height: 40px;
+  font-size: 1rem;
+}
+
+.auth-buttons .nav-link:hover,
+.auth-buttons button.nav-link:hover {
+  background: rgba(255,255,255,0.2);
+  color: #fff !important;
+}
+
+.auth-buttons .nav-link i,
+.auth-buttons button.nav-link i {
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-link {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #8b0000;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.admin-link {
+  background: #8b0000 !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+.admin-link:hover {
+  background: #6b0000 !important;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 0.5rem;
+    min-height: 56px;
+  }
+  .navbar .nav-link {
+    padding: 0 8px !important;
+    font-size: 1rem;
+    height: 56px;
+  }
+  .navbar .navbar-brand {
+    font-size: 1.1rem;
+    margin-right: 10px;
+    padding-left: 4px;
+  }
+  .auth-buttons .nav-link,
+  .auth-buttons button.nav-link {
+    padding: 0.5rem 0.7rem !important;
+    font-size: 0.95rem;
+    height: 36px;
+  }
+}
+
+.card {
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.artist-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
 }

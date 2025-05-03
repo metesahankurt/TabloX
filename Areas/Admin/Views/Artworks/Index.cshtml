@@ -4,55 +4,256 @@
     Layout = "../Shared/_AdminLayout.cshtml";
 }
 
-<h2>Eserler</h2>
-<a asp-action="Create" class="btn btn-primary mb-3">Yeni Eser Ekle</a>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Eser Adı</th>
-            <th>Sanatçı</th>
-            <th>Kategori</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Title</td>
-                <td>@item.Artist?.Name</td>
-                <td>@item.Category?.Name</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Düzenle</a>
-                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.Id">Sil</button>
+<style>
+    .artworks-container {
+        padding: 2rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
 
-                    <!-- Delete Modal -->
-                    <div class="modal fade" id="deleteModal-@item.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@item.Id" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteModalLabel-@item.Id">Silme Onayı</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p><strong>@item.Title</strong> adlı eseri silmek istediğinize emin misiniz?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
-                                    <form asp-action="Delete" method="post" asp-route-id="@item.Id" style="display:inline;">
-                                        <button type="submit" class="btn btn-danger">Sil</button>
-                                    </form>
-                                </div>
+    .page-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #E4002B;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .page-title {
+        font-family: "Playfair Display", serif;
+        color: #333;
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .btn-add-artwork {
+        background: #E4002B;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: none;
+    }
+
+    .btn-add-artwork:hover {
+        background: #C1001F;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .artworks-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 8px;
+    }
+
+    .artworks-table th {
+        background: #f8f9fa;
+        padding: 1rem;
+        font-weight: 600;
+        color: #333;
+        text-align: left;
+        border-bottom: 2px solid #E4002B;
+    }
+
+    .artworks-table td {
+        padding: 1rem;
+        background: white;
+        border-top: 1px solid #eee;
+    }
+
+    .artworks-table tr:hover td {
+        background: #f8f9fa;
+    }
+
+    .artwork-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .artwork-image {
+        width: 64px;
+        height: 64px;
+        border-radius: 8px;
+        object-fit: cover;
+        border: 2px solid #E4002B;
+    }
+
+    .artwork-details {
+        flex: 1;
+    }
+
+    .artwork-title {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 0.2rem;
+    }
+
+    .artwork-artist {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .artwork-category {
+        display: inline-block;
+        padding: 0.3rem 0.8rem;
+        background: #f8f9fa;
+        border-radius: 20px;
+        color: #666;
+        font-size: 0.85rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+    }
+
+    .btn-edit {
+        background: #0066cc;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-edit:hover {
+        background: #0052a3;
+        color: white;
+    }
+
+    .btn-delete {
+        background: #dc3545;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        border: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.9rem;
+        cursor: pointer;
+    }
+
+    .btn-delete:hover {
+        background: #bb2d3b;
+        color: white;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        border: none;
+    }
+
+    .modal-header {
+        background: #E4002B;
+        color: white;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .modal-title {
+        font-family: "Playfair Display", serif;
+    }
+
+    .modal-footer {
+        border-top: none;
+    }
+</style>
+
+<div class="artworks-container">
+    <div class="page-header">
+        <h1 class="page-title">Eserler</h1>
+        <a asp-action="Create" class="btn-add-artwork">
+            <i class="bi bi-plus-lg"></i>
+            Yeni Eser Ekle
+        </a>
+    </div>
+
+    <table class="artworks-table">
+        <thead>
+            <tr>
+                <th>Eser</th>
+                <th>Kategori</th>
+                <th>Fiyat</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="artwork-info">
+                            <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "/images/artwork-default.png" : item.ImageUrl)" 
+                                 alt="@item.Title" class="artwork-image" />
+                            <div class="artwork-details">
+                                <div class="artwork-title">@item.Title</div>
+                                <div class="artwork-artist">@item.Artist?.Name @item.Artist?.Surname</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="artwork-category">@item.Category?.Name</span>
+                    </td>
+                    <td>
+                        <span class="artwork-price">@item.Price.ToString("C")</span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn-edit">
+                                <i class="bi bi-pencil"></i>
+                                Düzenle
+                            </a>
+                            <button type="button" class="btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.Id">
+                                <i class="bi bi-trash"></i>
+                                Sil
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Silme Modal -->
+                <div class="modal fade" id="deleteModal-@item.Id" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Eser Silme</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>@item.Title</strong> eserini silmek istediğinize emin misiniz?</p>
+                                <p class="text-muted">Bu işlem geri alınamaz.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn-delete">
+                                        <i class="bi bi-trash"></i>
+                                        Eseri Sil
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+            }
+        </tbody>
+    </table>
+</div>
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

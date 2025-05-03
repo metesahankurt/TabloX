@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\repos\\TabloX2\\TabloX2.csproj": {}
+    "C:\\repos\\TabloX\\TabloX2.csproj": {}
   },
   "projects": {
-    "C:\\repos\\TabloX2\\TabloX2.csproj": {
+    "C:\\repos\\TabloX\\TabloX2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\repos\\TabloX2\\TabloX2.csproj",
+        "projectUniqueName": "C:\\repos\\TabloX\\TabloX2.csproj",
         "projectName": "TabloX2",
-        "projectPath": "C:\\repos\\TabloX2\\TabloX2.csproj",
+        "projectPath": "C:\\repos\\TabloX\\TabloX2.csproj",
         "packagesPath": "C:\\Users\\weetz\\.nuget\\packages\\",
-        "outputPath": "C:\\repos\\TabloX2\\obj\\",
+        "outputPath": "C:\\repos\\TabloX\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -62,6 +62,10 @@
               "target": "Package",
               "version": "[8.0.4, )"
             },
+            "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[8.0.4, )"
@@ -69,6 +73,10 @@
             "Microsoft.EntityFrameworkCore.Tools": {
               "target": "Package",
               "version": "[8.0.4, )"
+            },
+            "Net.Codecrete.QrCodeGenerator": {
+              "target": "Package",
+              "version": "[2.0.4, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",

@@ -1,295 +1,1215 @@
 {
   "Files": [
     {
-      "Id": "C:\\repos\\TabloX2\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TabloX2.bundle.scp.css",
+      "Id": "C:\\repos\\TabloX\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TabloX2.bundle.scp.css",
       "PackagePath": "staticwebassets\\TabloX2.u2t8mhvnpa.bundle.scp.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\css\\intlTelInput.min.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\Logo\\tabloXLogo.png",
+      "PackagePath": "staticwebassets\\Logo\\tabloXLogo.png"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\TabloXLogo.ico",
+      "PackagePath": "staticwebassets\\TabloXLogo.ico"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\css\\admin\\artist-edit.css",
+      "PackagePath": "staticwebassets\\css\\admin\\artist-edit.css"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\css\\cart.css",
+      "PackagePath": "staticwebassets\\css\\cart.css"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\css\\checkout-custom.css",
+      "PackagePath": "staticwebassets\\css\\checkout-custom.css"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\css\\intlTelInput.min.css",
       "PackagePath": "staticwebassets\\css\\intlTelInput.min.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\css\\site.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\favicon.ico",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\flags.png",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_10030.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_10030.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_10471.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_10471.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_119263.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_119263.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_187169.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_187169.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_196440.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_196440.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_196954.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_196954.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_203044.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_203044.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_207523.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_207523.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_208315.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_208315.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_208963.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_208963.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_224116.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_224116.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_225656.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_225656.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_227696.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_227696.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_228045.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_228045.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_229012.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_229012.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_245464.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_245464.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_250088.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_250088.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_259157.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_259157.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_26558.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_26558.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_288106.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_288106.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_312789.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_312789.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_314350.JPG",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_314350.JPG"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_323343.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_323343.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_325642.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_325642.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_341734.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_341734.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_342322.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_342322.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_343596.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_343596.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_379820.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_379820.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_408669.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_408669.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_414658.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_414658.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_437252.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_437252.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_43733.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_43733.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_438381.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_438381.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_438415.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_438415.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_443660.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_443660.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_445344.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_445344.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_450044.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_450044.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_457149.JPG",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_457149.JPG"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_460738.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_460738.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_461488.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_461488.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_464331.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_464331.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_466267.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_466267.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_466285.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_466285.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_471849.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_471849.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_475540.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_475540.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_480501.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_480501.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_51494.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_51494.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_51727.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_51727.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_5336.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_5336.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_545538.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_545538.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_54672.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_54672.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_625684.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_625684.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_668651.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_668651.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_683834.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_683834.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_693347.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_693347.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_698930.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_698930.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_706378.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_706378.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_709756.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_709756.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_714207.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_714207.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_717577.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_717577.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_740149.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_740149.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_741491.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_741491.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_742388.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_742388.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_745392.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_745392.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_752806.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_752806.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_752995.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_752995.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_8005.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_8005.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_822804.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_822804.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_823762.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_823762.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_854499.JPG",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_854499.JPG"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_87018.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_87018.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\artwork_98334.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\artwork_98334.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\artworks\\default-artwork.jpg",
+      "PackagePath": "staticwebassets\\images\\artworks\\default-artwork.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\flags.png",
       "PackagePath": "staticwebassets\\images\\flags.png"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\flags@2x.png",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\flags@2x.png",
       "PackagePath": "staticwebassets\\images\\flags@2x.png"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\profile1.png",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-14936-039.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-14936-039.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-14976-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-14976-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-17279-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-17279-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-18885-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-18885-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-19279-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-19279-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-20099-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-20099-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-20101-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-20101-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-25036-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-25036-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-25460-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-25460-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-25461-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-25461-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-25462-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-25462-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-25463-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-25463-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-34475-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-34475-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-34501-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-34501-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP-35674-001.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP-35674-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP123847.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP123847.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP145912.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP145912.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP145924.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP145924.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP231550.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP231550.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP243354.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP243354.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP317780.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP317780.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP320128.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP320128.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP346474.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP346474.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP353256.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP353256.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP353257.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP353257.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP354965.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP354965.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DP355525.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DP355525.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1025.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1025.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1027.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1027.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1029.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1029.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1342.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1342.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1396.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1396.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1494.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1494.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1502_cropped2.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1502_cropped2.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1567.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1567.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1874.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1874.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1877.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1877.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1879.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1879.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1882.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1882.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1937.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1937.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1939.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1939.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1944.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1944.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1947.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1947.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1952.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1952.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1953.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1953.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT1954.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT1954.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT3154.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT3154.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT47.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT47.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\highres_DT840.jpg",
+      "PackagePath": "staticwebassets\\images\\highres_DT840.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-14936-039.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-14936-039.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-14976-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-14976-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-17279-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-17279-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-18885-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-18885-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-19279-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-19279-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-20099-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-20099-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-20101-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-20101-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-25036-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-25036-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-25460-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-25460-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-25461-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-25461-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-25462-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-25462-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-25463-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-25463-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-34475-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-34475-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-34501-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-34501-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP-35674-001.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP-35674-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP123847.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP123847.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP145912.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP145912.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP145924.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP145924.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP231550.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP231550.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP243354.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP243354.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP317780.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP317780.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP320128.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP320128.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP346474.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP346474.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP353256.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP353256.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP353257.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP353257.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP354965.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP354965.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DP355525.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DP355525.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1025.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1025.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1027.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1027.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1029.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1029.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1342.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1342.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1396.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1396.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1494.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1494.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1502_cropped2.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1502_cropped2.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1567.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1567.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1874.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1874.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1877.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1877.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1879.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1879.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1882.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1882.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1937.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1937.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1939.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1939.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1944.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1944.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1947.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1947.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1952.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1952.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1953.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1953.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT1954.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT1954.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT3154.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT3154.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT47.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT47.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\medium_DT840.jpg",
+      "PackagePath": "staticwebassets\\images\\medium_DT840.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\profile1.png",
       "PackagePath": "staticwebassets\\images\\profile1.png"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\profile2.png",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\profile2.png",
       "PackagePath": "staticwebassets\\images\\profile2.png"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\profile3.png",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\profile3.png",
       "PackagePath": "staticwebassets\\images\\profile3.png"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\images\\visa.png",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-14936-039.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-14936-039.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-14976-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-14976-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-17279-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-17279-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-18885-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-18885-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-19279-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-19279-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-20099-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-20099-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-20101-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-20101-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-25036-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-25036-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-25460-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-25460-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-25461-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-25461-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-25462-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-25462-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-25463-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-25463-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-34470-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-34470-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-34475-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-34475-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-34501-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-34501-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP-35674-001.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP-35674-001.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP123847.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP123847.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP145912.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP145912.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP145924.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP145924.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP231550.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP231550.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP243354.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP243354.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP317780.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP317780.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP320128.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP320128.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP346474.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP346474.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP353256.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP353256.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP353257.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP353257.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP354965.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP354965.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DP355525.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DP355525.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1025.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1025.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1027.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1027.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1029.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1029.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1342.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1342.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1396.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1396.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1494.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1494.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1502_cropped2.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1502_cropped2.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1567.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1567.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1874.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1874.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1877.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1877.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1879.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1879.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1882.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1882.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1937.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1937.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1939.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1939.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1944.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1944.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1947.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1947.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1952.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1952.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1953.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1953.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT1954.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT1954.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT3154.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT3154.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT47.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT47.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\thumbnail_DT840.jpg",
+      "PackagePath": "staticwebassets\\images\\thumbnail_DT840.jpg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\images\\visa.png",
       "PackagePath": "staticwebassets\\images\\visa.png"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\js\\intlTelInput.min.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\img\\card-amex.svg",
+      "PackagePath": "staticwebassets\\img\\card-amex.svg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\img\\card-generic.svg",
+      "PackagePath": "staticwebassets\\img\\card-generic.svg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\img\\card-mastercard.svg",
+      "PackagePath": "staticwebassets\\img\\card-mastercard.svg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\img\\card-visa.svg",
+      "PackagePath": "staticwebassets\\img\\card-visa.svg"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\js\\intlTelInput.min.js",
       "PackagePath": "staticwebassets\\js\\intlTelInput.min.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\js\\site.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\js\\utils.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\js\\utils.js",
       "PackagePath": "staticwebassets\\js\\utils.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.min.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery\\LICENSE.txt",
       "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery\\dist\\jquery.slim.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery\\dist\\jquery.slim.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery\\dist\\jquery.slim.min.js",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery\\dist\\jquery.slim.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.min.js"
     },
     {
-      "Id": "C:\\repos\\TabloX2\\wwwroot\\lib\\jquery\\dist\\jquery.slim.min.map",
+      "Id": "C:\\repos\\TabloX\\wwwroot\\lib\\jquery\\dist\\jquery.slim.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.min.map"
     },
     {

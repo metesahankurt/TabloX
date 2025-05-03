@@ -1,559 +1,283 @@
 @model TabloX2.Models.CheckoutViewModel
+
 @{
-    ViewData["Title"] = "Satın Alma";
-    var cartItems = ViewBag.CartItems as List<TabloX2.Models.CartItem>;
-    var totalAmount = ViewBag.TotalAmount;
-    var discountAmount = ViewBag.DiscountAmount;
-    var finalAmount = ViewBag.FinalAmount;
-    string formAction = (ViewBag.DirectBuy == true && cartItems != null && cartItems.Count == 1)
-        ? Url.Action("Checkout", "Orders", new { artworkId = cartItems[0].ArtworkId })
-        : Url.Action("Checkout", "Orders");
+    ViewData["Title"] = "Ödeme";
 }
 
-<style>
-    .payment-section {
-        display: none;
-    }
+<link rel="stylesheet" href="/css/checkout-custom.css">
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+}
 
-    .payment-section.active {
-        display: block;
-        animation: fadeInSection 0.3s ease-in-out;
-    }
-
-    @@keyframes fadeInSection {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    .form-group {
-        margin-bottom: 1rem;
-    }
-
-    .input-group-text {
-        background-color: #fff;
-        border-left: none;
-        padding: 0.375rem 0.75rem;
-    }
-
-    .card-brand-image {
-        height: 24px;
-        width: auto;
-        display: none;
-    }
-
-    .payment-icon {
-        width: 24px;
-        height: 24px;
-        margin-right: 8px;
-        vertical-align: middle;
-    }
-
-    .form-select {
-        padding-left: 40px;
-        width: 100%;
-        height: calc(1.5em + 0.75rem + 2px);
-        appearance: auto;
-    }
-
-    .installment-select {
-        padding-left: 12px;
-        background-position: right 0.75rem center;
-        background-size: 16px 12px;
-    }
-
-    .card {
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .card-number-input {
-        border-right: none;
-    }
-
-    .card-brand-container {
-        min-width: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .card-brand {
-        display: none;
-        font-size: 24px;
-    }
-
-    .card-brand.visa {
-        color: #1A1F71;
-    }
-
-    .card-brand.mastercard {
-        color: #EB001B;
-    }
-
-    .card-brand.amex {
-        color: #006FCF;
-    }
-
-    .card-brand.generic {
-        color: #6c757d;
-    }
-</style>
-
-<div class="container py-4">
-    <h2 class="mb-4">Satın Alma</h2>
-
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            @TempData["Error"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    @if (!ViewData.ModelState.IsValid)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <ul class="mb-0">
-                @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    <li>@modelError.ErrorMessage</li>
-                }
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    <div class="row">
-        <div class="col-md-6">
-            <form method="post" id="checkoutForm" action="@formAction">
-                @Html.AntiForgeryToken()
-                @if (ViewBag.DirectBuy == true && cartItems != null && cartItems.Count == 1)
-                {
-                    <input type="hidden" name="artworkId" value="@cartItems[0].ArtworkId" />
-                }
-
-                <div asp-validation-summary="All" class="text-danger"></div>
-
-                <div class="form-group mb-4">
-                    <label asp-for="PaymentMethod" class="form-label">Ödeme Yöntemi</label>
-                    <select asp-for="PaymentMethod" class="form-select" id="PaymentMethod">
-                        <option value="CreditCard">💳 Kredi Kartı</option>
-                        <option value="BankTransfer">🏦 Havale/EFT</option>
-                        <option value="CryptoCurrency">₿ Kripto Para</option>
-                        <option value="GiftCard">🎁 Hediye Kartı</option>
-                    </select>
-                    <span asp-validation-for="PaymentMethod" class="text-danger"></span>
-                </div>
-
-                <!-- Kredi Kartı Bölümü -->
-                <div id="CreditCardSection" class="payment-section">
-                    <div class="card p-3 mb-3">
-                        <h5 class="mb-3">💳 Kredi Kartı Bilgileri</h5>
-                        <div class="form-group">
-                            <label asp-for="CardNumber">Kart Numarası</label>
-                            <div class="input-group">
-                                <input asp-for="CardNumber" class="form-control card-number-input" id="CardNumber" maxlength="19" placeholder="•••• •••• •••• ••••" />
-                                <span class="input-group-text card-brand-container">
-                                    <i class="card-brand visa fa-brands fa-cc-visa"></i>
-                                    <i class="card-brand mastercard fa-brands fa-cc-mastercard"></i>
-                                    <i class="card-brand amex fa-brands fa-cc-amex"></i>
-                                    <i class="card-brand generic fa-regular fa-credit-card"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label asp-for="Expiry">Son Kullanma</label>
-                                    <input asp-for="Expiry" class="form-control" id="Expiry" placeholder="AA/YY" maxlength="5" />
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label asp-for="CVV">CVV</label>
-                                    <input asp-for="CVV" class="form-control" id="CVV" maxlength="4" placeholder="•••" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CardHolder">Kart Üzerindeki İsim</label>
-                            <input asp-for="CardHolder" class="form-control" id="CardHolder" />
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="InstallmentCount">Taksit</label>
-                            <select asp-for="InstallmentCount" class="form-select installment-select">
-                                <option value="1">Tek Çekim</option>
-                                <option value="2">2 Taksit</option>
-                                <option value="3">3 Taksit</option>
-                                <option value="6">6 Taksit</option>
-                                <option value="9">9 Taksit</option>
-                                <option value="12">12 Taksit</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Havale/EFT Bölümü -->
-                <div id="BankTransferSection" class="payment-section">
-                    <div class="card p-3 mb-3">
-                        <h5 class="mb-3">🏦 Havale/EFT Bilgileri</h5>
-                        <div class="alert alert-info">
-                            <strong>Banka Hesap Bilgileri:</strong><br/>
-                            Banka: Örnek Bank<br/>
-                            IBAN: TR12 3456 7890 1234 5678 9012 34<br/>
-                            Hesap Sahibi: TabloX2 Sanat Galerisi
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="BankAccountNumber">Gönderici IBAN</label>
-                            <input asp-for="BankAccountNumber" class="form-control" id="BankAccountNumber" 
-                                   placeholder="TR12 3456 7890 1234 5678 9012 34"
-                                   pattern="TR\d{2}\s\d{4}\s\d{4}\s\d{4}\s\d{4}\s\d{4}\s\d{2}"
-                                   maxlength="32" />
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Kripto Para Bölümü -->
-                <div id="CryptoCurrencySection" class="payment-section">
-                    <div class="card p-3 mb-3">
-                        <h5 class="mb-3">₿ Kripto Para Bilgileri</h5>
-                        <div class="alert alert-info">
-                            <strong>Kripto Cüzdan Adresleri:</strong><br/>
-                            BTC: bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh<br/>
-                            ETH: 0x71C7656EC7ab88b098defB751B7401B5f6d8976F
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CryptoWalletAddress">Gönderici Cüzdan Adresi</label>
-                            <input asp-for="CryptoWalletAddress" class="form-control" id="CryptoWalletAddress" />
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hediye Kartı Bölümü -->
-                <div id="GiftCardSection" class="payment-section">
-                    <div class="card p-3 mb-3">
-                        <h5 class="mb-3">🎁 Hediye Kartı</h5>
-                        <div class="form-group">
-                            <label asp-for="GiftCardCode">Hediye Kartı Kodu</label>
-                            <input asp-for="GiftCardCode" class="form-control" id="GiftCardCode" 
-                                   placeholder="XXXX-XXXX-XXXX-XXXX"
-                                   pattern="[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}"
-                                   maxlength="19" />
-                            <small class="text-muted">Örnek: GIFT-X100-2024-FULL</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label asp-for="ShippingAddress" class="form-label">Kargo Adresi</label>
-                    <textarea asp-for="ShippingAddress" class="form-control" rows="3" required minlength="10"></textarea>
-                    <span asp-validation-for="ShippingAddress" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-4">
-                    <label asp-for="CouponCode" class="form-label">İndirim Kodu</label>
-                    <input asp-for="CouponCode" class="form-control" placeholder="Varsa indirim kodunuz" />
-                    <span asp-validation-for="CouponCode" class="text-danger"></span>
-                </div>
-
-                <button type="submit" class="btn btn-success btn-lg w-100" id="submitButton">
-                    Satın Al
-                </button>
-            </form>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">Sepet Özeti</h4>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Eser</th>
-                                <th>Adet</th>
-                                <th class="text-end">Fiyat</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in cartItems)
-                            {
-                                <tr>
-                                    <td>@item.Artwork.Title</td>
-                                    <td>@item.Quantity</td>
-                                    <td class="text-end">@item.Artwork.Price.ToString("C")</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <div class="text-end">
-                        <div class="mb-2">
-                            <strong>Toplam:</strong> 
-                            <span class="fs-5">@totalAmount.ToString("C")</span>
-                        </div>
-                        @if (discountAmount > 0)
-                        {
-                            <div class="mb-2 text-success">
-                                <strong>İndirim:</strong> 
-                                <span class="fs-5">-@discountAmount.ToString("C")</span>
-                            </div>
-                        }
-                        <div class="mb-2">
-                            <strong>Ödenecek Tutar:</strong> 
-                            <span class="fs-4 text-success">@finalAmount.ToString("C")</span>
-                        </div>
-                    </div>
-                </div>
+<div class="checkout-2col-outer">
+    <div class="checkout-2col-box">
+        <div class="checkout-cart-summary">
+            <div class="checkout-cart-info">
+                <svg width="16" height="16" fill="none"><path d="M8 1.5a3.5 3.5 0 0 1 3.5 3.5v2h.75A1.75 1.75 0 0 1 14 8.75v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-3.5A1.75 1.75 0 0 1 3.75 7h.75v-2A3.5 3.5 0 0 1 8 1.5Zm0 1.5A2 2 0 0 0 6 5v2h4V5a2 2 0 0 0-2-2Zm4 5.25H4A.75.75 0 0 0 3.25 8.75v3.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-3.5A.75.75 0 0 0 12 8.25Z" fill="#6B7280"/></svg>
+                <span>Sepet Özeti</span>
             </div>
+            <h3 class="checkout-title">Sepetim</h3>
+            @if (ViewBag.Cart != null && ViewBag.Cart.Items != null && ViewBag.Cart.Items.Count > 0)
+            {
+                foreach (var item in ViewBag.Cart.Items)
+                {
+                    <div class="cart-item">
+                        <img src="@item.Artwork?.ImageUrl" alt="@item.Artwork?.Title" class="cart-item-img" />
+                        <div>
+                            <div class="cart-item-title">@item.Artwork?.Title</div>
+                            <div class="cart-item-artist">@item.Artwork?.Artist?.Name</div>
+                            <div class="cart-item-price">@item.Artwork?.Price.ToString("C0")</div>
+                        </div>
+                    </div>
+                }
+                <hr style="margin: 10px 0;" />
+                <div class="cart-summary-total" style="display: flex; flex-direction: column; gap: 2px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Ara Toplam</span>
+                        <span>@Model.SubTotal.ToString("C0")</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>KDV (%18)</span>
+                        <span>@Model.Tax.ToString("C0")</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                        <span>Toplam</span>
+                        <span>@Model.Total.ToString("C0")</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="cart-empty">Sepetiniz boş.</div>
+            }
+        </div>
+        <div class="checkout-stripe-box">
+            <div class="checkout-ssl-info">
+                <svg width="16" height="16" fill="none"><path d="M8 1.5a3.5 3.5 0 0 1 3.5 3.5v2h.75A1.75 1.75 0 0 1 14 8.75v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-3.5A1.75 1.75 0 0 1 3.75 7h.75v-2A3.5 3.5 0 0 1 8 1.5Zm0 1.5A2 2 0 0 0 6 5v2h4V5a2 2 0 0 0-2-2Zm4 5.25H4A.75.75 0 0 0 3.25 8.75v3.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-3.5A.75.75 0 0 0 12 8.25Z" fill="#6B7280"/></svg>
+                <span>Güvenli ödeme</span>
+            </div>
+            <h3 class="checkout-title">Ödeme Bilgileri</h3>
+            <form id="checkoutForm" method="post" autocomplete="off">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger" style="margin-bottom: 20px; margin-top: 10px;">
+                        <ul>
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                        </ul>
+                    </div>
+                }
+                <div class="checkout-field">
+                    <label class="checkout-label">Ad</label>
+                    <input type="text" class="checkout-input" name="FirstName" value="@Model.FirstName" required />
+                </div>
+                <div class="checkout-field">
+                    <label class="checkout-label">Soyad</label>
+                    <input type="text" class="checkout-input" name="LastName" value="@Model.LastName" required />
+                </div>
+                <div class="checkout-field">
+                    <label class="checkout-label">E-posta</label>
+                    <input type="email" class="checkout-input" name="Email" value="@Model.Email" required />
+                </div>
+                <div class="checkout-field">
+                    <label class="checkout-label">Telefon</label>
+                    <input type="tel" class="checkout-input" name="Phone" id="phone" value="@Model.Phone" maxlength="14" placeholder="555 555 55 55" required />
+                </div>
+                <div class="checkout-field">
+                    <label class="checkout-label">Ülke</label>
+                    <select class="checkout-input" name="Country" id="countrySelect" required>
+                        <option value="TR" selected>Türkiye</option>
+                        <option value="US">Amerika Birleşik Devletleri</option>
+                        <option value="GB">Birleşik Krallık</option>
+                        <option value="DE">Almanya</option>
+                        <option value="FR">Fransa</option>
+                        <option value="IT">İtalya</option>
+                        <option value="ES">İspanya</option>
+                        <option value="NL">Hollanda</option>
+                        <option value="CA">Kanada</option>
+                        <option value="AU">Avustralya</option>
+                        <option value="">Diğer</option>
+                    </select>
+                </div>
+                <div id="addressFields">
+                    <div class="checkout-field">
+                        <label class="checkout-label">Adres</label>
+                        <input type="text" class="checkout-input" name="Address" value="@Model.Address" required />
+                    </div>
+                    <div class="checkout-row" id="trFields">
+                        <div class="checkout-field">
+                            <label class="checkout-label">İl</label>
+                            <input type="text" class="checkout-input" name="City" value="@Model.City" required />
+                        </div>
+                        <div class="checkout-field">
+                            <label class="checkout-label">İlçe</label>
+                            <input type="text" class="checkout-input" name="District" value="@Model.District" required />
+                        </div>
+                    </div>
+                    <div class="checkout-row d-none" id="otherFields">
+                        <div class="checkout-field">
+                            <label class="checkout-label">Eyalet/Bölge</label>
+                            <input type="text" class="checkout-input" name="State" />
+                        </div>
+                        <div class="checkout-field">
+                            <label class="checkout-label">Şehir</label>
+                            <input type="text" class="checkout-input" name="OtherCity" />
+                        </div>
+                    </div>
+                    <div class="checkout-field">
+                        <label class="checkout-label">Posta Kodu</label>
+                        <input type="text" class="checkout-input" name="PostalCode" id="postalCode" value="@Model.PostalCode" maxlength="10" required />
+                    </div>
+                </div>
+                <div class="checkout-field">
+                    <label class="checkout-label">Kart Üzerindeki İsim</label>
+                    <input type="text" class="checkout-input" name="CardHolder" id="cardName" placeholder="Ad Soyad" autocomplete="cc-name" required>
+                </div>
+                <div class="checkout-field">
+                    <label class="checkout-label">Kart Numarası</label>
+                    <div class="checkout-card-input-group">
+                        <input type="text" class="checkout-input" name="CardNumber" id="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456" autocomplete="cc-number" required>
+                        <span class="checkout-card-icon" id="cardTypeIcon">
+                            <img id="cardTypeImg" src="/img/card-generic.svg" alt="">
+                        </span>
+                    </div>
+                    <div class="checkout-error" id="cardNumberError"></div>
+                </div>
+                <div class="checkout-row">
+                    <div class="checkout-field">
+                        <label class="checkout-label">Son Kullanma</label>
+                        <input type="text" class="checkout-input" name="CardExpiry" id="cardExpiry" maxlength="5" placeholder="AA/YY" autocomplete="cc-exp" required>
+                    </div>
+                    <div class="checkout-field">
+                        <label class="checkout-label">CVC</label>
+                        <input type="text" class="checkout-input" name="CardCvv" id="cardCvc" maxlength="4" placeholder="CVC" autocomplete="cc-csc" required>
+                    </div>
+                </div>
+                <input type="hidden" name="PaymentMethod" value="CreditCard" />
+                <button type="submit" class="checkout-btn btn-tablox-red" id="checkoutBtn">Ödemeyi Tamamla</button>
+            </form>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const paymentMethodSelect = document.getElementById('PaymentMethod');
-            const paymentSections = document.querySelectorAll('.payment-section');
-            const cardNumberInput = document.getElementById('CardNumber');
-            const cardBrands = document.querySelectorAll('.card-brand');
-            const expiryInput = document.getElementById('Expiry');
-            const cvvInput = document.getElementById('CVV');
-            const form = document.querySelector('form');
+        // Kart tipi algılama ve ikon gösterme
+        const cardTypeImg = document.getElementById('cardTypeImg');
+        const cardNumberInput = document.getElementById('cardNumber');
+        const cardNumberError = document.getElementById('cardNumberError');
+        const checkoutBtn = document.getElementById('checkoutBtn');
 
-            // İlk yükleme için ödeme yöntemini güncelle
-            updatePaymentSection(paymentMethodSelect.value);
+        cardNumberInput.addEventListener('input', function(e) {
+            let val = e.target.value.replace(/\D/g, '');
+            let type = 'generic';
+            if (/^4/.test(val)) type = 'visa';
+            else if (/^5[1-5]/.test(val)) type = 'mastercard';
+            else if (/^3[47]/.test(val)) type = 'amex';
+            cardTypeImg.src = '/img/card-' + type + '.svg';
+            cardTypeImg.alt = "";
+            let newVal = '';
+            for (let i = 0; i < val.length; i++) {
+                if (i > 0 && i % 4 === 0) newVal += ' ';
+                newVal += val[i];
+            }
+            e.target.value = newVal;
+            if (val.length >= 13 && !luhnCheck(val)) {
+                cardNumberError.textContent = "Geçersiz kart numarası";
+                checkoutBtn.disabled = true;
+            } else {
+                cardNumberError.textContent = "";
+                checkoutBtn.disabled = val.length < 13 || !luhnCheck(val);
+            }
+        });
+        document.getElementById('cardExpiry').addEventListener('input', function(e) {
+            let val = e.target.value.replace(/\D/g, '');
+            if (val.length >= 2) {
+                val = val.slice(0,2) + '/' + val.slice(2);
+            }
+            e.target.value = val;
+        });
 
-            // Ödeme yöntemi değiştiğinde
-            paymentMethodSelect.addEventListener('change', function() {
-                updatePaymentSection(this.value);
-            });
+        // intl-tel-input başlat
+        var phoneInput = document.querySelector("#phone");
+        var iti = window.intlTelInput(phoneInput, {
+            initialCountry: "tr",
+            preferredCountries: ["tr", "us", "gb", "de", "fr"],
+            separateDialCode: true,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+            nationalMode: true,
+            formatOnDisplay: true
+        });
 
-            function updatePaymentSection(selectedMethod) {
-                // Tüm bölümleri gizle
-                paymentSections.forEach(section => {
-                    section.classList.remove('active');
-                });
+        // Ülke seçimi ile telefon inputunu güncelle
+        document.getElementById('countrySelect').addEventListener('change', function() {
+            var country = this.value.toLowerCase();
+            if (country) iti.setCountry(country);
+            // Adres alanlarını değiştir
+            if (country === 'tr') {
+                document.getElementById('trFields').classList.remove('d-none');
+                document.getElementById('otherFields').classList.add('d-none');
+            } else {
+                document.getElementById('trFields').classList.add('d-none');
+                document.getElementById('otherFields').classList.remove('d-none');
+            }
+        });
+        // Sadece Türkiye için maske uygula
+        phoneInput.addEventListener('input', function(e) {
+            var country = iti.getSelectedCountryData().iso2;
+            if (country === 'tr') {
+                let val = this.value.replace(/\D/g, '');
+                if (val.length > 10) val = val.slice(0, 10);
+                let masked = '';
+                if (val.length > 0) masked = val.substring(0, 3);
+                if (val.length > 3) masked += ' ' + val.substring(3, 6);
+                if (val.length > 6) masked += ' ' + val.substring(6, 8);
+                if (val.length > 8) masked += ' ' + val.substring(8, 10);
+                this.value = masked;
+            }
+        });
+        phoneInput.addEventListener('keypress', function(e) {
+            if (!/[0-9]/.test(e.key)) e.preventDefault();
+        });
+        phoneInput.addEventListener('countrychange', function() {
+            this.value = '';
+        });
+        // Form gönderimi
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            var phoneNumber = iti.getNumber();
+            if (!iti.isValidNumber()) {
+                e.preventDefault();
+                alert("Lütfen geçerli bir telefon numarası giriniz.");
+                return false;
+            }
+            phoneInput.value = phoneNumber;
+        });
 
-                // Seçilen bölümü göster
-                const selectedSection = document.querySelector(`#${selectedMethod}Section`);
-                if (selectedSection) {
-                    selectedSection.classList.add('active');
+        function luhnCheck(val) {
+            let sum = 0;
+            let shouldDouble = false;
+            for (let i = val.length - 1; i >= 0; i--) {
+                let digit = parseInt(val.charAt(i));
+                if (shouldDouble) {
+                    if ((digit *= 2) > 9) digit -= 9;
                 }
-
-                // Form validasyonunu güncelle
-                updateFormValidation(selectedMethod);
+                sum += digit;
+                shouldDouble = !shouldDouble;
             }
+            return (sum % 10) === 0;
+        }
 
-            function updateFormValidation(selectedMethod) {
-                // Tüm required alanları kaldır
-                form.querySelectorAll('[required]').forEach(input => {
-                    input.removeAttribute('required');
-                });
-
-                // Seçilen ödeme yöntemine göre required alanları ekle
-                if (selectedMethod === 'CreditCard') {
-                    document.getElementById('CardNumber').setAttribute('required', '');
-                    document.getElementById('Expiry').setAttribute('required', '');
-                    document.getElementById('CVV').setAttribute('required', '');
-                    document.getElementById('CardHolder').setAttribute('required', '');
-                } else if (selectedMethod === 'BankTransfer') {
-                    document.getElementById('BankAccountNumber').setAttribute('required', '');
-                } else if (selectedMethod === 'CryptoCurrency') {
-                    document.getElementById('CryptoWalletAddress').setAttribute('required', '');
-                } else if (selectedMethod === 'GiftCard') {
-                    document.getElementById('GiftCardCode').setAttribute('required', '');
-                }
-            }
-
-            // Kredi kartı numarası formatlaması
-            if (cardNumberInput) {
-                cardNumberInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, '');
-                    let formattedValue = '';
-                    
-                    for (let i = 0; i < value.length; i++) {
-                        if (i > 0 && i % 4 === 0) {
-                            formattedValue += ' ';
-                        }
-                        formattedValue += value[i];
-                    }
-                    
-                    e.target.value = formattedValue;
-
-                    // Kart markası logosunu güncelle
-                    updateCardBrand(value);
-                });
-            }
-
-            // Kart markasını güncelle
-            function updateCardBrand(cardNumber) {
-                // Tüm logoları gizle
-                cardBrands.forEach(brand => brand.style.display = 'none');
-
-                if (!cardNumber) {
-                    document.querySelector('.card-brand.generic').style.display = 'block';
-                    return;
-                }
-
-                // Kart numarasının ilk karakterine göre kart markasını belirle
-                const firstDigit = cardNumber.charAt(0);
-                const firstTwoDigits = cardNumber.substr(0, 2);
-
-                if (firstDigit === '4') {
-                    document.querySelector('.card-brand.visa').style.display = 'block';
-                } else if (firstDigit === '5' && ['1','2','3','4','5'].includes(cardNumber.charAt(1))) {
-                    document.querySelector('.card-brand.mastercard').style.display = 'block';
-                } else if (firstTwoDigits === '34' || firstTwoDigits === '37') {
-                    document.querySelector('.card-brand.amex').style.display = 'block';
-                } else {
-                    document.querySelector('.card-brand.generic').style.display = 'block';
-                }
-            }
-
-            // İlk yükleme için generic kart ikonunu göster
-            updateCardBrand('');
-
-            // Son kullanma tarihi formatlaması
-            if (expiryInput) {
-                expiryInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, '');
-                    
-                    if (value.length > 2) {
-                        value = value.substr(0, 2) + '/' + value.substr(2, 2);
-                    }
-                    
-                    e.target.value = value;
-                });
-            }
-
-            // CVV input kontrolü
-            if (cvvInput) {
-                cvvInput.addEventListener('input', function(e) {
-                    e.target.value = e.target.value.replace(/\D/g, '').substr(0, 3);
-                });
-            }
-
-            // IBAN formatlaması
-            const ibanInput = document.getElementById('BankAccountNumber');
-            if (ibanInput) {
-                ibanInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, ''); // Sadece rakamları al
-                    
-                    if (value.length > 0 && !value.startsWith('TR')) {
-                        value = 'TR' + value;
-                    }
-                    
-                    let formattedValue = '';
-                    const groups = ['TR', '00', '0000', '0000', '0000', '0000', '0000', '00'];
-                    let currentPos = 0;
-                    
-                    for (let i = 0; i < groups.length && currentPos < value.length; i++) {
-                        if (i === 0) {
-                            formattedValue += 'TR';
-                            currentPos += 2;
-                        } else {
-                            const groupLength = groups[i].length;
-                            const group = value.substr(currentPos, groupLength);
-                            if (group) {
-                                if (formattedValue) formattedValue += ' ';
-                                formattedValue += group;
-                                currentPos += groupLength;
-                            }
-                        }
-                    }
-                    
-                    e.target.value = formattedValue;
-                });
-
-                // IBAN doğrulama
-                ibanInput.addEventListener('blur', function(e) {
-                    const iban = e.target.value.replace(/\s/g, '');
-                    if (iban && !isValidIBANFormat(iban)) {
-                        alert('Lütfen geçerli bir IBAN giriniz.');
-                        e.target.value = '';
-                    }
-                });
-            }
-
-            function isValidIBANFormat(iban) {
-                const ibanRegex = /^TR\d{24}$/;
-                return ibanRegex.test(iban);
-            }
-
-            // Hediye kartı kodu formatlaması
-            const giftCardInput = document.getElementById('GiftCardCode');
-            if (giftCardInput) {
-                giftCardInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/[^A-Z0-9]/g, '').toUpperCase();
-                    let formattedValue = '';
-                    
-                    for (let i = 0; i < value.length && i < 16; i++) {
-                        if (i > 0 && i % 4 === 0) {
-                            formattedValue += '-';
-                        }
-                        formattedValue += value[i];
-                    }
-                    
-                    e.target.value = formattedValue;
-                });
-
-                // Hediye kartı kodu doğrulama
-                giftCardInput.addEventListener('blur', function(e) {
-                    const code = e.target.value;
-                    if (code && !isValidGiftCardFormat(code)) {
-                        alert('Lütfen geçerli bir hediye kartı kodu giriniz.');
-                        e.target.value = '';
-                    }
-                });
-            }
-
-            function isValidGiftCardFormat(code) {
-                const giftCardRegex = /^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
-                return giftCardRegex.test(code);
-            }
-
-            // Form gönderilmeden önce validasyon
-            form.addEventListener('submit', function(e) {
-                const selectedMethod = paymentMethodSelect.value;
-                let isValid = true;
-
-                if (selectedMethod === 'CreditCard') {
-                    if (!cardNumberInput.value || cardNumberInput.value.replace(/\s/g, '').length < 16) {
-                        alert('Lütfen geçerli bir kredi kartı numarası giriniz.');
-                        isValid = false;
-                    }
-                    if (!expiryInput.value || expiryInput.value.length < 5) {
-                        alert('Lütfen geçerli bir son kullanma tarihi giriniz.');
-                        isValid = false;
-                    }
-                    if (!cvvInput.value || cvvInput.value.length < 3) {
-                        alert('Lütfen geçerli bir CVV giriniz.');
-                        isValid = false;
-                    }
-                }
-
-                if (selectedMethod === 'BankTransfer') {
-                    const iban = ibanInput.value.replace(/\s/g, '');
-                    if (!isValidIBANFormat(iban)) {
-                        alert('Lütfen geçerli bir IBAN giriniz.');
-                        isValid = false;
-                    }
-                }
-
-                if (selectedMethod === 'GiftCard') {
-                    const code = giftCardInput.value;
-                    if (!isValidGiftCardFormat(code)) {
-                        alert('Lütfen geçerli bir hediye kartı kodu giriniz.');
-                        isValid = false;
-                    }
-                }
-
-                if (!isValid) {
-                    e.preventDefault();
-                }
-            });
+        // Posta kodu sadece rakam
+        const postalCodeInput = document.getElementById('postalCode');
+        postalCodeInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+        postalCodeInput.addEventListener('keypress', function(e) {
+            if (!/[0-9]/.test(e.key)) e.preventDefault();
         });
     </script>
 } 

@@ -1,41 +1,146 @@
-@model TabloX2.Models.LoginViewModel
+@model TabloX2.Models.ViewModels.LoginViewModel
+
 @{
     ViewData["Title"] = "Giriş Yap";
 }
 
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <h1 class="text-center">@ViewData["Title"]</h1>
-        <section>
-            <form id="account" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="UserName" class="form-control" autocomplete="username" aria-required="true" />
-                    <label asp-for="UserName" class="form-label">Kullanıcı Adı</label>
-                    <span asp-validation-for="UserName" class="text-danger"></span>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <img src="/Logo/tabloXLogo.png" style="height:60px; max-width:180px; object-fit:contain;" class="mb-4" />
+                        <h2 class="fw-bold text-dark mb-2">Giriş Yap</h2>
+                        <p class="text-muted">TabloX'e hoş geldiniz</p>
+                    </div>
+
+                    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3" role="alert"></div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="UsernameOrEmail" class="form-control form-control-lg rounded-3" placeholder="Kullanıcı adı veya E-posta" required />
+                            <label asp-for="UsernameOrEmail">Kullanıcı adı veya E-posta</label>
+                            <span asp-validation-for="UsernameOrEmail" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <input asp-for="Password" class="form-control form-control-lg rounded-3" placeholder="Şifre" required />
+                            <label asp-for="Password">Şifre</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                <input asp-for="RememberMe" class="form-check-input" type="checkbox" />
+                                <label asp-for="RememberMe" class="form-check-label text-muted">Beni Hatırla</label>
+                            </div>
+                            <a asp-action="ForgotPassword" class="text-decoration-none">Şifremi Unuttum</a>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-3">
+                                <i class="fas fa-sign-in-alt me-2"></i>Giriş Yap
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p class="mb-0 text-muted">
+                                Hesabınız yok mu? 
+                                <a asp-action="Register" class="text-primary text-decoration-none fw-semibold">Kayıt Ol</a>
+                            </p>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" />
-                    <label asp-for="Password" class="form-label">Şifre</label>
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="checkbox mb-3">
-                    <label asp-for="RememberMe" class="form-label">
-                        <input class="form-check-input" asp-for="RememberMe" />
-                        @Html.DisplayNameFor(m => m.RememberMe)
-                    </label>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Giriş Yap</button>
-                </div>
-                <div class="mt-3 text-center">
-                    <a href="/Account/ForgotPassword" class="btn btn-link">Şifremi Unuttum</a>
-                </div>
-            </form>
-        </section>
+            </div>
+        </div>
     </div>
 </div>
 
+<style>
+    .card {
+        border: none;
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control {
+        border: 2px solid #e9ecef;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #e31837;
+        box-shadow: 0 0 0 0.2rem rgba(227, 24, 55, 0.15);
+    }
+
+    .form-floating > .form-control:focus,
+    .form-floating > .form-control:not(:placeholder-shown) {
+        padding-top: 1.625rem;
+        padding-bottom: 0.625rem;
+    }
+
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label {
+        opacity: 0.65;
+        transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+        color: #e31837;
+    }
+
+    .btn-primary {
+        background: #e31837;
+        border: none;
+        padding: 1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: #c41530;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(227, 24, 55, 0.3);
+    }
+
+    .text-primary {
+        color: #e31837 !important;
+    }
+
+    .form-check-input:checked {
+        background-color: #e31837;
+        border-color: #e31837;
+    }
+
+    .form-check-input:focus {
+        border-color: #e31837;
+        box-shadow: 0 0 0 0.2rem rgba(227, 24, 55, 0.15);
+    }
+
+    .alert {
+        border: none;
+        background-color: #fff3f5;
+        color: #e31837;
+        border-left: 4px solid #e31837;
+    }
+</style>
+
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        // Form doğrulama
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
 } 

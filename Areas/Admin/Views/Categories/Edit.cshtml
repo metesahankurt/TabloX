@@ -4,14 +4,258 @@
     Layout = "../Shared/_AdminLayout.cshtml";
 }
 
-<h2>Kategori Düzenle</h2>
-<form asp-action="EditCategory" method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<style>
+    .edit-category-container {
+        padding: 2rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
+
+    .page-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #E4002B;
+    }
+
+    .page-title {
+        font-family: "Playfair Display", serif;
+        color: #333;
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 0.75rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #E4002B;
+        box-shadow: 0 0 0 0.2rem rgba(228, 0, 43, 0.25);
+    }
+
+    .artworks-section {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+    }
+
+    .artworks-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .artwork-card {
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .artwork-card:hover {
+        border-color: #E4002B;
+        transform: translateY(-2px);
+    }
+
+    .artwork-card.selected {
+        border-color: #E4002B;
+        background-color: rgba(228, 0, 43, 0.05);
+    }
+
+    .artwork-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+    }
+
+    .artwork-title {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 0.2rem;
+    }
+
+    .artwork-artist {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .artwork-status {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 0.25rem 0.5rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .artwork-status.current {
+        background-color: rgba(228, 0, 43, 0.1);
+        color: #E4002B;
+    }
+
+    .btn-submit {
+        background: #E4002B;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 6px;
+        border: none;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-submit:hover {
+        background: #C1001F;
+        transform: translateY(-2px);
+    }
+
+    .btn-cancel {
+        background: #6c757d;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-right: 1rem;
+    }
+
+    .btn-cancel:hover {
+        background: #5a6268;
+        color: white;
+    }
+
+    .filter-section {
+        margin-bottom: 1rem;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        background: white;
+        color: #666;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .filter-btn.active {
+        background: #E4002B;
+        color: white;
+        border-color: #E4002B;
+    }
+</style>
+
+<div class="edit-category-container">
+    <div class="page-header">
+        <h1 class="page-title">@Model.Name Kategorisini Düzenle</h1>
     </div>
-    <button type="submit" class="btn btn-primary">Kaydet</button>
-    <a asp-action="Categories" class="btn btn-secondary">Geri</a>
-</form> 
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        
+        <div class="form-group">
+            <label asp-for="Name" class="form-label">Kategori Adı</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="artworks-section">
+            <h3 class="section-title">Eserler</h3>
+            <p class="text-muted">Bu kategoriye eklemek veya çıkarmak istediğiniz eserleri seçin:</p>
+            
+            <div class="filter-section">
+                <button type="button" class="filter-btn active" data-filter="all">Tüm Eserler</button>
+                <button type="button" class="filter-btn" data-filter="selected">Seçili Eserler</button>
+                <button type="button" class="filter-btn" data-filter="unselected">Diğer Eserler</button>
+            </div>
+            
+            <div class="artworks-grid">
+                @foreach (var artwork in ViewBag.AllArtworks)
+                {
+                    bool isCurrentCategory = artwork.CategoryId == Model.Id;
+                    <div class="artwork-card @(isCurrentCategory ? "selected" : "")" 
+                         onclick="toggleArtworkSelection(this, @artwork.Id)"
+                         data-category="@(isCurrentCategory ? "selected" : "unselected")">
+                        <img src="@(string.IsNullOrEmpty(artwork.ImageUrl) ? "/images/artwork-default.png" : artwork.ImageUrl)" 
+                             alt="@artwork.Title" class="artwork-image" />
+                        <div class="artwork-title">@artwork.Title</div>
+                        <div class="artwork-artist">@artwork.Artist?.Name @artwork.Artist?.Surname</div>
+                        @if (isCurrentCategory)
+                        {
+                            <span class="artwork-status current">Bu kategoride</span>
+                        }
+                        <input type="checkbox" name="SelectedArtworks" value="@artwork.Id" 
+                               @(isCurrentCategory ? "checked" : "") style="display: none;" />
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a asp-action="Index" class="btn-cancel">İptal</a>
+            <button type="submit" class="btn-submit">
+                <i class="bi bi-check-lg"></i>
+                Değişiklikleri Kaydet
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleArtworkSelection(element, artworkId) {
+            element.classList.toggle('selected');
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            
+            // Kategori durumunu güncelle
+            element.dataset.category = checkbox.checked ? 'selected' : 'unselected';
+        }
+
+        // Filtre butonları için event listener
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Aktif buton stilini güncelle
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Eserleri filtrele
+                const filter = btn.dataset.filter;
+                document.querySelectorAll('.artwork-card').forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+} 

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TabloX2.Data;
@@ -15,275 +16,199 @@ namespace TabloX2.Controllers
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public OrdersController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public OrdersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // Sipariş geçmişi
         public async Task<IActionResult> Index()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Challenge();
+
             var orders = await _context.Orders
-                .Include(o => o.Items)
-                .ThenInclude(i => i.Artwork)
-                .Where(o => o.UserId == userId)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Artwork)
+                .Where(o => o.UserId == user.Id)
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
             return View(orders);
         }
 
-        // Siparişi tamamlama (Checkout) - GET
-        [HttpGet]
-        public async Task<IActionResult> Checkout(int? artworkId)
+        public async Task<IActionResult> Details(int? id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<CartItem> cartItems;
-            if (artworkId.HasValue)
+            if (id == null)
             {
-                var artwork = await _context.Artworks.FindAsync(artworkId.Value);
-                if (artwork == null)
-                {
-                    TempData["Error"] = "Eser bulunamadı.";
-                    return RedirectToAction("Index", "Home");
-                }
-                cartItems = new List<CartItem> {
-                    new CartItem { Artwork = artwork, ArtworkId = artwork.Id, Quantity = 1, UserId = userId }
-                };
-                ViewBag.DirectBuy = true;
-            }
-            else
-            {
-                cartItems = await _context.CartItems.Include(c => c.Artwork).Where(c => c.UserId == userId).ToListAsync();
-                if (!cartItems.Any())
-                {
-                    TempData["Error"] = "Sepetiniz boş.";
-                    return RedirectToAction("Index", "Cart");
-                }
-                ViewBag.DirectBuy = false;
+                return NotFound();
             }
 
-            var initialTotalAmount = cartItems.Sum(i => i.Artwork.Price * i.Quantity);
-            ViewBag.CartItems = cartItems;
-            ViewBag.TotalAmount = initialTotalAmount;
-            ViewBag.DiscountAmount = 0;
-            ViewBag.FinalAmount = initialTotalAmount;
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Challenge();
 
-            return View(new CheckoutViewModel { PaymentMethod = PaymentMethod.CreditCard });
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Artwork)
+                .FirstOrDefaultAsync(m => m.Id == id && m.UserId == user.Id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
         }
 
-        // Siparişi tamamlama (Checkout) - POST
+        public async Task<IActionResult> Checkout()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Challenge();
+            }
+
+            var cart = await _context.Carts
+                .Include(c => c.Items)
+                .ThenInclude(i => i.Artwork)
+                .FirstOrDefaultAsync(c => c.UserId == user.Id);
+
+            if (cart == null || !cart.Items.Any())
+            {
+                return RedirectToAction("Index", "Cart");
+            }
+
+            var subtotal = cart.Items.Sum(i => (i.Artwork?.Price ?? 0) * i.Quantity);
+            var tax = subtotal * 0.18M;
+            var total = subtotal + tax;
+
+            var model = new CheckoutViewModel
+            {
+                FirstName = user.FirstName ?? "",
+                LastName = user.LastName ?? "",
+                Email = user.Email ?? "",
+                Phone = user.PhoneNumber ?? "",
+                Address = user.Address ?? "",
+                City = user.City ?? "",
+                District = user.District ?? "",
+                PostalCode = user.PostalCode ?? "",
+                PaymentMethod = "CreditCard",
+                SubTotal = subtotal,
+                Tax = tax,
+                Total = total
+            };
+
+            ViewBag.Cart = cart;
+            return View(model);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Checkout(CheckoutViewModel model, int? artworkId = null)
+        public async Task<IActionResult> Checkout(CheckoutViewModel model)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<CartItem> cartItems;
-
-            // Sepetteki ürünleri al
-            if (artworkId.HasValue)
-            {
-                var artwork = await _context.Artworks.FindAsync(artworkId.Value);
-                if (artwork == null)
-                {
-                    TempData["Error"] = "Eser bulunamadı.";
-                    return RedirectToAction("Index", "Home");
-                }
-                cartItems = new List<CartItem> {
-                    new CartItem { Artwork = artwork, ArtworkId = artwork.Id, Quantity = 1, UserId = userId }
-                };
-                ViewBag.DirectBuy = true;
-            }
-            else
-            {
-                cartItems = await _context.CartItems
-                    .Include(ci => ci.Artwork)
-                    .Where(ci => ci.UserId == userId)
-                    .ToListAsync();
-
-                if (!cartItems.Any())
-                {
-                    TempData["Error"] = "Sepetiniz boş.";
-                    return RedirectToAction("Index", "Cart");
-                }
-                ViewBag.DirectBuy = false;
-            }
-
-            // ViewBag değerlerini set et
-            var totalAmount = cartItems.Sum(i => i.Artwork.Price * i.Quantity);
-            ViewBag.CartItems = cartItems;
-            ViewBag.TotalAmount = totalAmount;
-            ViewBag.DiscountAmount = 0;
-            ViewBag.FinalAmount = totalAmount;
-
-            // Form validasyonu
             if (!ModelState.IsValid)
             {
-                TempData["Error"] = "Lütfen tüm gerekli alanları doldurunuz.";
                 return View(model);
             }
 
-            // Ödeme yöntemi validasyonu
-            if (!ValidatePaymentMethod(model))
+            // Sadece kredi kartı validasyonu
+            if (string.IsNullOrWhiteSpace(model.CardNumber) || !LuhnCheck(model.CardNumber.Replace(" ", "")))
+                ModelState.AddModelError("CardNumber", "Geçerli bir kredi kartı numarası giriniz.");
+            if (string.IsNullOrWhiteSpace(model.CardExpiry) || !System.Text.RegularExpressions.Regex.IsMatch(model.CardExpiry, @"^(0[1-9]|1[0-2])\/\d{2}$"))
+                ModelState.AddModelError("CardExpiry", "Geçerli bir son kullanma tarihi giriniz (AA/YY).");
+            if (string.IsNullOrWhiteSpace(model.CardCvv) || !System.Text.RegularExpressions.Regex.IsMatch(model.CardCvv, @"^\d{3,4}$"))
+                ModelState.AddModelError("CardCvv", "Geçerli bir CVV giriniz.");
+            if (string.IsNullOrWhiteSpace(model.CardHolder))
+                ModelState.AddModelError("CardHolder", "Kart üzerindeki isim zorunludur.");
+
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            GiftCard? giftCard = null;
-            if (model.PaymentMethod == PaymentMethod.GiftCard)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
             {
-                // Önce test kodlarını kontrol et
-                if (IsValidGiftCard(model.GiftCardCode))
+                return Challenge();
+            }
+
+            var cart = await _context.Carts
+                .Include(c => c.Items)
+                .ThenInclude(i => i.Artwork)
+                .FirstOrDefaultAsync(c => c.UserId == user.Id);
+
+            if (cart == null || !cart.Items.Any())
+            {
+                return RedirectToAction("Index", "Cart");
+            }
+
+            var subtotal = cart.Items.Sum(i => (i.Artwork?.Price ?? 0) * i.Quantity);
+            var tax = subtotal * 0.18M;
+            var total = subtotal + tax;
+
+            var order = new Order
+            {
+                UserId = user.Id,
+                OrderNumber = GenerateOrderNumber(),
+                OrderDate = DateTime.UtcNow,
+                ShippingAddress = $"{model.Address}\n{model.District}, {model.City} {model.PostalCode}",
+                PhoneNumber = model.Phone,
+                ShippingStatus = "Hazırlanıyor",
+                Status = OrderStatus.Pending,
+                TotalAmount = total,
+                DiscountAmount = 0,
+                FinalAmount = total
+            };
+
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+
+            foreach (var item in cart.Items)
+            {
+                if (item.Artwork != null)
                 {
-                    // Test hediye kartı için sahte bir GiftCard nesnesi oluştur
-                    var discountPercentage = GetGiftCardDiscountPercentage(model.GiftCardCode);
-                    giftCard = new GiftCard
+                    var orderItem = new OrderItem
                     {
-                        Code = model.GiftCardCode,
-                        IsActive = true,
-                        Amount = (totalAmount * discountPercentage) / 100
+                        OrderId = order.Id,
+                        ArtworkId = item.ArtworkId,
+                        Quantity = item.Quantity,
+                        Price = item.Artwork.Price,
+                        Order = order,
+                        Artwork = item.Artwork
                     };
-                }
-                else
-                {
-                    // Veritabanından kontrol et
-                    giftCard = await _context.GiftCards
-                        .FirstOrDefaultAsync(g => g.Code == model.GiftCardCode && g.IsActive);
-                }
-
-                if (giftCard == null)
-                {
-                    ModelState.AddModelError("GiftCardCode", "Geçersiz hediye kartı kodu");
-                    return View(model);
+                    _context.OrderItems.Add(orderItem);
                 }
             }
 
-            try
-            {
-                // Sipariş numarası üret
-                string orderNumber = GenerateOrderNumber();
+            // Sepeti temizle
+            _context.CartItems.RemoveRange(cart.Items);
+            cart.Items.Clear();
+            await _context.SaveChangesAsync();
 
-                // Toplam tutarı hesapla
-                var orderTotalAmount = cartItems.Sum(i => i.Artwork.Price * i.Quantity);
-                var discountAmount = 0m;
-                var finalAmount = orderTotalAmount;
-
-                // Hediye kartı indirimi
-                if (model.PaymentMethod == PaymentMethod.GiftCard && giftCard != null)
-                {
-                    discountAmount = giftCard.Amount;
-                    finalAmount = Math.Max(0, orderTotalAmount - discountAmount);
-
-                    // Hediye kartını kullanıldı olarak işaretle
-                    giftCard.IsActive = false;
-                    giftCard.UsedDate = DateTime.Now;
-                    giftCard.UsedBy = userId;
-                }
-
-                // Siparişi oluştur
-                var order = new Order
-                {
-                    UserId = userId,
-                    OrderDate = DateTime.Now,
-                    OrderNumber = orderNumber,
-                    ShippingAddress = model.ShippingAddress ?? "",
-                    PaymentMethod = model.PaymentMethod,
-                    InstallmentCount = model.InstallmentCount,
-                    CryptoWalletAddress = model.CryptoWalletAddress,
-                    BankAccountNumber = model.BankAccountNumber,
-                    GiftCardCode = model.GiftCardCode,
-                    ShippingStatus = "Siparişiniz hazırlanıyor",
-                    TotalAmount = orderTotalAmount,
-                    DiscountAmount = discountAmount,
-                    FinalAmount = finalAmount
-                };
-
-                // Sipariş öğelerini oluştur
-                order.Items = cartItems.Select(item => new OrderItem
-                {
-                    ArtworkId = item.ArtworkId,
-                    Artwork = item.Artwork,
-                    Quantity = item.Quantity,
-                    Order = order
-                }).ToList();
-
-                // Kredi kartı bilgilerini maskele
-                if (model.PaymentMethod == PaymentMethod.CreditCard && !string.IsNullOrEmpty(model.CardNumber))
-                {
-                    var cardNumber = model.CardNumber.Replace(" ", "");
-                    order.MaskedCardNumber = cardNumber.Length > 4 
-                        ? new string('*', cardNumber.Length - 4) + cardNumber[^4..]
-                        : "****";
-                }
-
-                using var transaction = await _context.Database.BeginTransactionAsync();
-                try
-                {
-                    _context.Orders.Add(order);
-
-                    if (!artworkId.HasValue)
-                    {
-                        _context.CartItems.RemoveRange(cartItems);
-                    }
-
-                    await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
-
-                    TempData["Success"] = "Satın alma işleminiz başarıyla tamamlandı.";
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception)
-                {
-                    await transaction.RollbackAsync();
-                    throw;
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"Sipariş işlemi sırasında bir hata oluştu: {ex.Message}");
-                return View(model);
-            }
+            return RedirectToAction("Index");
         }
 
-        private bool ValidatePaymentMethod(CheckoutViewModel model)
+        public async Task<IActionResult> Confirmation(int id)
         {
-            switch (model.PaymentMethod)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
             {
-                case PaymentMethod.CreditCard:
-                    if (string.IsNullOrEmpty(model.CardNumber) || string.IsNullOrEmpty(model.CVV) || 
-                        string.IsNullOrEmpty(model.Expiry) || string.IsNullOrEmpty(model.CardHolder))
-                    {
-                        ModelState.AddModelError("", "Kredi kartı bilgileri eksik");
-                        return false;
-                    }
-                    break;
-
-                case PaymentMethod.BankTransfer:
-                    if (string.IsNullOrEmpty(model.BankAccountNumber))
-                    {
-                        ModelState.AddModelError("", "Banka hesap numarası gerekli");
-                        return false;
-                    }
-                    break;
-
-                case PaymentMethod.CryptoCurrency:
-                    if (string.IsNullOrEmpty(model.CryptoWalletAddress))
-                    {
-                        ModelState.AddModelError("", "Kripto cüzdan adresi gerekli");
-                        return false;
-                    }
-                    break;
-
-                case PaymentMethod.GiftCard:
-                    if (string.IsNullOrEmpty(model.GiftCardCode))
-                    {
-                        ModelState.AddModelError("", "Hediye kartı kodu gerekli");
-                        return false;
-                    }
-                    break;
+                return Challenge();
             }
 
-            return true;
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(i => i.Artwork)
+                .FirstOrDefaultAsync(o => o.Id == id && o.UserId == user.Id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
         }
 
         private string GenerateOrderNumber()
@@ -291,31 +216,23 @@ namespace TabloX2.Controllers
             return $"TBL-{DateTime.Now:yyyyMMdd}-{Guid.NewGuid().ToString()[..8].ToUpper()}";
         }
 
-        // Geçerli hediye kartı kodlarını kontrol et
-        private bool IsValidGiftCard(string code)
+        // Luhn algoritması ile kredi kartı kontrolü
+        private bool LuhnCheck(string cardNumber)
         {
-            // Test için geçerli hediye kartı kodları
-            var validGiftCards = new Dictionary<string, decimal>
+            int sum = 0;
+            bool alternate = false;
+            for (int i = cardNumber.Length - 1; i >= 0; i--)
             {
-                { "GIFT-2024-DEMO-100X", 100 }, // %100 indirim
-                { "GIFT-2024-TEST-50XX", 50 },  // %50 indirim
-                { "GIFT-2024-SAVE-25XX", 25 }   // %25 indirim
-            };
-
-            return validGiftCards.ContainsKey(code);
-        }
-
-        // Hediye kartı indirim oranını al
-        private decimal GetGiftCardDiscountPercentage(string code)
-        {
-            var validGiftCards = new Dictionary<string, decimal>
-            {
-                { "GIFT-2024-DEMO-100X", 100 },
-                { "GIFT-2024-TEST-50XX", 50 },
-                { "GIFT-2024-SAVE-25XX", 25 }
-            };
-
-            return validGiftCards.GetValueOrDefault(code, 0);
+                int n = int.Parse(cardNumber[i].ToString());
+                if (alternate)
+                {
+                    n *= 2;
+                    if (n > 9) n -= 9;
+                }
+                sum += n;
+                alternate = !alternate;
+            }
+            return (sum % 10 == 0);
         }
     }
 } 

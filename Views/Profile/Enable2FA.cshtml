@@ -1,0 +1,202 @@
+@model TabloX2.Models.ViewModels.TwoFactorAuthenticationViewModel
+
+@{
+    ViewData["Title"] = "İki Faktörlü Kimlik Doğrulama";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-shield-lock me-2"></i>
+                        İki Faktörlü Kimlik Doğrulama
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @if (!Model.Is2faEnabled)
+                    {
+                        <div class="setup-steps">
+                            <!-- Adım 1: Uygulama İndirme -->
+                            <div class="setup-step mb-4">
+                                <h5 class="mb-3">
+                                    <span class="badge bg-danger me-2">1</span>
+                                    Google Authenticator uygulamasını indirin
+                                </h5>
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" 
+                                           class="btn btn-outline-secondary w-100" target="_blank">
+                                            <i class="bi bi-android2 d-block fs-2"></i>
+                                            Android
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="https://apps.apple.com/us/app/google-authenticator/id388497605" 
+                                           class="btn btn-outline-secondary w-100" target="_blank">
+                                            <i class="bi bi-apple d-block fs-2"></i>
+                                            iOS
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Adım 2: Anahtar Girişi -->
+                            <div class="setup-step mb-4">
+                                <h5 class="mb-3">
+                                    <span class="badge bg-danger me-2">2</span>
+                                    Aşağıdaki QR kodu okutun veya anahtarı manuel girin
+                                </h5>
+                                <div class="key-display p-3 bg-light border rounded text-center mb-3">
+                                    @if (!string.IsNullOrEmpty(Model.AuthenticatorUri))
+                                    {
+                                        <div id="qrCode" class="d-flex justify-content-center mb-3">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">QR Kod yükleniyor...</span>
+                                            </div>
+                                        </div>
+                                        <div class="small text-muted mb-3">veya anahtarı manuel girin:</div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(Model.SharedKey))
+                                    {
+                                        <div class="h4 mb-2 font-monospace">@Model.SharedKey</div>
+                                        <button type="button" class="btn btn-sm btn-secondary" 
+                                                onclick="copyToClipboard('@Model.SharedKey')">
+                                            <i class="bi bi-clipboard me-2"></i>Kopyala
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-warning">
+                                            <i class="bi bi-exclamation-triangle me-2"></i>
+                                            Anahtar oluşturulamadı. Lütfen sayfayı yenileyin.
+                                        </div>
+                                    }
+                                </div>
+                                <div class="text-muted small">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    Bu anahtarı güvenli bir yerde saklayın.
+                                </div>
+                            </div>
+
+                            <!-- Adım 3: Doğrulama -->
+                            <div class="setup-step">
+                                <h5 class="mb-3">
+                                    <span class="badge bg-danger me-2">3</span>
+                                    Uygulamada görünen 6 haneli kodu girin
+                                </h5>
+                                <form asp-action="Enable2FA" method="post">
+                                    <input type="hidden" asp-for="SharedKey" />
+                                    <input type="hidden" asp-for="AuthenticatorUri" />
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <input asp-for="Code" class="form-control form-control-lg text-center" 
+                                                   placeholder="000000" maxlength="6" autocomplete="off" 
+                                                   style="letter-spacing: 4px; font-size: 24px;" />
+                                            <span asp-validation-for="Code" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="submit" class="btn btn-danger w-100">
+                                                <i class="bi bi-shield-check me-2"></i>
+                                                2FA'yı Etkinleştir
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center">
+                            <div class="alert alert-success mb-4">
+                                <h5 class="alert-heading">
+                                    <i class="bi bi-check-circle me-2"></i>
+                                    2FA Başarıyla Etkinleştirildi
+                                </h5>
+                                <p class="mb-0">İki faktörlü kimlik doğrulama sistemi hesabınızda aktif edildi.</p>
+                            </div>
+
+                            @if (Model.RecoveryCodes != null && Model.RecoveryCodes.Any())
+                            {
+                                <div class="recovery-codes bg-light p-4 rounded">
+                                    <h5 class="mb-3">
+                                        <i class="bi bi-key me-2"></i>
+                                        Kurtarma Kodları
+                                    </h5>
+                                    <p class="text-muted">
+                                        Bu kodları güvenli bir yerde saklayın. Telefonunuza erişemediğiniz durumda 
+                                        bu kodları kullanarak hesabınıza giriş yapabilirsiniz.
+                                    </p>
+                                    <div class="row g-2 mt-3">
+                                        @foreach (var code in Model.RecoveryCodes)
+                                        {
+                                            <div class="col-md-6">
+                                                <div class="recovery-code p-2 bg-white border rounded font-monospace">
+                                                    @code
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <button class="btn btn-outline-secondary mt-3" onclick="window.print()">
+                                        <i class="bi bi-printer me-2"></i>
+                                        Kodları Yazdır
+                                    </button>
+                                </div>
+                            }
+
+                            <form asp-action="Disable2FA" method="post" class="mt-4">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-shield-x me-2"></i>
+                                    2FA'yı Devre Dışı Bırak
+                                </button>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script>
+        // Sayfa yüklendiğinde hemen QR kodu oluştur
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQRCode();
+        });
+
+        function generateQRCode() {
+            var qrContainer = document.getElementById('qrCode');
+            if (qrContainer) {
+                // Önceki içeriği temizle
+                qrContainer.innerHTML = '';
+                
+                // QR kodu oluştur
+                new QRCode(qrContainer, {
+                    text: '@Html.Raw(Model.AuthenticatorUri)',
+                    width: 200,
+                    height: 200,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Anahtar kopyalandı!');
+            }).catch(function(err) {
+                console.error('Kopyalama başarısız:', err);
+            });
+        }
+
+        // Sadece sayı girişine izin ver
+        document.querySelector('#Code')?.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+} 

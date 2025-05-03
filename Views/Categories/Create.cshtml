@@ -2,13 +2,163 @@
 @{
     ViewData["Title"] = "Yeni Kategori";
 }
-<h2>Yeni Kategori</h2>
-<form asp-action="Create">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+
+<div class="category-create-page">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Yeni Kategori</h3>
+                        <p class="text-muted mb-0">Galeriye yeni bir kategori ekleyin</p>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row g-4">
+                                <div class="col-md-12">
+                                    <div class="category-icon-preview mb-4">
+                                        <div class="icon-circle">
+                                            <i class="bi bi-collection"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input asp-for="Name" class="form-control" placeholder="Kategori Adı" />
+                                        <label asp-for="Name">Kategori Adı</label>
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <textarea asp-for="Description" class="form-control" placeholder="Açıklama" style="height: 120px"></textarea>
+                                        <label asp-for="Description">Açıklama</label>
+                                        <span asp-validation-for="Description" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5 me-2">
+                                        <i class="fas fa-save me-2"></i> Kaydet
+                                    </button>
+                                    <a asp-action="Index" class="btn btn-outline-light btn-lg px-5">
+                                        <i class="fas fa-arrow-left me-2"></i> Geri Dön
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="btn btn-success">Kaydet</button>
-    <a asp-action="Index" class="btn btn-secondary">Geri</a>
-</form> 
+</div>
+
+<style>
+    .category-create-page {
+        background-color: #f8f9fa;
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+
+    .card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.08);
+        background: white;
+    }
+
+    .card-header {
+        background: linear-gradient(45deg, #E4002B, #FF1744);
+        color: white;
+        padding: 2rem;
+        border-radius: 1rem 1rem 0 0;
+    }
+
+    .category-icon-preview {
+        text-align: center;
+    }
+
+    .icon-circle {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(45deg, #E4002B, #FF1744);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: white;
+        margin: 0 auto;
+        transition: all 0.3s ease;
+    }
+
+    .icon-circle:hover {
+        transform: scale(1.05);
+        background: linear-gradient(45deg, #CC0027, #E4002B);
+    }
+
+    .form-floating {
+        margin-bottom: 0;
+    }
+
+    .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #E4002B;
+        box-shadow: 0 0 0 0.25rem rgba(228, 0, 43, 0.25);
+    }
+
+    textarea.form-control {
+        resize: none;
+    }
+
+    .btn {
+        border-radius: 0.75rem;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #E4002B, #FF1744);
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, #CC0027, #E4002B);
+    }
+
+    .btn-outline-light {
+        border: 2px solid #6c757d;
+        color: #6c757d;
+    }
+
+    .btn-outline-light:hover {
+        background: #6c757d;
+        color: white;
+    }
+
+    .text-danger {
+        color: #E4002B !important;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+</style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

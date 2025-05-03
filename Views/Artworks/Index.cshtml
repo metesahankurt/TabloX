@@ -1,80 +1,369 @@
 @model IEnumerable<TabloX2.Models.Artwork>
 @{
     ViewData["Title"] = "Eserler";
-    var categories = ViewBag.Categories as List<TabloX2.Models.Category>;
-    int? selectedCategory = ViewBag.SelectedCategory as int?;
-    string search = ViewBag.Search as string;
 }
 
-<h2>Eserler</h2>
+<style>
+    .artworks-header {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.metmuseum.org/CRDImages/ep/original/DT1567.jpg');
+        background-size: cover;
+        background-position: center;
+        padding: 4rem 0;
+        margin-bottom: 3rem;
+        margin-top: -1rem;
+    }
 
-<div class="card mb-4">
-    <div class="card-body">
-        <form method="get" class="row g-2 align-items-end">
-            <div class="col-md-4">
-                <label class="form-label">Kategori</label>
-                <select name="categoryId" class="form-select">
-                    <option value="">Tümü</option>
-                    @if (categories != null)
-                    {
-                        foreach (var cat in categories)
-                        {
-                            if (selectedCategory == cat.Id)
+    .artworks-title {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 800;
+        text-align: center;
+        font-family: "Playfair Display", serif;
+        margin-bottom: 1.5rem;
+    }
+
+    .search-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .search-box {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .filters-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .filter-group label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .filter-group select,
+    .filter-group input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        background-color: white;
+    }
+
+    .search-button {
+        width: 100%;
+        padding: 0.75rem;
+        background: #e31837;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .search-button:hover {
+        background: #8b0000;
+        transform: translateY(-2px);
+    }
+
+    .artworks-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+    }
+
+    .artwork-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .artwork-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .artwork-image-container {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; /* 1:1 Aspect Ratio */
+        overflow: hidden;
+    }
+
+    .artwork-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .artwork-card:hover .artwork-image {
+        transform: scale(1.1);
+    }
+
+    .artwork-details {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .artwork-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+        font-family: "Playfair Display", serif;
+    }
+
+    .artwork-artist {
+        color: #e31837;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .artwork-category {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .artwork-price {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        margin-top: auto;
+    }
+
+    .artwork-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-top: auto;
+    }
+
+    .btn-artwork {
+        padding: 0.6rem;
+        border-radius: 6px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-red {
+        background: #e31837;
+        color: #fff;
+        border: 1.5px solid #e31837;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: background 0.2s, color 0.2s;
+        box-shadow: none;
+    }
+
+    .btn-red:hover {
+        background: #fff;
+        color: #e31837;
+        border: 1.5px solid #e31837;
+        text-decoration: none;
+    }
+
+    .btn-buy {
+        background: #e31837;
+        color: white;
+        border: none;
+    }
+
+    .btn-buy:hover {
+        background: #8b0000;
+        color: white;
+        text-decoration: none;
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 3rem;
+        color: #6c757d;
+        font-size: 1.2rem;
+    }
+
+    @@media (max-width: 768px) {
+        .artworks-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            padding: 1rem;
+        }
+
+        .artwork-title {
+            font-size: 1.1rem;
+        }
+
+        .artwork-price {
+            font-size: 1.25rem;
+        }
+    }
+</style>
+
+<div class="artworks-header">
+    <h1 class="artworks-title">Sanat Eserleri</h1>
+    <div class="search-container">
+        <div class="search-box">
+            <form method="get" action="@Url.Action("Index", "Artworks")" id="filterForm">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label>Kategori</label>
+                        <select name="categoryId" class="form-select" onchange="this.form.submit()">
+                            <option value="">Tüm Kategoriler</option>
+                            @foreach (var category in ViewBag.Categories)
                             {
-                                <option value="@cat.Id" selected>@cat.Name</option>
+                                if (ViewBag.SelectedCategoryId == category.Id)
+                                {
+                                    <option value="@category.Id" selected>@category.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
                             }
-                            else
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sanatçı</label>
+                        <select name="artistId" class="form-select" onchange="this.form.submit()">
+                            <option value="">Tüm Sanatçılar</option>
+                            @foreach (var artist in ViewBag.Artists)
                             {
-                                <option value="@cat.Id">@cat.Name</option>
+                                if (ViewBag.SelectedArtistId == artist.Id)
+                                {
+                                    <option value="@artist.Id" selected>@artist.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@artist.Id">@artist.Name</option>
+                                }
                             }
-                        }
-                    }
-                </select>
-            </div>
-            <div class="col-md-5">
-                <label class="form-label">Arama</label>
-                <input type="text" name="search" class="form-control" placeholder="Başlık veya açıklama..." value="@search" />
-            </div>
-            <div class="col-md-3 d-grid">
-                <button type="submit" class="btn btn-primary">Filtrele</button>
-            </div>
-        </form>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Fiyat Aralığı</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="minPrice" placeholder="Min" value="@ViewBag.MinPrice">
+                            <span class="input-group-text">-</span>
+                            <input type="number" class="form-control" name="maxPrice" placeholder="Max" value="@ViewBag.MaxPrice">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="search-button">
+                    <i class="bi bi-search"></i>
+                    Filtrele
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 
-@if (User.IsInRole("Admin"))
-{
-    <a class="btn btn-primary mb-2" asp-area="Admin" asp-controller="Artworks" asp-action="Create">Yeni Eser Ekle</a>
-}
-<div class="artwork-list-cards">
-@foreach (var item in Model)
-{
-    <div class="artwork-card d-flex align-items-center mb-4 p-3 bg-white rounded shadow-sm flex-wrap">
-        <div class="artwork-card-img me-4 mb-2 mb-md-0">
-            <img src="@item.ImageUrl" alt="@item.Title" style="width:72px;height:72px;object-fit:cover;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.08);" />
+<div class="container">
+    @if (!Model.Any())
+    {
+        <div class="no-results">
+            <i class="bi bi-emoji-frown" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+            <p>Üzgünüz, aradığınız kriterlere uygun eser bulunamadı.</p>
         </div>
-        <div class="flex-grow-1">
-            <div class="fw-bold fs-5 mb-1">@item.Title</div>
-            <div class="text-muted small mb-1">Kategori: <b>@item.Category?.Name</b> | Sanatçı: <b>@item.Artist?.Name</b></div>
-            <div class="fw-bold text-primary mb-2">@item.Price.ToString("C")</div>
-            <div class="d-flex flex-wrap gap-2 align-items-center">
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm artwork-btn artwork-detail">Detay</a>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a asp-controller="Cart" asp-action="Add" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm artwork-btn">Sepete Ekle</a>
-                    <a asp-controller="Orders" asp-action="Checkout" asp-route-artworkId="@item.Id" class="btn btn-success btn-sm artwork-btn artwork-buy">Satın Al</a>
-                }
-                else
-                {
-                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-success btn-sm artwork-btn">Sepete Ekle (Giriş Yap)</a>
-                    <a asp-controller="Account" asp-action="Login" class="btn btn-success btn-sm artwork-btn artwork-buy">Satın Al (Giriş Yap)</a>
-                }
-                @if (User.IsInRole("Admin"))
-                {
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm artwork-btn artwork-delete">Sil</a>
-                }
-            </div>
+    }
+    else
+    {
+        <div class="artworks-grid">
+            @foreach (var artwork in Model)
+            {
+                <div class="artwork-card">
+                    <div class="artwork-image-container">
+                        <img src="@artwork.ImageUrl" alt="@artwork.Title" class="artwork-image" loading="lazy">
+                    </div>
+                    <div class="artwork-details">
+                        <h3 class="artwork-title">@artwork.Title</h3>
+                        @if (artwork.Artist != null)
+                        {
+                            <div class="artwork-artist">@artwork.Artist.Name</div>
+                        }
+                        @if (artwork.Category != null)
+                        {
+                            <div class="artwork-category">@artwork.Category.Name</div>
+                        }
+                        <div class="artwork-price">@artwork.Price.ToString("C")</div>
+                        <div class="artwork-actions">
+                            <a href="@Url.Action("Details", new { id = artwork.Id })" class="btn-artwork btn-red btn-detail">
+                                <i class="bi bi-eye"></i>
+                                Detay
+                            </a>
+                            <a href="#" class="btn-artwork btn-red add-to-cart-btn" data-artwork-id="@artwork.Id">
+                                <i class="bi bi-cart-plus"></i>
+                                Sepete Ekle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
-    </div>
-}
-</div> 
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.add-to-cart-btn').click(function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var artworkId = btn.data('artwork-id');
+                $.ajax({
+                    url: '/Cart/AddToCart',
+                    type: 'POST',
+                    data: { artworkId: artworkId },
+                    success: function (response) {
+                        if (typeof response !== 'object') {
+                            window.location.href = '/Account/Login';
+                            return;
+                        }
+                        if (response.success) {
+                            window.location.href = '/Cart';
+                        } else if (response.message && response.message.toLowerCase().includes('kullanıcı bulunamadı')) {
+                            window.location.href = '/Account/Login';
+                        } else {
+                            alert(response.message || 'Sepete eklenirken bir hata oluştu.');
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('xhr.status: ' + xhr.status + '\n' + xhr.responseText);
+                        if ((xhr && xhr.status === 401) || (xhr && xhr.responseText && xhr.responseText.includes('id="loginForm"'))) {
+                            window.location.href = '/Account/Login';
+                        } else {
+                            alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+} 

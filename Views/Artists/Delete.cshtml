@@ -2,14 +2,145 @@
 @{
     ViewData["Title"] = "Sanatçı Sil";
 }
-<h2>Sanatçı Sil</h2>
-<h4>Bu sanatçıyı silmek istediğinize emin misiniz?</h4>
-<div>
-    <h5>@Model.Name</h5>
-    <p>@Model.Bio</p>
+
+<div class="delete-artist-page">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-danger text-white py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="h4 mb-0">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                Sanatçı Silme Onayı
+                            </h3>
+                            <a asp-action="Index" class="btn btn-outline-light">
+                                <i class="bi bi-arrow-left me-1"></i> Geri Dön
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                <div class="artist-avatar mb-3">
+                                    <div class="avatar-circle" style="background-color: #E4002B;">
+                                        <span class="avatar-text">@Model.Name[0]@Model.Surname[0]</span>
+                                    </div>
+                                </div>
+                                <h4 class="mb-2">@Model.Name @Model.Surname</h4>
+                                <p class="text-muted">@Model.Country</p>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    <strong>Uyarı:</strong> Bu işlem geri alınamaz. Sanatçıya ait tüm eserler de silinecektir.
+                                </div>
+                                <dl class="row">
+                                    <dt class="col-sm-3">Sanatçı Adı:</dt>
+                                    <dd class="col-sm-9">@Model.Name @Model.Surname</dd>
+
+                                    <dt class="col-sm-3">Ülke:</dt>
+                                    <dd class="col-sm-9">@Model.Country</dd>
+
+                                    <dt class="col-sm-3">Eser Sayısı:</dt>
+                                    <dd class="col-sm-9">@(Model.Artworks?.Count ?? 0)</dd>
+
+                                    <dt class="col-sm-3">Biyografi:</dt>
+                                    <dd class="col-sm-9">@Model.Bio</dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <form asp-action="Delete" method="post" class="mt-4">
+                            <input type="hidden" asp-for="Id" />
+                            <div class="form-group">
+                                <div class="form-check mb-3">
+                                    <input type="checkbox" class="form-check-input" id="deleteConfirm" required>
+                                    <label class="form-check-label" for="deleteConfirm">
+                                        Bu sanatçıyı ve tüm eserlerini silmek istediğimi onaylıyorum.
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="submit" class="btn btn-danger btn-lg" id="deleteButton" disabled>
+                                    <i class="bi bi-trash-fill me-2"></i> Sanatçıyı Sil
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<form asp-action="Delete">
-    <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-danger">Sil</button>
-    <a asp-action="Index" class="btn btn-secondary">Vazgeç</a>
-</form> 
+
+<style>
+    .delete-artist-page {
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    .avatar-text {
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .btn-danger {
+        background: linear-gradient(45deg, #dc3545, #bb2d3b);
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background: linear-gradient(45deg, #bb2d3b, #dc3545);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-outline-light:hover {
+        transform: translateY(-2px);
+    }
+
+    .alert {
+        border-radius: 10px;
+        border-left: 4px solid #ffc107;
+    }
+
+    .form-check-input:checked {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#deleteConfirm').change(function() {
+                $('#deleteButton').prop('disabled', !this.checked);
+            });
+        });
+    </script>
+} 

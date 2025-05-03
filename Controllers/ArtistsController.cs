@@ -20,21 +20,56 @@ namespace TabloX2.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index(string search)
         {
-            var artists = _context.Artists.AsQueryable();
-            ViewBag.Search = search;
-            if (!string.IsNullOrWhiteSpace(search))
+            var query = _context.Artists.AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
             {
-                artists = artists.Where(a => a.Name.Contains(search));
+                search = search.ToLower();
+                query = query.Where(a => 
+                    a.Name.ToLower().Contains(search) || 
+                    a.Surname.ToLower().Contains(search));
             }
-            return View(await artists.ToListAsync());
+
+            var artists = await query.ToListAsync();
+            ViewBag.Search = search;
+            
+            return View(artists);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Search(string term)
+        {
+            var artists = await _context.Artists
+                .Where(a => a.Name.Contains(term))
+                .Select(a => new { 
+                    id = a.Id,
+                    name = a.Name,
+                    initials = $"{a.Name[0]}{a.Surname[0]}",
+                    bio = a.Bio
+                })
+                .Take(5)
+                .ToListAsync();
+            
+            return Json(artists);
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null) return NotFound();
-            var artist = await _context.Artists.Include(a => a.Artworks).ThenInclude(e => e.Category).FirstOrDefaultAsync(a => a.Id == id);
-            if (artist == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var artist = await _context.Artists
+                .Include(a => a.Artworks)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (artist == null)
+            {
+                return NotFound();
+            }
+
             return View(artist);
         }
 
@@ -46,7 +81,8 @@ namespace TabloX2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Artist artist)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create([Bind("Name,Surname,Bio,Description,Country")] Artist artist)
         {
             if (ModelState.IsValid)
             {
@@ -57,44 +93,92 @@ namespace TabloX2.Controllers
             return View(artist);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             var artist = await _context.Artists.FindAsync(id);
-            if (artist == null) return NotFound();
+            if (artist == null)
+            {
+                return NotFound();
+            }
             return View(artist);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Artist artist)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,Bio,Description,Country")] Artist artist)
         {
-            if (id != artist.Id) return NotFound();
+            if (id != artist.Id)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Update(artist);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.Update(artist);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ArtistExists(artist.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(artist);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null) return NotFound();
-            var artist = await _context.Artists.FindAsync(id);
-            if (artist == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var artist = await _context.Artists
+                .Include(a => a.Artworks)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (artist == null)
+            {
+                return NotFound();
+            }
+
             return View(artist);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var artist = await _context.Artists.FindAsync(id);
-            _context.Artists.Remove(artist);
+            if (artist != null)
+            {
+                _context.Artists.Remove(artist);
+            }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private bool ArtistExists(int id)
+        {
+            return _context.Artists.Any(e => e.Id == id);
         }
     }
 } 

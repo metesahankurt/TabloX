@@ -17,7 +17,10 @@ namespace TabloX2.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var artists = await _context.Artists.ToListAsync();
+            var artists = await _context.Artists
+                .Include(a => a.Artworks)
+                .OrderBy(a => a.Name)
+                .ToListAsync();
             return View(artists);
         }
         [HttpGet]
@@ -55,15 +58,30 @@ namespace TabloX2.Areas.Admin.Controllers
             return View(artist);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Artist artist)
         {
             if (ModelState.IsValid)
             {
-                _context.Artists.Update(artist);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Update(artist);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ArtistExists(artist.Id))
+                        return NotFound();
+                    else
+                        throw;
+                }
             }
             return View(artist);
+        }
+        private bool ArtistExists(int id)
+        {
+            return _context.Artists.Any(e => e.Id == id);
         }
     }
 } 

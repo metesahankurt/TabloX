@@ -1,38 +1,200 @@
 @{
     ViewData["Title"] = "Yönetim Paneli";
-    Layout = "_AdminLayout";
+    Layout = "../Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-4">
-    <h1 class="mb-4">Yönetim Paneli</h1>
+<style>
+    .dashboard-container {
+        padding: 2rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
+
+    .page-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #E4002B;
+    }
+
+    .page-title {
+        font-family: "Playfair Display", serif;
+        color: #333;
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .dashboard-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border: 1px solid #eee;
+        height: 100%;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(228, 0, 43, 0.1);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #E4002B 0%, #C1001F 100%);
+        padding: 1.5rem;
+        border-radius: 12px 12px 0 0;
+        text-align: center;
+    }
+
+    .card-header i {
+        font-size: 2.5rem;
+        color: white;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .card-title {
+        font-family: "Playfair Display", serif;
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .card-text {
+        color: #666;
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+    }
+
+    .btn-manage {
+        background: #E4002B;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: none;
+    }
+
+    .btn-manage:hover {
+        background: #C1001F;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .stats-container {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+    }
+
+    .stat-card {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid #eee;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #E4002B;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: #666;
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="dashboard-container">
+    <div class="page-header">
+        <h1 class="page-title">Yönetim Paneli</h1>
+    </div>
     
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="bi bi-grid-3x3-gap"></i>
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">Kategoriler</h5>
-                    <p class="card-text">Eser kategorilerini yönetin</p>
-                    <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="btn btn-primary">Kategorileri Yönet</a>
+                    <p class="card-text">Eser kategorilerini düzenleyin ve yönetin</p>
+                    <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="btn-manage">
+                        <i class="bi bi-pencil-square"></i>
+                        Kategorileri Yönet
+                    </a>
                 </div>
             </div>
         </div>
         
-        <div class="col-md-4 mb-4">
-            <div class="card">
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="bi bi-palette"></i>
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">Sanatçılar</h5>
-                    <p class="card-text">Sanatçıları yönetin</p>
-                    <a asp-area="Admin" asp-controller="Artists" asp-action="Index" class="btn btn-primary">Sanatçıları Yönet</a>
+                    <p class="card-text">Sanatçı profillerini düzenleyin ve yönetin</p>
+                    <a asp-area="Admin" asp-controller="Artists" asp-action="Index" class="btn-manage">
+                        <i class="bi bi-person-badge"></i>
+                        Sanatçıları Yönet
+                    </a>
                 </div>
             </div>
         </div>
         
-        <div class="col-md-4 mb-4">
-            <div class="card">
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="bi bi-image"></i>
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">Eserler</h5>
-                    <p class="card-text">Eserleri yönetin</p>
-                    <a asp-area="Admin" asp-controller="Artworks" asp-action="Index" class="btn btn-primary">Eserleri Yönet</a>
+                    <p class="card-text">Sanat eserlerini düzenleyin ve yönetin</p>
+                    <a asp-area="Admin" asp-controller="Artworks" asp-action="Index" class="btn-manage">
+                        <i class="bi bi-images"></i>
+                        Eserleri Yönet
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-container">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">@ViewBag.CategoryCount</div>
+                    <div class="stat-label">Toplam Kategori</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">@ViewBag.ArtistCount</div>
+                    <div class="stat-label">Toplam Sanatçı</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">@ViewBag.ArtworkCount</div>
+                    <div class="stat-label">Toplam Eser</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">@ViewBag.UserCount</div>
+                    <div class="stat-label">Toplam Kullanıcı</div>
                 </div>
             </div>
         </div>
