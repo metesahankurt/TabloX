@@ -112,5 +112,3 @@ Proje Linki: [https://github.com/metesahankurt/TabloX](https://github.com/metesa
 ## 🙏 Teşekkürler
 
 - Metropolitan Museum of Art - Açık erişimli sanat eserleri için
-- Tüm katkıda bulunanlar
-- Kullanıcılar ve test edenler 
