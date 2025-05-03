@@ -79,6 +79,78 @@
         .order-total-box, .order-address-box { padding: 10px 8px; }
         .order-detail-btn { width: 100%; }
     }
+    .order-progress-bar { margin-bottom: 1.5rem; }
+    .progress-track { min-width: 320px; }
+    .progress-step { min-width: 60px; }
+    .step-dot { width: 18px; height: 18px; border-radius: 50%; background: #eee; border: 3px solid #eee; margin: 0 auto; transition: background 0.3s, border 0.3s; }
+    .step-dot.active { background: #e31837; border-color: #e31837; box-shadow: 0 0 0 3px #ffe3e8; }
+    .progress-bar-segment { transition: background 0.3s; }
+    .step-label { font-size: 0.95em; margin-top: 4px; }
+    .order-summary-row { margin-top: 2rem; }
+    .order-products-box {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 18px 18px 8px 18px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        margin-bottom: 0.5rem;
+    }
+    .order-product-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+    .order-product-item:last-child { border-bottom: none; }
+    .order-product-img {
+        width: 54px;
+        height: 54px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #eee;
+        margin-right: 14px;
+    }
+    .order-product-info { display: flex; flex-direction: column; }
+    .order-product-title { font-weight: 600; font-size: 1.08em; }
+    .order-product-artist { color: #888; font-size: 0.95em; }
+    .order-product-price { color: #e31837; font-size: 0.98em; font-weight: 500; }
+    .order-summary-box {
+        background: #fff5f7;
+        border-radius: 10px;
+        padding: 16px 18px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 8px rgba(227,24,55,0.06);
+    }
+    .order-summary-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .order-tax { color: #e31837; font-weight: 600; }
+    .order-total-label { font-weight: 700; }
+    .order-total { color: #22c55e; font-size: 1.15em; font-weight: bold; }
+    .order-address-box {
+        background: #f8fafc;
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-size: 1em;
+        margin-bottom: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .order-invoice-btn {
+        background: linear-gradient(90deg, #e31837 0%, #c41530 100%);
+        color: #fff;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.08em;
+        padding: 12px 32px;
+        border: none;
+        box-shadow: 0 2px 8px rgba(227,24,55,0.08);
+        transition: background 0.2s, box-shadow 0.2s;
+        display: inline-block;
+        text-decoration: none;
+    }
+    .order-invoice-btn:hover {
+        background: linear-gradient(90deg, #c41530 0%, #e31837 100%);
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(227,24,55,0.12);
+    }
 </style>
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
@@ -108,47 +180,63 @@
                                     <span class="mx-2">|</span>
                                     Tarih: <span>@order.OrderDate.ToString("dd.MM.yyyy HH:mm")</span>
                                 </div>
-                                <span class="order-badge">
-                                    <i class="bi @(order.Status switch {
-                                        OrderStatus.Pending => "bi-hourglass-split",
-                                        OrderStatus.Approved => "bi-clipboard-check",
-                                        OrderStatus.Shipped => "bi-truck",
-                                        OrderStatus.Completed => "bi-check-circle",
-                                        OrderStatus.Cancelled => "bi-x-circle",
-                                        _ => "bi-info-circle"
-                                    }) me-1"></i>
-                                    @order.Status.GetDisplayName()
-                                </span>
+                            </div>
+                            <div class="order-progress-bar mb-4">
+                                @{
+                                    var steps = new[] {
+                                        new { Key = OrderStatus.Alindi, Label = "Sipariş Alındı" },
+                                        new { Key = OrderStatus.Hazirlaniyor, Label = "Hazırlanıyor" },
+                                        new { Key = OrderStatus.Kargoda, Label = "Kargoda" },
+                                        new { Key = OrderStatus.Yolda, Label = "Yola Çıktı" },
+                                        new { Key = OrderStatus.TeslimEdildi, Label = "Teslim Edildi" }
+                                    };
+                                    int currentStep = steps.ToList().FindIndex(s => s.Key == order.Status);
+                                    if (currentStep == -1 && order.Status == OrderStatus.IptalEdildi) currentStep = 0;
+                                }
+                                <div class="progress-track d-flex align-items-center justify-content-between" style="position:relative;">
+                                    @for (int i = 0; i < steps.Length; i++)
+                                    {
+                                        var isActive = i <= currentStep;
+                                        <div class="progress-step text-center flex-fill" style="position:relative;z-index:2;">
+                                            <div class="step-dot @(isActive ? "active" : "")"></div>
+                                            <div class="step-label mt-2 small" style="color:@(isActive ? "#e31837" : "#bbb");font-weight:@(isActive ? "bold" : "normal");">@steps[i].Label</div>
+                                        </div>
+                                        @if (i < steps.Length - 1)
+                                        {
+                                            <div class="progress-bar-segment flex-fill" style="height:6px;position:relative;top:-18px;background:@(i < currentStep ? "#e31837" : "#eee");border-radius:3px;"></div>
+                                        }
+                                    }
+                                </div>
                             </div>
                             <hr />
-                            <div class="row g-3 align-items-center">
-                                <div class="col-md-8">
-                                    <div class="d-flex flex-wrap">
+                            <div class="row g-3 align-items-center order-summary-row">
+                                <div class="col-md-7">
+                                    <div class="order-products-box">
                                         @foreach (var item in order.OrderItems)
                                         {
-                                            <div class="me-3 mb-2 d-flex align-items-center" style="min-width:170px; background:#f8fafc; border-radius:8px; padding:6px 10px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
-                                                <img src="@item.Artwork?.ImageUrl" alt="@item.Artwork?.Title" style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid #eee;" class="me-2" />
-                                                <div>
-                                                    <div class="fw-semibold">@item.Artwork?.Title</div>
-                                                    <div class="text-muted small">@item.Artwork?.Artist?.Name</div>
-                                                    <div class="text-primary small">$@item.Price.ToString("N0") x @item.Quantity</div>
+                                            <div class="order-product-item">
+                                                <img src="@item.Artwork?.ImageUrl" alt="@item.Artwork?.Title" class="order-product-img" />
+                                                <div class="order-product-info">
+                                                    <div class="order-product-title">@item.Artwork?.Title</div>
+                                                    <div class="order-product-artist">@item.Artwork?.Artist?.Name</div>
+                                                    <div class="order-product-price">$@item.Price.ToString("N0") x @item.Quantity</div>
                                                 </div>
                                             </div>
                                         }
                                     </div>
                                 </div>
-                                <div class="col-md-4 text-end">
-                                    <div class="order-total-box">
-                                        <div>Ara Toplam: <span class="fw-bold">$@order.OrderItems.Sum(i => i.Price * i.Quantity).ToString("N0")</span></div>
-                                        <div class="order-tax">KDV (%18): <span class="fw-bold">$@((order.OrderItems.Sum(i => i.Price * i.Quantity) * 0.18M).ToString("N0"))</span></div>
-                                        <div class="order-total">Toplam: <span>$@order.TotalAmount.ToString("N0")</span></div>
+                                <div class="col-md-5">
+                                    <div class="order-summary-box mb-3">
+                                        <div class="order-summary-row"><span>Ara Toplam:</span><span class="fw-bold">$@order.OrderItems.Sum(i => i.Price * i.Quantity).ToString("N0")</span></div>
+                                        <div class="order-summary-row"><span>KDV (%18):</span><span class="order-tax">$@((order.OrderItems.Sum(i => i.Price * i.Quantity) * 0.18M).ToString("N0"))</span></div>
+                                        <div class="order-summary-row"><span class="order-total-label">Toplam:</span><span class="order-total">$@order.TotalAmount.ToString("N0")</span></div>
                                     </div>
-                                    <div class="order-address-box">
+                                    <div class="order-address-box mb-3">
                                         <span class="fw-bold">Adres:</span>
                                         <span class="text-muted small">@order.ShippingAddress</span>
                                     </div>
-                                    <a href="@Url.Action("Details", new { id = order.Id })" class="order-detail-btn mt-2">
-                                        <i class="bi bi-info-circle me-1"></i> Detaylar
+                                    <a href="@Url.Action("Invoice", new { id = order.Id })" target="_blank" class="order-invoice-btn mt-2">
+                                        <i class="bi bi-file-earmark-pdf me-1"></i> Fatura
                                     </a>
                                 </div>
                             </div>

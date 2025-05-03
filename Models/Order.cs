@@ -38,20 +38,23 @@ namespace TabloX2.Models
 
     public enum OrderStatus
     {
-        [Display(Name = "Beklemede")]
-        Pending,
+        [Display(Name = "Sipariş Alındı")]
+        Alindi,
 
-        [Display(Name = "Onaylandı")]
-        Approved,
+        [Display(Name = "Sipariş Hazırlanıyor")]
+        Hazirlaniyor,
 
         [Display(Name = "Kargoda")]
-        Shipped,
+        Kargoda,
 
-        [Display(Name = "Tamamlandı")]
-        Completed,
+        [Display(Name = "Kargo Yola Çıktı")]
+        Yolda,
+
+        [Display(Name = "Teslim Edildi")]
+        TeslimEdildi,
 
         [Display(Name = "İptal Edildi")]
-        Cancelled
+        IptalEdildi
     }
 
     public enum PaymentMethod

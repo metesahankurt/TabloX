@@ -9,6 +9,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using QuestPDF.Previewer;
+using QuestPDF.Drawing;
+using QuestPDF.Elements;
+using System.IO;
 
 namespace TabloX2.Controllers
 {
@@ -156,7 +163,7 @@ namespace TabloX2.Controllers
                 ShippingAddress = $"{model.Address}\n{model.District}, {model.City} {model.PostalCode}",
                 PhoneNumber = model.Phone,
                 ShippingStatus = "Hazırlanıyor",
-                Status = OrderStatus.Pending,
+                Status = OrderStatus.Alindi,
                 TotalAmount = total,
                 DiscountAmount = 0,
                 FinalAmount = total
@@ -233,6 +240,95 @@ namespace TabloX2.Controllers
                 alternate = !alternate;
             }
             return (sum % 10 == 0);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Invoice(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Challenge();
+
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Artwork)
+                .FirstOrDefaultAsync(o => o.Id == id && o.UserId == user.Id);
+
+            if (order == null)
+                return NotFound();
+
+            var stream = new MemoryStream();
+            var now = DateTime.Now;
+            var doc = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(30);
+                    page.Size(PageSizes.A4);
+                    page.Header().Row(row =>
+                    {
+                        row.RelativeItem().Column(col =>
+                        {
+                            col.Item().Text("TabloX").FontSize(24).Bold().FontColor(Colors.Red.Medium);
+                            col.Item().Text($"FATURA").FontSize(16).Bold();
+                        });
+                        row.ConstantItem(120).Image("wwwroot/Logo/tabloXLogo.png", ImageScaling.FitArea);
+                    });
+                    page.Content().Column(col =>
+                    {
+                        col.Item().Text($"Fatura Tarihi: {now:dd.MM.yyyy HH:mm}").FontSize(10);
+                        col.Item().Text($"Sipariş No: {order.OrderNumber}").FontSize(10);
+                        col.Item().Text($"Müşteri: {user.FullName ?? user.UserName}").FontSize(10);
+                        col.Item().Text($"Adres: {order.ShippingAddress}").FontSize(10);
+                        col.Item().Text("");
+                        col.Item().Table(table =>
+                        {
+                            table.ColumnsDefinition(columns =>
+                            {
+                                columns.ConstantColumn(30);
+                                columns.RelativeColumn(3);
+                                columns.RelativeColumn(2);
+                                columns.RelativeColumn(2);
+                            });
+                            table.Header(header =>
+                            {
+                                header.Cell().Element(CellStyle).Text("#").Bold();
+                                header.Cell().Element(CellStyle).Text("Ürün").Bold();
+                                header.Cell().Element(CellStyle).Text("Adet").Bold();
+                                header.Cell().Element(CellStyle).Text("Tutar").Bold();
+                            });
+                            int i = 1;
+                            foreach (var item in order.OrderItems)
+                            {
+                                table.Cell().Element(CellStyle).Text(i.ToString());
+                                table.Cell().Element(CellStyle).Text(item.Artwork?.Title ?? "-");
+                                table.Cell().Element(CellStyle).Text(item.Quantity.ToString());
+                                table.Cell().Element(CellStyle).Text($"${item.Price * item.Quantity:N2}");
+                                i++;
+                            }
+                        });
+                        col.Item().Text("");
+                        col.Item().Row(row =>
+                        {
+                            row.RelativeItem().Text("");
+                            row.ConstantItem(200).Column(c2 =>
+                            {
+                                c2.Item().Text($"Ara Toplam: ${order.OrderItems.Sum(i => i.Price * i.Quantity):N2}");
+                                c2.Item().Text($"KDV (%18): ${order.OrderItems.Sum(i => i.Price * i.Quantity) * 0.18M:N2}");
+                                c2.Item().Text($"Toplam: ${order.TotalAmount:N2}").Bold();
+                            });
+                        });
+                    });
+                    page.Footer().AlignCenter().Text(text =>
+                    {
+                        text.Span("TabloX - Modern Sanat Galerisi").FontSize(10);
+                    });
+                });
+            });
+            doc.GeneratePdf(stream);
+            stream.Position = 0;
+            return File(stream, "application/pdf", $"Fatura_{order.OrderNumber}.pdf");
+
+            IContainer CellStyle(IContainer container) => container.PaddingVertical(4).PaddingHorizontal(2);
         }
     }
 } 

@@ -41,10 +41,10 @@
                 @foreach (var artist in artists)
                 {
                     <div class="col-md-4 mb-4 artist-card">
-                        <div class="card h-100">
-                            <div class="card-body">
+                        <div class="card h-100 d-flex flex-column justify-content-center align-items-center">
+                            <div class="card-content">
                                 <div class="artist-avatar">
-                                    <div class="avatar-circle" style="background-color: #E4002B;">
+                                    <div class="avatar-circle">
                                         <span class="avatar-text">@artist.Name[0]@artist.Surname[0]</span>
                                     </div>
                                 </div>
@@ -52,20 +52,20 @@
                                     <h5>@artist.Name @artist.Surname</h5>
                                     <p class="text-muted">@artist.Country</p>
                                 </div>
-                                <div class="card-actions">
-                                    <a href="@Url.Action("Details", new { id = artist.Id })" class="btn btn-outline-primary">
-                                        <i class="fas fa-info-circle me-1"></i> Detaylar
+                            </div>
+                            <div class="card-actions">
+                                <a href="@Url.Action("Details", new { id = artist.Id })" class="btn btn-outline-primary">
+                                    <i class="fas fa-info-circle me-1"></i> Detaylar
+                                </a>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a href="@Url.Action("Edit", new { id = artist.Id })" class="btn btn-outline-secondary">
+                                        <i class="fas fa-edit me-1"></i> Düzenle
                                     </a>
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <a href="@Url.Action("Edit", new { id = artist.Id })" class="btn btn-outline-secondary">
-                                            <i class="fas fa-edit me-1"></i> Düzenle
-                                        </a>
-                                        <a href="@Url.Action("Delete", new { id = artist.Id })" class="btn btn-outline-danger">
-                                            <i class="fas fa-trash me-1"></i> Sil
-                                        </a>
-                                    }
-                                </div>
+                                    <a href="@Url.Action("Delete", new { id = artist.Id })" class="btn btn-outline-danger">
+                                        <i class="fas fa-trash me-1"></i> Sil
+                                    </a>
+                                }
                             </div>
                         </div>
                     </div>
@@ -77,11 +77,11 @@
 
 <style>
     body {
-        background: #ecf0f1 !important;
+        background: #f5f6fa !important;
     }
 
     .artists-page {
-        background-color: #ecf0f1 !important;
+        background-color: #f5f6fa !important;
         min-height: 100vh;
         padding: 2rem 0;
     }
@@ -139,94 +139,103 @@
         box-shadow: 0 0 0 0.2rem rgba(228, 0, 43, 0.25);
     }
 
-    .card {
+    .artist-card .card {
+        height: 320px;
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 24px rgba(227,24,55,0.10);
+        border-radius: 22px;
         border: none;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        background: white;
+        background: #fff;
+        transition: box-shadow 0.25s, transform 0.18s;
+        padding: 28px 18px 18px 18px;
+        position: relative;
+        overflow: hidden;
     }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    .artist-card .card:hover {
+        box-shadow: 0 12px 32px rgba(227,24,55,0.18);
+        transform: translateY(-6px) scale(1.025);
     }
-
-    .artist-avatar {
-        text-align: center;
-        margin-bottom: 1.5rem;
-    }
-
-    .avatar-circle {
-        width: 100px;
-        height: 100px;
-        background: linear-gradient(45deg, #E4002B, #FF1744);
-        border-radius: 50%;
-        display: inline-flex;
+    .artist-card .card-content {
+        display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-size: 2rem;
+        flex: 1 1 auto;
+        gap: 12px;
+        width: 100%;
+    }
+    .artist-avatar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.3rem;
+    }
+    .avatar-circle {
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(45deg, #E4002B, #FF1744);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
         font-weight: bold;
         color: white;
-        margin: 0 auto;
+        margin: 0 auto 1rem auto;
+        box-shadow: 0 4px 16px rgba(228,0,43,0.13);
+        border: 4px solid #fff;
     }
-
-    .avatar-img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        object-fit: cover;
+    .artist-info {
+        text-align: center;
+        margin-bottom: 2.2rem;
     }
-
-    .card-title {
-        font-family: 'Times New Roman', Times, serif;
-        font-size: 1.5rem;
+    .artist-info h5 {
+        font-size: 1.25rem;
+        font-weight: 800;
+        margin-bottom: 0.15rem;
+        font-family: 'Playfair Display', serif;
         color: #2c3e50;
-        margin-bottom: 0.5rem;
-        text-align: center;
+        letter-spacing: 0.5px;
     }
-
-    .card-text {
-        color: #6c757d;
-        font-size: 0.95rem;
-        line-height: 1.5;
-        margin-bottom: 1.5rem;
-        text-align: center;
+    .artist-info .text-muted {
+        font-size: 1.08rem;
+        color: #b0b4bb !important;
+        font-weight: 500;
+        letter-spacing: 0.2px;
     }
-
     .card-actions {
         display: flex;
-        gap: 0.5rem;
         justify-content: center;
-        flex-wrap: wrap;
+        align-items: flex-end;
+        position: absolute;
+        left: 0; right: 0; bottom: 18px;
+        width: 100%;
+        margin-top: 28px;
     }
-
-    .btn {
-        padding: 0.5rem 1rem;
-        border-radius: 6px;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
+    .card-actions .btn {
+        min-width: 120px;
+        font-weight: 600;
+        font-size: 1.05em;
+        border-radius: 8px;
+        padding: 10px 0;
+        transition: background 0.2s, color 0.2s, border 0.2s;
+        border: 2px solid #e31837;
+        color: #e31837;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(227,24,55,0.04);
     }
-
-    .btn-outline-primary {
-        color: #E4002B;
-        border-color: #E4002B;
+    .card-actions .btn:hover {
+        background: linear-gradient(90deg, #e31837 0%, #ff1744 100%);
+        color: #fff;
+        border-color: #e31837;
+        box-shadow: 0 4px 16px rgba(227,24,55,0.10);
     }
-
-    .btn-outline-primary:hover {
-        background-color: #E4002B;
-        border-color: #E4002B;
-        color: white;
-    }
-
-    .btn-outline-secondary:hover {
-        background-color: #6c757d;
-        border-color: #6c757d;
-    }
-
-    .btn-outline-danger:hover {
-        background-color: #dc3545;
-        border-color: #dc3545;
+    .btn-new-artist {
+        float: right;
     }
 </style>
 

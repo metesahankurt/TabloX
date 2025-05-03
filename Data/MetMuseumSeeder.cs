@@ -57,24 +57,24 @@ namespace TabloX2.Data
 
                 // Sanatçı biyografileri
                 var artistBios = new Dictionary<string, string> {
-                    { "Vincent van Gogh", "Hollandalı post-empresyonist ressam. 1853-1890 yılları arasında yaşamış, duygusal yoğunluklu eserleriyle tanınır." },
+                    { "Vincent van Gogh", "Vincent van Gogh (1853-1890), Hollandalı post-empresyonist ressamdır. Kısa yaşamı boyunca 2.100'den fazla eser üretmiş, bunların 860'ı yağlı boya tablodur. Eserlerinde canlı renkler, kalın fırça darbeleri ve duygusal yoğunluk ön plandadır. Hayatı boyunca maddi sıkıntılar ve ruhsal sorunlar yaşamış, ancak sanat dünyasında büyük bir etki bırakmıştır. En bilinen eserleri arasında 'Yıldızlı Gece', 'Ayçiçekleri' ve 'Kendi Portresi' yer alır. Van Gogh'un sanatı, modern sanatın gelişiminde önemli bir rol oynamıştır." },
                     { "Claude Monet", "Fransız empresyonist ressam. 1840-1926 yılları arasında yaşamış, doğa ve ışık üzerine çalışmalarıyla tanınır." },
                     { "Leonardo da Vinci", "İtalyan Rönesans dönemi sanatçısı, mucit ve bilim insanı. 1452-1519 yılları arasında yaşamıştır." },
                     { "Pablo Picasso", "İspanyol ressam ve heykeltıraş. 1881-1973 yılları arasında yaşamış, kübizmin öncüsüdür." },
-                    { "Rembrandt", "Hollandalı Barok dönem ressamı. 1606-1669 yılları arasında yaşamış, ışık-gölge kullanımıyla ünlüdür." },
-                    { "Johannes Vermeer", "Hollandalı Barok dönem ressamı. 1632-1675 yılları arasında yaşamış, günlük yaşam sahneleriyle ünlüdür." },
+                    { "Rembrandt", "Rembrandt van Rijn (1606-1669), Hollandalı Barok dönem ressamı ve gravür ustasıdır. Işık ve gölgeyi ustaca kullanmasıyla tanınır. Portreleri, otoportreleri ve İncil'den sahneleriyle ünlüdür. Sanatında insan psikolojisini ve duygularını derinlemesine işler. En bilinen eserleri arasında 'Gece Devriyesi' ve 'Otoportreler' bulunur." },
+                    { "Johannes Vermeer", "Johannes Vermeer (1632-1675), Hollandalı Barok ressamıdır. Özellikle iç mekanlarda geçen, ışık ve renk oyunlarıyla dikkat çeken eserleriyle tanınır. 'İnci Küpeli Kız' ve 'Bir Ressamın Atölyesi' en ünlü tablolarındandır. Yaşamı boyunca az sayıda eser üretmiş, ancak her biri büyük bir ustalıkla işlenmiştir." },
                     { "Michelangelo Buonarroti", "İtalyan Rönesans dönemi heykeltıraş, mimar ve ressam. 1475-1564 yılları arasında yaşamıştır." },
-                    { "Gustav Klimt", "Avusturyalı sembolist ressam. 1862-1918 yılları arasında yaşamış, Art Nouveau akımının öncülerindendir." },
+                    { "Gustav Klimt", "Gustav Klimt (1862-1918), Avusturyalı sembolist ressamdır. Viyana Secession hareketinin kurucularındandır. Eserlerinde altın varak, dekoratif motifler ve erotizm ön plandadır. 'Öpücük' ve 'Adele Bloch-Bauer'in Portresi' en bilinen eserlerindendir. Klimt'in sanatı, Art Nouveau akımının en önemli örneklerindendir." },
                     { "Salvador Dalí", "İspanyol sürrealist ressam. 1904-1989 yılları arasında yaşamış, fantastik eserleriyle tanınır." },
                     { "Frida Kahlo", "Meksikalı ressam. 1907-1954 yılları arasında yaşamış, otoportreleri ve Meksika kültürünü yansıtan eserleriyle ünlüdür." },
                     { "Edvard Munch", "Norveçli ekspresyonist ressam. 1863-1944 yılları arasında yaşamış, 'Çığlık' tablosuyla ünlüdür." },
                     { "Henri Matisse", "Fransız ressam. 1869-1954 yılları arasında yaşamış, fovizmin öncülerindendir." },
-                    { "Paul Gauguin", "Fransız post-empresyonist ressam. 1848-1903 yılları arasında yaşamış, Tahiti resimleriyle tanınır." },
-                    { "Auguste Renoir", "Fransız empresyonist ressam. 1841-1919 yılları arasında yaşamış, portre ve günlük yaşam sahneleriyle ünlüdür." },
-                    { "Edgar Degas", "Fransız empresyonist ressam. 1834-1917 yılları arasında yaşamış, balerinleri ve hareketi betimleyen eserleriyle tanınır." },
+                    { "Paul Gauguin", "Paul Gauguin (1848-1903), Fransız post-empresyonist ressamdır. Tahiti ve Polinezya'ya yaptığı yolculuklar, sanatında egzotik temalar ve parlak renkler kullanmasına ilham vermiştir. 'Sarı Kristal Vazo', 'Tahiti Kadınları' ve 'Nereden Geliyoruz? Neyiz? Nereye Gidiyoruz?' en bilinen eserlerindendir. Gauguin, modern sanatın öncülerindendir." },
+                    { "Auguste Renoir", "Auguste Renoir (1841-1919), Fransız empresyonist ressamdır. Işık, renk ve hareketi tuvaline yansıtma konusundaki ustalığıyla bilinir. Günlük yaşamdan sahneler, portreler ve çıplak figürler en çok işlediği temalardır. 'Moulin de la Galette'te Dans', 'Çardakta Öğle Yemeği' ve 'Banyo Yapan Kadınlar' başlıca eserlerindendir." },
+                    { "Edgar Degas", "Edgar Degas (1834-1917), Fransız empresyonist ressam ve heykeltıraştır. Özellikle balerinler, at yarışları ve günlük yaşamdan sahneleriyle tanınır. Hareketi ve anı yakalama konusundaki ustalığıyla bilinir. 'Dans Sınıfı', 'Balerinler' ve 'Ütü Yapan Kadınlar' en bilinen eserlerindendir." },
                     { "Andy Warhol", "Amerikalı pop art sanatçısı. 1928-1987 yılları arasında yaşamış, popüler kültür ikonlarını resmeder." },
                     { "Georgia O'Keeffe", "Amerikalı modernist ressam. 1887-1986 yılları arasında yaşamış, çiçek resimleriyle tanınır." },
-                    { "Paul Cézanne", "Fransız post-empresyonist ressam. 1839-1906 yılları arasında yaşamış, modern sanatın öncülerindendir." },
+                    { "Paul Cézanne", "Paul Cézanne (1839-1906), Fransız post-empresyonist ressamdır. Modern sanatın babası olarak anılır. Doğayı geometrik formlara indirgeme yaklaşımı, kübizm ve soyut sanatın önünü açmıştır. 'Mont Sainte-Victoire', 'Kart Oynayanlar' ve 'Elmalar ve Portakallar' en ünlü eserlerindendir." },
                     { "Wassily Kandinsky", "Rus ressam ve sanat teorisyeni. 1866-1944 yılları arasında yaşamış, soyut sanatın öncülerindendir." },
                     { "Diego Velázquez", "İspanyol Barok dönem ressamı. 1599-1660 yılları arasında yaşamış, portre ve tarihi sahneleriyle ünlüdür." }
                 };

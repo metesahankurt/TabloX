@@ -74,7 +74,15 @@
                     Tarih: <span>@Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</span>
                 </div>
                 <span class="order-detail-badge">
-                    <i class="bi @(Model.Status switch {OrderStatus.Pending=>"bi-hourglass-split",OrderStatus.Approved=>"bi-clipboard-check",OrderStatus.Shipped=>"bi-truck",OrderStatus.Completed=>"bi-check-circle",OrderStatus.Cancelled=>"bi-x-circle",_=>"bi-info-circle"}) me-1"></i>
+                    <i class="bi @(Model.Status switch {
+                        OrderStatus.Alindi => "bi-hourglass-split",
+                        OrderStatus.Hazirlaniyor => "bi-clipboard-check",
+                        OrderStatus.Kargoda => "bi-truck",
+                        OrderStatus.Yolda => "bi-truck-flatbed",
+                        OrderStatus.TeslimEdildi => "bi-check-circle",
+                        OrderStatus.IptalEdildi => "bi-x-circle",
+                        _ => "bi-info-circle"
+                    }) me-1"></i>
                     @Model.Status.GetDisplayName()
                 </span>
             </div>
