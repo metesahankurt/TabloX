@@ -4,33 +4,188 @@
     Layout = "../Shared/_AdminLayout.cshtml";
 }
 
-<h2>Yeni Sanatçı Ekle</h2>
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<style>
+    body, .admin-bg {
+        background: #fff6f6 !important;
+    }
+    .admin-card {
+        border: 1.5px solid #e31837;
+        box-shadow: 0 4px 24px rgba(227,24,55,0.08);
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+    .admin-card-header {
+        background: linear-gradient(90deg, #e31837 80%, #b80c24 100%) !important;
+        color: #fff !important;
+        border-bottom: 2px solid #b80c24;
+        padding-top: 1.2rem !important;
+        padding-bottom: 1.2rem !important;
+    }
+    .admin-card-header h5, .admin-card-header i {
+        color: #fff !important;
+    }
+    .admin-btn-primary {
+        background: #e31837 !important;
+        border-color: #e31837 !important;
+        color: #fff !important;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    .admin-btn-primary:hover, .admin-btn-primary:focus {
+        background: #b80c24 !important;
+        border-color: #b80c24 !important;
+        color: #fff !important;
+    }
+    .admin-btn-outline {
+        background: #fff6f6 !important;
+        border-color: #e31837 !important;
+        color: #e31837 !important;
+        font-weight: 500;
+    }
+    .admin-btn-outline:hover, .admin-btn-outline:focus {
+        background: #e31837 !important;
+        color: #fff !important;
+        border-color: #b80c24 !important;
+    }
+    .input-group-text {
+        background: #ffe3e6 !important;
+        color: #e31837 !important;
+        border-color: #e31837 !important;
+    }
+    .form-label {
+        color: #b80c24 !important;
+        font-weight: 600;
+    }
+    .form-control:focus {
+        border-color: #e31837;
+        box-shadow: 0 0 0 0.15rem #e3183740;
+    }
+    .admin-card .card-body {
+        padding: 2.5rem 2.5rem 2rem 2.5rem !important;
+    }
+    .admin-card .card-header + .card-body {
+        margin-top: 18px;
+    }
+    .admin-card .form-group, .admin-card .mb-3, .admin-card .mb-4 {
+        margin-bottom: 2rem !important;
+    }
+    .admin-card .d-flex.gap-2 {
+        margin-top: 1.5rem;
+    }
+    /* Mobil uyum için media query */
+    @@media (max-width: 768px) {
+        .admin-card .card-body {
+            padding: 1.2rem 0.7rem 1.2rem 0.7rem !important;
+        }
+        .admin-card {
+            margin-top: 18px;
+            margin-bottom: 18px;
+        }
+    }
+</style>
+
+<div class="container-fluid px-4 admin-bg">
+    <div class="row">
+        <div class="col-12">
+            <div class="card admin-card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header admin-card-header py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="bi bi-person-plus-fill me-2"></i>Yeni Sanatçı Ekle
+                        </h5>
+                        <a asp-action="Index" class="btn admin-btn-outline btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i>Geri Dön
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post" class="needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Name" class="form-label">Ad</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    <input asp-for="Name" class="form-control" placeholder="Sanatçının adını giriniz" required />
+                                </div>
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Surname" class="form-label">Soyad</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    <input asp-for="Surname" class="form-control" placeholder="Sanatçının soyadını giriniz" required />
+                                </div>
+                                <span asp-validation-for="Surname" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Bio" class="form-label">Kısa Biyografi</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-file-text"></i>
+                                </span>
+                                <textarea asp-for="Bio" class="form-control" rows="3" placeholder="Sanatçının kısa biyografisini giriniz" required></textarea>
+                            </div>
+                            <span asp-validation-for="Bio" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">Detaylı Açıklama</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                </span>
+                                <textarea asp-for="Description" class="form-control" rows="5" placeholder="Sanatçı hakkında detaylı açıklama giriniz"></textarea>
+                            </div>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Country" class="form-label">Ülke</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-globe"></i>
+                                </span>
+                                <input asp-for="Country" class="form-control" placeholder="Sanatçının ülkesini giriniz" required />
+                            </div>
+                            <span asp-validation-for="Country" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn admin-btn-primary">
+                                <i class="bi bi-check-lg me-1"></i>Kaydet
+                            </button>
+                            <a asp-action="Index" class="btn admin-btn-outline">
+                                <i class="bi bi-x-lg me-1"></i>İptal
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Surname" class="control-label"></label>
-        <input asp-for="Surname" class="form-control" />
-        <span asp-validation-for="Surname" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Bio" class="control-label"></label>
-        <textarea asp-for="Bio" class="form-control"></textarea>
-        <span asp-validation-for="Bio" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Country" class="control-label"></label>
-        <input asp-for="Country" class="form-control" />
-        <span asp-validation-for="Country" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-success">Kaydet</button>
-    <a asp-action="Index" class="btn btn-secondary">Geri</a>
-</form> 
+</div>
+
+@section Scripts {
+    <script>
+        // Form doğrulama için Bootstrap validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+} 

@@ -113,3 +113,108 @@ Proje Linki: [https://github.com/metesahankurt/TabloX](https://github.com/metesa
 ## 🙏 Teşekkürler
 
 - Metropolitan Museum of Art - Açık erişimli sanat eserleri için
+
+## 🎯 Tasarım Notları ve Teknik Detaylar
+
+### Mimari Yapı
+- **N-Tier Architecture**
+  - Presentation Layer (MVC)
+  - Business Layer (Services)
+  - Data Access Layer (Repositories)
+  - Domain Layer (Models)
+
+### Güvenlik Yapılandırması
+- **Kimlik Doğrulama**
+  - ASP.NET Core Identity entegrasyonu
+  - JWT tabanlı token yönetimi
+  - Refresh token mekanizması
+  - Oturum yönetimi ve timeout politikaları
+
+- **Yetkilendirme**
+  - Role-based access control (RBAC)
+  - Policy-based authorization
+  - Resource-based authorization
+  - Custom authorization handlers
+
+### Veritabanı Tasarımı
+- **Entity Relationships**
+  - One-to-Many: Sanatçı -> Eserler
+  - Many-to-Many: Kullanıcılar -> Favoriler
+  - One-to-One: Kullanıcı -> Profil
+
+- **Indexing Stratejisi**
+  - Performans optimizasyonu için composite indexler
+  - Full-text search için özel indexler
+  - Foreign key constraintler
+
+### API Tasarımı
+- **RESTful Endpoints**
+  - Resource-based URL yapısı
+  - HTTP metodlarının doğru kullanımı
+  - HATEOAS implementasyonu
+  - API versiyonlama
+
+### Frontend Mimarisi
+- **Component-Based Design**
+  - Partial Views
+  - View Components
+  - Tag Helpers
+  - Custom HTML Helpers
+
+- **Client-Side Framework**
+  - Bootstrap 5 grid sistemi
+  - Responsive tasarım
+  - Progressive enhancement
+  - Lazy loading
+
+### Performans Optimizasyonları
+- **Caching Stratejisi**
+  - Response caching
+  - Distributed caching
+  - Memory caching
+  - Output caching
+
+- **Asset Optimization**
+  - Bundle ve minification
+  - Image optimization
+  - CDN entegrasyonu
+  - Lazy loading
+
+### Monitoring ve Logging
+- **Application Insights**
+  - Performance monitoring
+  - Error tracking
+  - Usage analytics
+  - Custom telemetry
+
+- **Logging Stratejisi**
+  - Structured logging
+  - Log levels
+  - Log rotation
+  - Error handling
+
+### Deployment Stratejisi
+- **CI/CD Pipeline**
+  - GitHub Actions
+  - Automated testing
+  - Deployment automation
+  - Environment configuration
+
+- **Containerization**
+  - Docker support
+  - Multi-stage builds
+  - Container orchestration
+  - Environment variables
+
+### Test Stratejisi
+- **Unit Testing**
+  - xUnit framework
+  - Mocking
+  - Test coverage
+  - Integration tests
+
+- **UI Testing**
+  - Selenium
+  - Playwright
+  - Visual regression
+  - Accessibility testing

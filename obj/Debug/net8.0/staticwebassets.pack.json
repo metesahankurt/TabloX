@@ -13,6 +13,14 @@
       "PackagePath": "staticwebassets\\TabloXLogo.ico"
     },
     {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\admin-favicon.ico",
+      "PackagePath": "staticwebassets\\admin-favicon.ico"
+    },
+    {
+      "Id": "C:\\repos\\TabloX\\wwwroot\\adminfavicon.ico",
+      "PackagePath": "staticwebassets\\adminfavicon.ico"
+    },
+    {
       "Id": "C:\\repos\\TabloX\\wwwroot\\css\\admin\\artist-edit.css",
       "PackagePath": "staticwebassets\\css\\admin\\artist-edit.css"
     },

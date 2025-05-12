@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "H8Xdid3pQFh3pEtWipC28qaaFyMExutxBEB+0uuiNo4=",
+  "Hash": "SOHrTrmhzsanXuT2AZ3LFO+CpYz8dfXMlt/FD0hx3BM=",
   "Source": "TabloX2",
   "BasePath": "_content/TabloX2",
   "Mode": "Default",
@@ -57,6 +57,48 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\repos\\TabloX\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TabloX2.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\repos\\TabloX\\wwwroot\\admin-favicon.ico",
+      "SourceId": "TabloX2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\repos\\TabloX\\wwwroot\\",
+      "BasePath": "_content/TabloX2",
+      "RelativePath": "admin-favicon#[.{fingerprint}]?.ico",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "yu78tspv7y",
+      "Integrity": "Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\admin-favicon.ico"
+    },
+    {
+      "Identity": "C:\\repos\\TabloX\\wwwroot\\adminfavicon.ico",
+      "SourceId": "TabloX2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\repos\\TabloX\\wwwroot\\",
+      "BasePath": "_content/TabloX2",
+      "RelativePath": "adminfavicon#[.{fingerprint}]?.ico",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "h1u8vjn1e6",
+      "Integrity": "61pm3tycgGCC9rFBeCFQ+KXQyhC8bF6oiccCpVDzADo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\adminfavicon.ico"
     },
     {
       "Identity": "C:\\repos\\TabloX\\wwwroot\\css\\admin\\artist-edit.css",
@@ -7662,6 +7704,170 @@
     }
   ],
   "Endpoints": [
+    {
+      "Route": "admin-favicon.ico",
+      "AssetFile": "C:\\repos\\TabloX\\wwwroot\\admin-favicon.ico",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/x-icon"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 May 2025 23:00:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg="
+        }
+      ]
+    },
+    {
+      "Route": "admin-favicon.yu78tspv7y.ico",
+      "AssetFile": "C:\\repos\\TabloX\\wwwroot\\admin-favicon.ico",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/x-icon"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 May 2025 23:00:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "yu78tspv7y"
+        },
+        {
+          "Name": "label",
+          "Value": "admin-favicon.ico"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Nqnn8clbgv+5l0PgxcTOldg8mkMKrFn4TvPL+rYUUGg="
+        }
+      ]
+    },
+    {
+      "Route": "adminfavicon.h1u8vjn1e6.ico",
+      "AssetFile": "C:\\repos\\TabloX\\wwwroot\\adminfavicon.ico",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "15406"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/x-icon"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"61pm3tycgGCC9rFBeCFQ+KXQyhC8bF6oiccCpVDzADo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 May 2025 23:08:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "h1u8vjn1e6"
+        },
+        {
+          "Name": "label",
+          "Value": "adminfavicon.ico"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-61pm3tycgGCC9rFBeCFQ+KXQyhC8bF6oiccCpVDzADo="
+        }
+      ]
+    },
+    {
+      "Route": "adminfavicon.ico",
+      "AssetFile": "C:\\repos\\TabloX\\wwwroot\\adminfavicon.ico",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "15406"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/x-icon"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"61pm3tycgGCC9rFBeCFQ+KXQyhC8bF6oiccCpVDzADo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 05 May 2025 23:08:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-61pm3tycgGCC9rFBeCFQ+KXQyhC8bF6oiccCpVDzADo="
+        }
+      ]
+    },
     {
       "Route": "css/admin/artist-edit.b3ydctrnkk.css",
       "AssetFile": "C:\\repos\\TabloX\\wwwroot\\css\\admin\\artist-edit.css",

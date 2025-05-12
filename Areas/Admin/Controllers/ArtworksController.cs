@@ -29,10 +29,16 @@ namespace TabloX2.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Artwork artwork)
         {
             if (ModelState.IsValid)
             {
+                // Eğer MediumImageUrl veya HighResImageUrl boşsa, ImageUrl ile doldur
+                if (string.IsNullOrWhiteSpace(artwork.MediumImageUrl))
+                    artwork.MediumImageUrl = artwork.ImageUrl;
+                if (string.IsNullOrWhiteSpace(artwork.HighResImageUrl))
+                    artwork.HighResImageUrl = artwork.ImageUrl;
                 _context.Artworks.Add(artwork);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
